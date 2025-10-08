@@ -16,6 +16,10 @@ const Vector2 pausePos={
     .y = 25.0f
 };
 
+const Vector2 startPos={
+    .x = WIDTH/2.0f,
+    .y = HEIGHT/2.0f + 60
+};
 
 class Button{
     private:

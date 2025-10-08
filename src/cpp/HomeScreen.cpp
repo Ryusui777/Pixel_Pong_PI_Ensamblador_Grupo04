@@ -1,0 +1,15 @@
+#include "HomeScreen.h"
+
+
+void HomeScreen::init(){
+    this->start.init((char*)start_path, startPos);
+}
+
+
+void HomeScreen::draw(){
+    this->start.draw();
+}
+
+void HomeScreen::started(std::uint8_t& startVar){
+    startVar = (this->start.isClicked())? 1 : startVar;
+}

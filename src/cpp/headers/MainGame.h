@@ -32,8 +32,11 @@ class MainGame {
          * entonces los componentes se vuelven
          * no interactuales.
          */
-        void switchInteractable(){
-            interactable = (interactable)? 0 : 1;
+        void setInteractable(){
+            interactable = 1;
+        }
+        void setNotInteractable(){
+            interactable = 0;
         }
 
         void isPaused(std::uint8_t&);

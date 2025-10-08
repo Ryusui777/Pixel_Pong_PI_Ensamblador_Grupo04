@@ -19,3 +19,11 @@ void Menu::draw(){
     this->homeButton.draw();
     this->resumeButton.draw();
 }
+
+void Menu::resumed(std::uint8_t& resumeVar){
+    resumeVar = (this->resumeButton.isClicked())? 1 : resumeVar;
+}
+
+void Menu::goHome(std::uint8_t& goHomeVar){
+    goHomeVar = (this->homeButton.isClicked())? 1 : goHomeVar;
+}

@@ -8,7 +8,7 @@ void MainGame::init(){
     this->pause.init((char*)pausePath, pausePos);
 
     // Dice que la escena es interactuable
-    this->interactable = 1;
+    this->interactable = 0;
 }
 
 void MainGame::updateElements(){
