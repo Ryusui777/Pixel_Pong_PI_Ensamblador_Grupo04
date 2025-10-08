@@ -1,57 +1,26 @@
-# ===== Config =====
-CXX       := g++
-ASM       := nasm
-CXXFLAGS  := -std=c++20 -O2 -Wall -Wextra -Isrc/cpp/headers
-ASFLAGS   := -f elf64
-LDFLAGS   := -no-pie
-# Raylib (Linux X11). Si usas pkg-config: LDFLAGS += $(shell pkg-config --libs --cflags raylib)
-LIBS      := -lraylib -lm -ldl -lpthread -lGL -lX11
+all: run
 
-# ===== Fuentes / Objetos =====
-ASM_SOURCES := $(wildcard src/asm/*.asm)
-CPP_SOURCES := $(wildcard src/cpp/*.cpp)
+build: clean
+	@mkdir -p build
+	@echo "🧩 Compilando C++..."
+	# compila todos los cpp en objetos individuales
+	@for f in src/cpp/*.cpp; do \
+		echo "   $$f → build/$$(basename $$f .cpp).o"; \
+		g++ -c -Isrc/cpp/headers "$$f" -o "build/$$(basename $$f .cpp).o"; \
+	done
 
-OBJ_DIR     := build
-ASM_OBJECTS := $(patsubst src/asm/%.asm, $(OBJ_DIR)/%.o, $(ASM_SOURCES))
-CPP_OBJECTS := $(patsubst src/cpp/%.cpp, $(OBJ_DIR)/%.o, $(CPP_SOURCES))
-OBJECTS     := $(ASM_OBJECTS) $(CPP_OBJECTS)
+	@echo "🧱 Ensamblando ASM..."
+	@for f in src/asm/*.asm; do \
+		echo "   $$f → build/$$(basename $$f .asm).o"; \
+		nasm -f elf64 "$$f" -o "build/$$(basename $$f .asm).o"; \
+	done
 
-TARGET := $(OBJ_DIR)/output
+	@echo "🔗 Linkeando → build/output"
+	@g++ -no-pie build/*.o -lraylib -lm -ldl -lpthread -lGL -lX11 -o build/output
 
-# ===== Targets de alto nivel =====
-.PHONY: all build run clean val debug release
 
-all: clean build run
-
-build: $(TARGET)
-
-run: $(TARGET)
-	./$(TARGET)
-
-val: $(TARGET)
-	valgrind ./$(TARGET)
+run: build
+	@./build/output
 
 clean:
-	rm -rf $(OBJ_DIR)
-
-debug: CXXFLAGS += -O0 -g
-debug: clean build
-
-release: CXXFLAGS += -O3 -DNDEBUG
-release: clean build
-
-# ===== Reglas de construcción =====
-$(TARGET): $(OBJECTS)
-	@echo "🔗 Linkeando → $@"
-	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
-
-# .asm → .o
-$(OBJ_DIR)/%.o: src/asm/%.asm
-	@mkdir -p $(OBJ_DIR)
-	$(ASM) $(ASFLAGS) $< -o $@
-
-# .cpp → .o
-$(OBJ_DIR)/%.o: src/cpp/%.cpp
-	@mkdir -p $(OBJ_DIR)
-	$(CXX) -c $(CXXFLAGS) $< -o $@
-
+	@rm -rf build
