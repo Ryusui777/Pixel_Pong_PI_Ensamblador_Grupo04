@@ -27,7 +27,7 @@ class Menu {
          */
         void draw();
 
-        void resumed(std::uint8_t&);
-        void goHome(std::uint8_t&);
+        void resumed(byte&);
+        void goHome(byte&);
 
 };

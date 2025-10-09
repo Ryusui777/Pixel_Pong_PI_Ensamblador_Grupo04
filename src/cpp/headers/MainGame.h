@@ -3,14 +3,17 @@
 #include "Player.h"
 #include "Button.h"
 #include "Bot.h"
+#include "Ball.h"
 
 class MainGame {
     private:
         const char* pausePath="res/mainGame/pause.png";
 
         Player player;
-        Button pause;
         Bot bot;
+        Ball ball;
+        Button pause;
+
 
         std::uint8_t interactable;
 
@@ -39,7 +42,9 @@ class MainGame {
             interactable = 0;
         }
 
-        void isPaused(std::uint8_t&);
+        void isPaused(byte&);
+
+        void reset();
 
         
 };

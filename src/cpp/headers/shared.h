@@ -6,12 +6,6 @@
 #define HEIGHT 144*5
 #define SCALE 5.0f
 
+typedef std::uint8_t byte;
 
-struct infoPartida{
-    std::uint8_t pausado;
-    std::uint8_t pts_ply;
-    std::uint8_t pts_bot;
-    int speed_ply;
-    int speed_ball;
-};
 

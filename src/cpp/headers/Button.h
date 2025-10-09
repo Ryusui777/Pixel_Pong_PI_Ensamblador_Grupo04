@@ -46,7 +46,7 @@ class Button{
 
          * @return int 1 si el mouse esta en el area del boton 0 si no
          */
-        int isHovered();
+        byte isHovered();
 
         /**
          * @brief  Determina si el boton esta siendo presionado,
@@ -55,7 +55,7 @@ class Button{
          * 
          * @return int 1 si fue presionado 0 si no
          */
-        int isClicked(){
+        byte isClicked(){
             return isHovered() && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
         }
 

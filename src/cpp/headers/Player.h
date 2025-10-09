@@ -24,10 +24,10 @@ class Player{
          * inicializar la pantalla de otra manera habra un error.
          */
         void init();
-
         /**
          * @brief Renderiza el jugador en pantalla
          */
         void draw();
+        void reset();
 
 };

@@ -15,11 +15,8 @@ void Player::init(){
     const float upperLimit = 0.0f + halfH;
     const float lowerLimit = (float)GetScreenHeight() - halfH;
     initPlayerMovement(upperLimit, lowerLimit);
-    
-    // Centra el jugador
-    const float margin = 5.0f;
-    position.y = HEIGHT / 2.0f;  
-    position.x = WIDTH - texture.width * SCALE - margin;
+
+    reset();
 }
 
 void Player::moveDown(){
@@ -41,4 +38,12 @@ void Player::draw(){
                    texture.width * SCALE, texture.height * SCALE };
     Vector2 origin{ dst.width/2.0f, dst.height/2.0f };
     DrawTexturePro(texture, src, dst, origin, 0.0f, WHITE);
+}
+
+void Player::reset(){
+    // Centra el jugador
+    const float margin = 5.0f;
+    position.y = HEIGHT / 2.0f;  
+    position.x = WIDTH - texture.width * SCALE - margin;
+
 }

@@ -20,10 +20,10 @@ void Menu::draw(){
     this->resumeButton.draw();
 }
 
-void Menu::resumed(std::uint8_t& resumeVar){
+void Menu::resumed(byte& resumeVar){
     resumeVar = (this->resumeButton.isClicked())? 1 : resumeVar;
 }
 
-void Menu::goHome(std::uint8_t& goHomeVar){
+void Menu::goHome(byte& goHomeVar){
     goHomeVar = (this->homeButton.isClicked())? 1 : goHomeVar;
 }

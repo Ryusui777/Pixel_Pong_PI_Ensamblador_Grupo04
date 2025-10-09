@@ -10,6 +10,6 @@ void HomeScreen::draw(){
     this->start.draw();
 }
 
-void HomeScreen::started(std::uint8_t& startVar){
+void HomeScreen::started(byte& startVar){
     startVar = (this->start.isClicked())? 1 : startVar;
 }

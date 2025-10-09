@@ -11,6 +11,6 @@ class HomeScreen{
     public:
         void init();
         void draw();
-        void started(std::uint8_t&);
+        void started(byte&);
 
 };

@@ -20,7 +20,7 @@ void Button::draw(){
     DrawTexturePro(texture, src, dst, origin, 0.0f, WHITE);
 }
 
-int Button::isHovered(){
+byte Button::isHovered(){
     float scale = 5.0f;
     // Build the same dst/origin you use to draw
     Rectangle dst{ position.x, position.y,
