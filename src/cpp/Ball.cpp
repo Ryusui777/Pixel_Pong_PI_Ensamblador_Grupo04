@@ -3,6 +3,7 @@
 
 
 extern "C" void pelotaReverseY(float*);
+extern "C" void pelotaReverseX(float*);
 void Ball::init(){
     this->texture = LoadTexture((char*)ball_path);
     this->speed = 5.0f;  // Velocidad inicial
@@ -53,11 +54,9 @@ void Ball::checkBoundaryCollision(){
 }
 
 void Ball::reverseX(){
-    velocity.x = -velocity.x;
+    pelotaReverseX(&velocity.y);
 }
 
 void Ball::reverseY(){
-    // velocity.y = -velocity.y;
     pelotaReverseY(&velocity.y);
-    printf("Se invirtio la coordenada y\n");
 }
