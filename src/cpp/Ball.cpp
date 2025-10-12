@@ -1,12 +1,20 @@
 #include "Ball.h"
 #include <cmath>
 
+extern "C" void initPelotaMovement(Vector2*, Vector2*, float, float);
+extern "C" void pelotaReverseY();
+extern "C" void pelotaReverseX();
+extern "C" void pelotaMove();
 
-extern "C" void pelotaReverseY(float*);
-extern "C" void pelotaReverseX(float*);
 void Ball::init(){
     this->texture = LoadTexture((char*)ball_path);
     this->speed = 5.0f;  // Velocidad inicial
+
+    // Define limites inferior y superior
+    float upperLimt = getHeight() / 2.0f;
+    float lowerLimit = HEIGHT - (getHeight() / 2.0f);
+    initPelotaMovement(&velocity, &position, upperLimt, lowerLimit);
+
     reset();
 }
 
@@ -30,8 +38,8 @@ void Ball::draw(){
 
 void Ball::move(){
     // Actualizar posición
-    position.x += velocity.x;
-    position.y += velocity.y;
+    pelotaMove();
+    
     
     // Verificar colisiones con los bordes
     checkBoundaryCollision();
@@ -43,7 +51,7 @@ void Ball::checkBoundaryCollision(){
     
     // Colisión con bordes superior e inferior
     if (position.y - halfHeight <= 0 || position.y + halfHeight >= HEIGHT) {
-        reverseY();
+        pelotaReverseY();
     }
     
     // Colisión con bordes izquierdo y derecho
@@ -54,9 +62,9 @@ void Ball::checkBoundaryCollision(){
 }
 
 void Ball::reverseX(){
-    pelotaReverseX(&velocity.y);
+    pelotaReverseX();
 }
 
 void Ball::reverseY(){
-    pelotaReverseY(&velocity.y);
+    pelotaReverseY();
 }

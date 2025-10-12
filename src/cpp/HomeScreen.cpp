@@ -12,4 +12,5 @@ void HomeScreen::draw(){
 
 void HomeScreen::started(byte& startVar){
     startVar = (this->start.isClicked())? 1 : startVar;
+    if(IsKeyDown(KEY_ENTER)) startVar = 1;
 }
