@@ -14,6 +14,7 @@ void MainGame::init(){
 
 void MainGame::updateElements(){
     this->player.move();
+    this->ball.move();
     if(pause.isClicked()) printf("El boton de pausa fue presionado\n");
 }
 
@@ -32,4 +33,5 @@ void MainGame::isPaused(byte& paused){
 
 void MainGame::reset(){
     this->player.reset();
+    this->ball.reset();
 }
