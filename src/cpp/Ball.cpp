@@ -1,6 +1,8 @@
 #include "Ball.h"
 #include <cmath>
 
+
+extern "C" void pelotaReverseY(float*);
 void Ball::init(){
     this->texture = LoadTexture((char*)ball_path);
     this->speed = 5.0f;  // Velocidad inicial
@@ -55,5 +57,7 @@ void Ball::reverseX(){
 }
 
 void Ball::reverseY(){
-    velocity.y = -velocity.y;
+    // velocity.y = -velocity.y;
+    pelotaReverseY(&velocity.y);
+    printf("Se invirtio la coordenada y\n");
 }
