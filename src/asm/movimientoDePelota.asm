@@ -1,3 +1,4 @@
+; Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 section .bss
     velocity_ptr: resq 1
     position_ptr: resq 1
@@ -15,10 +16,10 @@ global initPelotaMovement
 
 ;============================================
 ; Guarda los punteros hacia los vectores
-; de posicion y velocidad. Ademas define los
-; bordes inferiores y superiores tomando en 
+; de posicion y velocidad. Además, define los
+; bordes inferiores y superiores; tomando en 
 ; cuenta el tamano de la sprite.
-; Parametros: 
+; Parámetros: 
 ; rdi -> puntero hacia el vector de velocidad
 ; rsi -> puntero hacia el vector de posicion
 ; edx -> el limite superior de la pantalla
@@ -30,10 +31,9 @@ initPelotaMovement:
     mov [upperLimit], edx
     mov [lowerLimit], ecx
     ret
-    
 
 ;============================================
-; Actualiza la posicion de la pelota
+; Actualiza la posición de la pelota
 ;============================================
 pelotaMove: 
     mov r8, [velocity_ptr]
@@ -52,11 +52,10 @@ pelotaMove:
     vmovss dword[r9], xmm2
     vmovss dword[r9+4], xmm3
 
-
     ret
 
 ;============================================
-; Invierte la direccion de la pelota en el
+; Invierte la dirección de la pelota en el
 ; eje x
 ;============================================
 pelotaReverseX: 
@@ -65,7 +64,7 @@ pelotaReverseX:
     ret
 
 ;============================================
-; Invierte la direccion de la pelota en el
+; Invierte la dirección de la pelota en el
 ; eje y
 ;============================================
 pelotaReverseY: 
@@ -75,8 +74,8 @@ pelotaReverseY:
     ret
 
 ;============================================
-; Cambia de signo el numero que este apuntado 
-; por rax
+; Cambia de signo el número que esté apuntado 
+; por `rax`
 ;============================================
 reverse: 
     vmovss xmm0, dword[rax]
