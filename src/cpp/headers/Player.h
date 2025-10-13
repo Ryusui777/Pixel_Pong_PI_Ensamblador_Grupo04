@@ -4,27 +4,36 @@
 #include "shared.h"
 #include <stdio.h>
 
-#define SPEED 8
-#define PLY_PATH (char*)"res/mainGame/red_player.png"
+#define PLAYER_SPEED 8
+#define PLAYER_ASSET_PATH (char*)"res/mainGame/red_player.png"
 
-class Player{
+/** 
+ * @brief Clase que representa al jugador humano de la partida
+ */
+class Player {
  private:
   Vector2 position;  // Posicion del jugador
-  Texture2D texture;  // textura del jugador
-  void moveDown();
-  void moveUP();
+  Texture2D texture;  // Textura del jugador
+  void movePlayerDown();
+  void movePlayerUp();
 
  public:
-  void move();
   /**
-   * @brief Inicializa el jugador, carga su textura, y
-   * posicion inicial. Esta debe ser llamada despues de
-   * inicializar la pantalla de otra manera habra un error.
-   */
-  void init();
+  * @brief Inicializa el jugador, carga su textura, y
+  * posicion inicial. Esta debe ser llamada despues de
+  * inicializar la pantalla de otra manera habra un error.
+  */
+  void initializePlayer();
+
   /**
-   * @brief Renderiza el jugador en pantalla
+  * @brief Renderiza el jugador en pantalla
+  */
+  void drawPlayer();
+
+  /**
+   * @brief Se mueve al jugador hacia arriba o abajo según input de teclado
    */
-  void draw();
-  void reset();
+  void movePlayer();
+
+  void resetPlayerPosition();
 };

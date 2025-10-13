@@ -1,11 +1,15 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
-
 #include "shared.h"
 
+/**
+ * @brief Clase que representa la pelota
+ */
 class Ball {
  private:
+  // Path a la imagen de la bola
   const char* ball_path = "res/mainGame/yellow_ball.png";
+  
   Texture2D texture;
   Vector2 position;
   Vector2 velocity;

@@ -2,13 +2,13 @@
 #include "Game.h"
 
 void Game::updateElements() {
-  this->player.move();
+  this->player.movePlayer();
   this->ball.move();
 }
 
 void Game::initializeGame() {
   // Inicializacion de los elementos
-  this->player.init();
+  this->player.initializePlayer();
   this->bot.init();
   this->ball.init();
   this->pause.init((char*)pause_button_path, pausePos);
@@ -20,7 +20,7 @@ void Game::initializeGame() {
 void Game::drawGameElements() {
   if (interactable) updateElements();
   this->ball.draw();
-  this->player.draw();
+  this->player.drawPlayer();
   this->bot.draw();
   this->pause.draw();
 }
@@ -31,6 +31,6 @@ void Game::isGamePaused(byte& paused) {
 }
 
 void Game::resetMatch() {
-  this->player.reset();
+  this->player.resetPlayerPosition();
   this->ball.reset();
 }

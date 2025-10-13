@@ -5,9 +5,9 @@ extern "C" void moverJugadorArriba();
 extern "C" void moverJugadorAbajo();
 extern "C" void initPlayerMovement(float, float, Vector2*);
 
-void Player::init() {
+void Player::initializePlayer() {
   // Carga la textura del jugador
-  this->texture = LoadTexture(PLY_PATH);
+  this->texture = LoadTexture(PLAYER_ASSET_PATH);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 
   // Configura los limites de la pantalla
@@ -15,23 +15,18 @@ void Player::init() {
   const float upperLimit = 0.0f + halfH;
   const float lowerLimit = (float)GetScreenHeight() - halfH;
   initPlayerMovement(upperLimit, lowerLimit, &position);
-  reset();
+  resetPlayerPosition();
 }
 
-void Player::moveDown() {
+void Player::movePlayerDown() {
   moverJugadorAbajo();
 }
 
-void Player::moveUP() {
+void Player::movePlayerUp() {
   moverJugadorArriba();
 }
 
-void Player::move() {
-  if (IsKeyDown(KEY_DOWN)) moveDown();
-  if (IsKeyDown(KEY_UP)) moveUP();
-}
-
-void Player::draw() {
+void Player::drawPlayer() {
   Rectangle src{ 0, 0, (float)texture.width, (float)texture.height };
   Rectangle dst{ position.x, position.y,
     texture.width * SCALE, texture.height * SCALE };
@@ -39,7 +34,13 @@ void Player::draw() {
   DrawTexturePro(texture, src, dst, origin, 0.0f, WHITE);
 }
 
-void Player::reset() {
+void Player::movePlayer() {
+  if (IsKeyDown(KEY_DOWN)) movePlayerDown();
+  if (IsKeyDown(KEY_UP)) movePlayerUp();
+}
+
+
+void Player::resetPlayerPosition() {
   // Centra el jugador
   const float margin = 5.0f;
   position.y = WINDOW_HEIGHT / 2.0f;
