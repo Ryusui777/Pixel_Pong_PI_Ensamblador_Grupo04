@@ -23,7 +23,11 @@ void Ball::reset(){
     position.y = HEIGHT/2.0f;
     
     // Dirección inicial aleatoria
-    float angle = GetRandomValue(0, 1) ? 45.0f : 135.0f; // 45° o 135°
+    float angle = GetRandomValue(0, 360); // 45° o 135°
+
+    if(angle>= 80.0f && angle <= 100) angle = 45.0f;
+    if(angle>= 260.0f && angle <= 280) angle = 135.0f;
+    
     velocity.x = cos(angle * DEG2RAD) * speed;
     velocity.y = sin(angle * DEG2RAD) * speed;
 }
@@ -39,7 +43,6 @@ void Ball::draw(){
 void Ball::move(){
     // Actualizar posición
     pelotaMove();
-    
     
     // Verificar colisiones con los bordes
     checkBoundaryCollision();

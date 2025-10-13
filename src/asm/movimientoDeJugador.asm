@@ -12,7 +12,9 @@ global moverJugadorAbajo
 global initPlayerMovement
 
 
-; void moverJugadorArriba();
+;===========================
+; Mueve el jugador hacia arriba
+;===========================
 moverJugadorArriba:
     mov rax, [position_ptr]
     movss   xmm0, dword [rax+4]      ; y
@@ -20,13 +22,15 @@ moverJugadorArriba:
     subss   xmm0, xmm1             ; y -= velocidad
     movss xmm1, dword[upperLimit] ; upperLimit
     ucomiss xmm0, xmm1            ; comparacion
-    jae .upperOk                  ; si es mayor o igual todo bien
+    jae .upperOk                  
     movss xmm0, xmm1
     .upperOk:
     movss   dword [rax+4], xmm0
     ret
 
-; void moverJugadorAbajo();
+;===========================
+; Mueve el jugador hacia abajo
+;===========================
 moverJugadorAbajo:
     mov rax, [position_ptr]
     movss   xmm0, dword [rax+4]      ; y
@@ -34,18 +38,21 @@ moverJugadorAbajo:
     addss   xmm0, xmm1             ; y += velocidad
     movss xmm1, dword[lowerLimit] ; lowerLimit
     ucomiss xmm0, xmm1            ; comparacion
-    jbe .lowerOk                  ; si es mayor o igual todo bien
+    jbe .lowerOk                  
     movss xmm0, xmm1
     .lowerOk:
     movss   dword [rax+4], xmm0
     ret
 
 
+;===================================
 ; Define los limites de la pantalla
 ; estos vienen ya contando el tamano del
 ; sprite del jugador. 
-; edi -> upperLimit, esi -> lowerLimit, rdi
-; void initPlayerMovement(float, float, Vector2*);
+; xmm0 -> upperLimit,
+; xmm1 -> lowerLimit, 
+; rdi -> puntero hacia la posicion del jugador
+;===================================
 initPlayerMovement: 
     movss dword[upperLimit], xmm0
     movss dword[lowerLimit], xmm1
