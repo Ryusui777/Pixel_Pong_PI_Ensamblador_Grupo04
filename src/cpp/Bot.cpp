@@ -2,8 +2,8 @@
 #include "Bot.h"
 
 
-void Bot::init() {
-  // Carga la textura del jugador
+void Bot::initializeBot() {
+  // Carga la textura del bot
   this->texture = LoadTexture((char*)bot_path);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 
@@ -13,7 +13,7 @@ void Bot::init() {
   position.x = texture.width * SCALE + margin;
 }
 
-void Bot::draw() {
+void Bot::drawBot() {
   Rectangle src{0, 0, (float)texture.width, (float)texture.height};
   Rectangle dst{position.x, position.y,
     texture.width * SCALE, texture.height * SCALE };

@@ -2,17 +2,29 @@
 #pragma once
 #include "shared.h"
 
+/**
+ * @brief Clase encargada del movimiento del bot (jugador enemigo)
+ */
 class Bot {
  private:
+  // Ruta a la textura del bot
   const char* bot_path = "res/mainGame/yellow_bot.png";
-  Texture2D texture;
-  Vector2 position;
+  Texture2D texture;  // Textura del bot
+  Vector2 position;  // Posición del bot
  public:
   /**
-   * @brief Carga la textura el bot,
-   * y lo pone en su posicion original
+   * @brief Carga la textura del bot y lo pone en su posición original
    */
-  void init();
-  void move();
-  void draw();
+  void initializeBot();
+
+  /**
+   * @brief dibuja textura del bot.
+   */
+  void drawBot();
+
+  /**
+   * @brief Mueve bot hacia arriba y abajo continuamente
+   */
+  void moveBot();
+  
 };

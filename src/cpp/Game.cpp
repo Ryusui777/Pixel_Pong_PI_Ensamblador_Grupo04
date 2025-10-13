@@ -9,7 +9,7 @@ void Game::updateElements() {
 void Game::initializeGame() {
   // Inicializacion de los elementos
   this->player.initializePlayer();
-  this->bot.init();
+  this->bot.initializeBot();
   this->ball.initializeBall();
   this->pause.init((char*)pause_button_path, pausePos);
 
@@ -21,7 +21,7 @@ void Game::drawGameElements() {
   if (interactable) updateElements();
   this->ball.drawBall();
   this->player.drawPlayer();
-  this->bot.draw();
+  this->bot.drawBot();
   this->pause.draw();
 }
 
