@@ -3,6 +3,9 @@
 #include "shared.h"
 #include "Button.h"
 
+/**
+ * @brief Clase encargada del manejo del menú de juego
+ */
 class Menu {
  private:
   // Ruta al fondo del menú (fondo azul con transparencia)

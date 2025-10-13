@@ -8,43 +8,43 @@
 int main() {
   // Componentes del juego
   Window window;
-  Game Game;
-  Home Home;
+  Game game;
+  Home home;
   Menu menu;
 
   // Inicialización de componentes
   window.initializeWindow();
-  Home.initializeHomeScreen();
-  Game.initializeGame();
+  home.initializeHomeScreen();
+  game.initializeGame();
   menu.initializeMenu();
 
   // Ciclo del juego
   std::uint8_t paused = 0;
-  std::uint8_t inHome = 1;
+  std::uint8_t atHome = 1;
   std::uint8_t ended = 0;
-  std::uint8_t inGame = 0;
+  std::uint8_t playing = 0;
 
   while (!WindowShouldClose()) {
     window.beginWindowDraw();
     // Todo el resto de componentes se renderizan en este periodo
-    if (inHome) {  // Pantalla de bienvenida
-      Home.drawHomeScreen();
-      Home.hasGameStarted(inGame);
-      inHome = !(inGame);
-      if (inGame) Game.resetMatch();  // Se reinicia el estado de juego
-    } else if (inGame) {  // En partida
-      Game.setInteractable();
-      Game.drawGameElements();
-      Game.isGamePaused(paused);
-      inGame = !(paused);
-      if (!inGame) Game.setNotInteractable();
+    if (atHome) {  // Pantalla de bienvenida
+      home.drawHomeScreen();
+      home.hasGameStarted(playing);
+      atHome = !(playing);
+      if (playing) game.resetMatch();  // Se reinicia el estado de juego
+    } else if (playing) {  // En partida
+      game.setInteractable();
+      game.drawGameElements();
+      game.isGamePaused(paused);
+      playing = !(paused);
+      if (!playing) game.setNotInteractable();
     } else if (paused) {  // Partida pausada
-      Game.drawGameElements();
+      game.drawGameElements();
       menu.drawMenu();
-      menu.gameResumed(inGame);
-      menu.goHome(inHome);
-      paused = !(inGame);
-      if (paused) paused = !(inHome);
+      menu.gameResumed(playing);
+      menu.goHome(atHome);
+      paused = !(playing);
+      if (paused) paused = !(atHome);
     }
     // Terminar de mostrar un frame
     window.endWindowDraw();
