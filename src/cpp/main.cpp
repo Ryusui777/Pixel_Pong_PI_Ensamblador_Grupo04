@@ -3,18 +3,18 @@
 #include "Window.h"
 #include "Game.h"
 #include "Menu.h"
-#include "HomeScreen.h"
+#include "Home.h"
 
 int main() {
   // Componentes del juego
   Window window;
   Game Game;
-  HomeScreen homeScreen;
+  Home Home;
   Menu menu;
 
   // Inicialización de componentes
   window.initializeWindow();
-  homeScreen.init();
+  Home.initializeHomeScreen();
   Game.initializeGame();
   menu.init();
 
@@ -28,8 +28,8 @@ int main() {
     window.beginWindowDraw();
     // Todo el resto de componentes se renderizan en este periodo
     if (inHome) {  // Pantalla de bienvenida
-      homeScreen.draw();
-      homeScreen.started(inGame);
+      Home.drawHomeScreen();
+      Home.hasGameStarted(inGame);
       inHome = !(inGame);
       if (inGame) Game.resetMatch();  // Se reinicia el estado de juego
     } else if (inGame) {  // En partida
