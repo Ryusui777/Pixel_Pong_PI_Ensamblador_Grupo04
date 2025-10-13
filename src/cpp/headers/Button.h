@@ -4,62 +4,62 @@
 #include "shared.h"
 #include <stdio.h>
 
-const Vector2 homePos = {
+const Vector2 home_button_pos = {
   .x = WINDOW_WIDTH/2.0f,
   .y = WINDOW_HEIGHT/2.0f + 60
 };
 
-const Vector2 resumePos = {
+const Vector2 resume_button_pos = {
   .x = WINDOW_WIDTH/2.0f,
   .y = WINDOW_HEIGHT/2.0f - 60
 };
 
-const Vector2 pausePos = {
+const Vector2 pause_button_pos = {
   .x = WINDOW_WIDTH/2.0f,
   .y = 25.0f
 };
 
-const Vector2 startPos = {
+const Vector2 start_button_pos = {
   .x = WINDOW_WIDTH/2.0f,
   .y = WINDOW_HEIGHT/2.0f + 60
 };
 
+/**
+ * @brief Maneja la posición de los botones
+ */
 class Button {
  private:
-  Vector2 position;  // Posicion del boton
-  Texture2D texture;  // textura del boton
+  Vector2 position;  // Posicion del botón
+  Texture2D texture;  // textura del botón
 
  public:
   /**
-   * @brief Construct a new Button object
+   * @brief Constructor
    */
   Button();
 
   /**
-   * @brief Carga la textura del boton y su
-   * posicion inicial
+   * @brief Carga la textura de un botón y su posición inicial
    */
-  void init(char*, Vector2);
+  void initializeButton(char*, Vector2);
 
   /**
-   * @brief Dibuja el boton en pantalla
+   * @brief Dibuja un botón en pantalla
    */
-  void draw();
+  void drawButton();
 
   /**
-   * @brief Determina si el mouse esta en el area del boton
-   * @return int 1 si el mouse esta en el area del boton 0 si no
+   * @brief Determina si el mouse se encuentra en el área del botón
+   * @return int 1 si el mouse está en el área del botón, 0 si no
   */
-  byte isHovered();
+  byte isMouseAboveButton();
 
   /**
-   * @brief  Determina si el boton esta siendo presionado,
-   * si ya fue presionado y el usuario mantiene presionado
-   * solo se activa una vez
-   *
-   * @return int 1 si fue presionado 0 si no
+   * @brief  Determina si el botón está siendo presionado, si ya fue presionado
+   * y el usuario mantiene presionado solo se activa una vez
+   * @return int 1 si fue presionado, 0 si no
    */
-  byte isClicked() {
-    return isHovered() && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+  byte isButtonBeingClicked() {
+    return isMouseAboveButton() && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
   }
 };

@@ -20,7 +20,7 @@ class Game {
   // Pelota
   Ball ball;
   // Botón de pausa en la parte superior de la pantalla de la partida
-  Button pause;
+  Button pause_button;
   // Indicador de si un elemento es interactuable
   std::uint8_t interactable;
 

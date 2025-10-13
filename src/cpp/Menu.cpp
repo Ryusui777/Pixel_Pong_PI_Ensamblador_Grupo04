@@ -3,8 +3,8 @@
 
 void Menu::initializeMenu() {
   this->blurred_background = LoadTexture(bg_path);
-  this->home_button.init((char*)home_button_path, homePos);
-  this->resume_button.init((char*)resume_button_path, resumePos);
+  this->home_button.initializeButton((char*)home_button_path, home_button_pos);
+  this->resume_button.initializeButton((char*)resume_button_path, resume_button_pos);
 }
 
 void Menu::drawMenu() {
@@ -16,14 +16,14 @@ void Menu::drawMenu() {
   DrawTextureEx(blurred_background, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
 
   // UI elements
-  this->home_button.draw();
-  this->resume_button.draw();
+  this->home_button.drawButton();
+  this->resume_button.drawButton();
 }
 
 void Menu::gameResumed(byte& resumeVar) {
-  resumeVar = (this->resume_button.isClicked())? 1 : resumeVar;
+  resumeVar = (this->resume_button.isButtonBeingClicked())? 1 : resumeVar;
 }
 
 void Menu::goHome(byte& goHomeVar) {
-  goHomeVar = (this->home_button.isClicked())? 1 : goHomeVar;
+  goHomeVar = (this->home_button.isButtonBeingClicked())? 1 : goHomeVar;
 }
