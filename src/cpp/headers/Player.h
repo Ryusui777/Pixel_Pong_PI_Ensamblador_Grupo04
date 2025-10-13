@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #define SPEED 8
-#define PLY_PATH (char*)"res/mainGame/player_red.png"
+#define PLY_PATH (char*)"res/mainGame/red_player.png"
 
 class Player{
  private:

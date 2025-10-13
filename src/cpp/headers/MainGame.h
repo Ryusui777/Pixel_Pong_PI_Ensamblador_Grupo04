@@ -9,7 +9,7 @@
 class MainGame {
  private:
   // Path al botón de pausa
-  const char* pausePath = "res/mainGame/pause.png";
+  const char* pausePath = "res/mainGame/pause_button.png";
   Player player;
   Bot bot;
   Ball ball;

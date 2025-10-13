@@ -4,7 +4,7 @@
 
 class Bot {
  private:
-  const char* bot_path = "res/mainGame/player_yellow.png";
+  const char* bot_path = "res/mainGame/yellow_bot.png";
   Texture2D texture;
   Vector2 position;
  public:

@@ -9,7 +9,7 @@
 class Window {
  private:
   // Fondo de la ventana
-  const char* bg_path = "res/Game_BG.png";
+  const char* bg_path = "res/game_background.png";
   Texture2D bg;
 
   int width;

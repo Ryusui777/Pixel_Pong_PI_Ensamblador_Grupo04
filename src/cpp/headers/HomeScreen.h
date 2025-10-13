@@ -5,7 +5,7 @@
 
 class HomeScreen {
  private:
-  const char* start_path = "res/homeScreen/start.png";
+  const char* start_path = "res/homeScreen/start_button.png";
   Button start;
  public:
   void init();

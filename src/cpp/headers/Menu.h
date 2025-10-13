@@ -6,9 +6,9 @@
 class Menu {
  private:
   // Paths hacia todos los recursos graficos
-  const char* bg_path = "res/menu/bg.png";
-  const char* resume_path ="res/menu/resume.png";
-  const char* home_path ="res/menu/home.png";
+  const char* bg_path = "res/menu/menu_background.png";
+  const char* resume_path ="res/menu/resume_button.png";
+  const char* home_path ="res/menu/home_button.png";
 
   // Members
   Texture2D blurBG;

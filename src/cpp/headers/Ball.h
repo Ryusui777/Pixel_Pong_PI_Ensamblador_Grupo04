@@ -5,7 +5,7 @@
 
 class Ball {
  private:
-  const char* ball_path = "res/mainGame/ball.png";
+  const char* ball_path = "res/mainGame/yellow_ball.png";
   Texture2D texture;
   Vector2 position;
   Vector2 velocity;
