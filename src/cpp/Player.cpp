@@ -14,14 +14,17 @@ void Player::initializePlayer() {
   const float halfH = (texture.height * SCALE) * 0.5f;
   const float upperLimit = 0.0f + halfH;
   const float lowerLimit = (float)GetScreenHeight() - halfH;
+  // Se llama a la función de ensamblador
   initPlayerMovement(upperLimit, lowerLimit, &position);
   resetPlayerPosition();
 }
 
+// Se llama a la función de ensamblador
 void Player::movePlayerDown() {
   moverJugadorAbajo();
 }
 
+// Se llama a la función de ensamblador
 void Player::movePlayerUp() {
   moverJugadorArriba();
 }

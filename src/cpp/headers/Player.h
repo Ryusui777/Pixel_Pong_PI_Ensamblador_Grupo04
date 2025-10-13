@@ -14,14 +14,22 @@ class Player {
  private:
   Vector2 position;  // Posicion del jugador
   Texture2D texture;  // Textura del jugador
+
+  /**
+   * @brief Auxiliar de `movePlayer()` para mover hacia arriba al jugador
+   */
   void movePlayerDown();
+
+  /**
+   * @brief Auxiliar de `movePlayer()` para mover hacia abajo al jugador
+   */
   void movePlayerUp();
 
  public:
   /**
-  * @brief Inicializa el jugador, carga su textura, y
-  * posicion inicial. Esta debe ser llamada despues de
-  * inicializar la pantalla de otra manera habra un error.
+  * @brief Inicializa al jugador, carga su textura, y posicion inicial. 
+  * @remark Debe ser llamada despues de inicializar la pantalla. De otra manera,
+  * habrá un error.
   */
   void initializePlayer();
 
@@ -35,5 +43,8 @@ class Player {
    */
   void movePlayer();
 
+  /**
+   * @brief Se restablece posición de jugador dentro del mapa de juego.
+   */
   void resetPlayerPosition();
 };
