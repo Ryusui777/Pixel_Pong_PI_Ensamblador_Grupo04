@@ -1,21 +1,21 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include <stdio.h>
 #include "Window.h"
-#include "MainGame.h"
+#include "Game.h"
 #include "Menu.h"
 #include "HomeScreen.h"
 
 int main() {
   // Componentes del juego
   Window window;
-  MainGame mainGame;
+  Game Game;
   HomeScreen homeScreen;
   Menu menu;
 
   // Inicialización de componentes
   window.initializeWindow();
   homeScreen.init();
-  mainGame.init();
+  Game.initializeGame();
   menu.init();
 
   // Ciclo del juego
@@ -31,15 +31,15 @@ int main() {
       homeScreen.draw();
       homeScreen.started(inGame);
       inHome = !(inGame);
-      if (inGame) mainGame.reset();  // Se reinicia el estado de juego
+      if (inGame) Game.resetMatch();  // Se reinicia el estado de juego
     } else if (inGame) {  // En partida
-      mainGame.setInteractable();
-      mainGame.draw();
-      mainGame.isPaused(paused);
+      Game.setInteractable();
+      Game.drawGameElements();
+      Game.isGamePaused(paused);
       inGame = !(paused);
-      if (!inGame) mainGame.setNotInteractable();
+      if (!inGame) Game.setNotInteractable();
     } else if (paused) {  // Partida pausada
-      mainGame.draw();
+      Game.drawGameElements();
       menu.draw();
       menu.resumed(inGame);
       menu.goHome(inHome);
