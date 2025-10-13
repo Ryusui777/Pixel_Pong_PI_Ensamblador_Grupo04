@@ -5,28 +5,39 @@
 
 class Menu {
  private:
-  // Paths hacia todos los recursos graficos
+  // Ruta al fondo del menú (fondo azul con transparencia)
   const char* bg_path = "res/menu/menu_background.png";
-  const char* resume_path ="res/menu/resume_button.png";
-  const char* home_path ="res/menu/home_button.png";
+  // Ruta a botón de resume
+  const char* resume_button_path ="res/menu/resume_button.png";
+  // Ruta a botón de home
+  const char* home_button_path ="res/menu/home_button.png";
 
-  // Members
-  Texture2D blurBG;
-  Button resumeButton;
-  Button homeButton;
+  // Fondo con blur
+  Texture2D blurred_background;
+  // Botón de regresar a partida
+  Button resume_button;
+  // Botón de regresar a home
+  Button home_button;
 
  public:
   /**
-   * @brief Inicia los elementos de la clase,
-   * carga sus texturas y posiciones.
+   * @brief Inicializa los elementos de la clase, carga sus texturas y
+   * posiciones.
    */
-  void init();
+  void initializeMenu();
 
   /**
-   * @brief Rederiza el menu en pantalla
+   * @brief Rederiza el menú en pantalla
    */
-  void draw();
+  void drawMenu();
 
-  void resumed(byte&);
+  /**
+   * @brief Se regresa a la partida
+   */
+  void gameResumed(byte&);
+
+  /**
+   * @brief Se regresa al inicio
+   */
   void goHome(byte&);
 };

@@ -16,7 +16,7 @@ int main() {
   window.initializeWindow();
   Home.initializeHomeScreen();
   Game.initializeGame();
-  menu.init();
+  menu.initializeMenu();
 
   // Ciclo del juego
   std::uint8_t paused = 0;
@@ -40,8 +40,8 @@ int main() {
       if (!inGame) Game.setNotInteractable();
     } else if (paused) {  // Partida pausada
       Game.drawGameElements();
-      menu.draw();
-      menu.resumed(inGame);
+      menu.drawMenu();
+      menu.gameResumed(inGame);
       menu.goHome(inHome);
       paused = !(inGame);
       if (paused) paused = !(inHome);
