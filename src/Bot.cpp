@@ -1,6 +1,8 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Bot.h"
 
+extern "C" void initBotMovement(float, float, Vector2*);
+extern "C" void moverBot();
 
 void Bot::initializeBot() {
   // Carga la textura del bot
@@ -11,12 +13,26 @@ void Bot::initializeBot() {
   const float margin = 5.0f;
   position.y = WINDOW_HEIGHT / 2.0f;
   position.x = texture.width * SCALE + margin;
+
+  // Configura los limites de la pantalla
+  const float halfH = (texture.height * SCALE) * 0.5f;
+  const float upperLimit = 0.0f + halfH;
+  const float lowerLimit = (float)WINDOW_HEIGHT - halfH;
+
+  // Se llama a la función de ensamblador
+  initBotMovement(upperLimit, lowerLimit, &position);
 }
 
+// Dibujar al bot
 void Bot::drawBot() {
   Rectangle src{0, 0, (float)texture.width, (float)texture.height};
   Rectangle dst{position.x, position.y,
     texture.width * SCALE, texture.height * SCALE };
   Vector2 origin{ dst.width/2.0f, dst.height/2.0f };
   DrawTexturePro(texture, src, dst, origin, 0.0f, WHITE);
+}
+
+// Se llama desde Game
+void Bot::moveBot() {
+  moverBot();
 }

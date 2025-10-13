@@ -4,6 +4,7 @@
 void Game::updateElements() {
   this->player.movePlayer();
   this->ball.moveBall();
+  this->bot.moveBot();
 }
 
 void Game::initializeGame() {
