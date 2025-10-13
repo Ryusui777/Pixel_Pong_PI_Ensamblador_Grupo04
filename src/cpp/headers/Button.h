@@ -5,23 +5,23 @@
 #include <stdio.h>
 
 const Vector2 homePos = {
-  .x = WIDTH/2.0f,
-  .y = HEIGHT/2.0f + 60
+  .x = WINDOW_WIDTH/2.0f,
+  .y = WINDOW_HEIGHT/2.0f + 60
 };
 
 const Vector2 resumePos = {
-  .x = WIDTH/2.0f,
-  .y = HEIGHT/2.0f - 60
+  .x = WINDOW_WIDTH/2.0f,
+  .y = WINDOW_HEIGHT/2.0f - 60
 };
 
 const Vector2 pausePos = {
-  .x = WIDTH/2.0f,
+  .x = WINDOW_WIDTH/2.0f,
   .y = 25.0f
 };
 
 const Vector2 startPos = {
-  .x = WIDTH/2.0f,
-  .y = HEIGHT/2.0f + 60
+  .x = WINDOW_WIDTH/2.0f,
+  .y = WINDOW_HEIGHT/2.0f + 60
 };
 
 class Button {

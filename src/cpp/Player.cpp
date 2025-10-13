@@ -42,6 +42,6 @@ void Player::draw() {
 void Player::reset() {
   // Centra el jugador
   const float margin = 5.0f;
-  position.y = HEIGHT / 2.0f;
-  position.x = WIDTH - texture.width * SCALE - margin;
+  position.y = WINDOW_HEIGHT / 2.0f;
+  position.x = WINDOW_WIDTH - texture.width * SCALE - margin;
 }

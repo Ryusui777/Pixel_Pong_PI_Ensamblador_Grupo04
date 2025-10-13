@@ -1,39 +1,31 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Window.h"
 
-void Window::init() {
-  // Dimesiones de la ventana
-  this->width = WIDTH;
-  this->height = HEIGHT;
-
+void Window::initializeWindow() {
   // Inicializa la ventana
-  InitWindow(width, height, "Pixel pong");
+  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Pixel pong");
 
-  // Carga la textura del bg
-  bg = LoadTexture(bg_path);
+  // Carga la textura del game_background
+  this->game_background = LoadTexture(game_background_path);
 
-  // Establece la velocidad de refrescamiento
+  // Establece los FPS
   SetTargetFPS(60);
 }
 
 
-void Window::beginDraw() {
+void Window::beginWindowDraw() {
   BeginDrawing();
-  drawBG();
+  drawWindowBackground();
 }
 
-void Window::draw(Texture2D texture, Vector2 pos) {
-  DrawTexture(texture, pos.x, pos.y, BLACK);
-}
-
-void Window::endDraw() {
+void Window::endWindowDraw() {
   EndDrawing();
 }
 
-void Window::drawBG() {
-  float drawW = bg.width * SCALE;
-  float drawH = bg.height * SCALE;
-  float offsetX = (width  - drawW) / 2.0f;
-  float offsetY = (height - drawH) / 2.0f;
-  DrawTextureEx(bg, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
+void Window::drawWindowBackground() {
+  float drawW = game_background.width * SCALE;
+  float drawH = game_background.height * SCALE;
+  float offsetX = (WINDOW_WIDTH  - drawW) / 2.0f;
+  float offsetY = (WINDOW_HEIGHT - drawH) / 2.0f;
+  DrawTextureEx(game_background, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
 }

@@ -4,27 +4,32 @@
 #include "shared.h"
 
 /**
- * @brief
+ * @brief Clase responsable de generar la ventana de juego con su respectivo
+ * fondo y fps.
  */
 class Window {
  private:
-  // Fondo de la ventana
-  const char* bg_path = "res/game_background.png";
-  Texture2D bg;
-
-  int width;
-  int height;
+  // Ruta a la imagen de fondo para la ventana de juego 
+  const char* game_background_path = "res/game_background.png";
+  Texture2D game_background;  // Fondo de la ventana
 
   /**
-   * @brief Dibuja el background del juego
+   * @brief Dibuja el fondo de la ventana
    */
-  void drawBG();
+  void drawWindowBackground();
  public:
-  void init();  // Iniciar ventana
-  void beginDraw();
-  void endDraw();
-  void draw(Texture2D, Vector2);
-  void kill() {
+  /**
+   * @brief Inicializa la ventana con un ancho, alto, fondo, FPS y nombre
+   * establecidos.
+  */
+  void initializeWindow();
+  void beginWindowDraw();
+
+  /**
+   * @brief terminar de mostrar un frame.
+   */
+  void endWindowDraw();
+  void killWindow() {
     CloseWindow();
   }
 };

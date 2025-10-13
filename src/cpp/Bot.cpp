@@ -9,7 +9,7 @@ void Bot::init() {
 
   // Centra el bot
   const float margin = 5.0f;
-  position.y = HEIGHT / 2.0f;
+  position.y = WINDOW_HEIGHT / 2.0f;
   position.x = texture.width * SCALE + margin;
 }
 

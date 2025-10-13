@@ -6,14 +6,14 @@
 #include "HomeScreen.h"
 
 int main() {
-  // Componentes del juego (Clases)
+  // Componentes del juego
   Window window;
   MainGame mainGame;
   HomeScreen homeScreen;
   Menu menu;
 
-  // Inicializacion de componentes
-  window.init();
+  // Inicialización de componentes
+  window.initializeWindow();
   homeScreen.init();
   mainGame.init();
   menu.init();
@@ -25,20 +25,20 @@ int main() {
   std::uint8_t inGame = 0;
 
   while (!WindowShouldClose()) {
-    window.beginDraw();
+    window.beginWindowDraw();
     // Todo el resto de componentes se renderizan en este periodo
     if (inHome) {  // Pantalla de bienvenida
       homeScreen.draw();
       homeScreen.started(inGame);
       inHome = !(inGame);
-      if (inGame) mainGame.reset();  // resetea el juego
+      if (inGame) mainGame.reset();  // Se reinicia el estado de juego
     } else if (inGame) {  // En partida
       mainGame.setInteractable();
       mainGame.draw();
       mainGame.isPaused(paused);
       inGame = !(paused);
       if (!inGame) mainGame.setNotInteractable();
-    } else if (paused) {  // Partida pausada (se presiona espacio)
+    } else if (paused) {  // Partida pausada
       mainGame.draw();
       menu.draw();
       menu.resumed(inGame);
@@ -46,9 +46,9 @@ int main() {
       paused = !(inGame);
       if (paused) paused = !(inHome);
     }
-    // Terminar de mostrar frame
-    window.endDraw();
+    // Terminar de mostrar un frame
+    window.endWindowDraw();
   }
-  window.kill();  // Se cierra la ventana (se presiona `esc`)
+  window.killWindow();  // Se cierra la ventana (se presiona `esc`)
   return 0;
 }

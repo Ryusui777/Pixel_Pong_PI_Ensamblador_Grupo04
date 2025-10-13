@@ -13,15 +13,15 @@ void Ball::init() {
 
   // Define limites inferior y superior
   float upperLimt = getHeight() / 2.0f;
-  float lowerLimit = HEIGHT - (getHeight() / 2.0f);
+  float lowerLimit = WINDOW_HEIGHT - (getHeight() / 2.0f);
   initPelotaMovement(&velocity, &position, upperLimt, lowerLimit);
 
   reset();
 }
 
 void Ball::reset() {
-  position.x = WIDTH/2.0f;
-  position.y = HEIGHT/2.0f;
+  position.x = WINDOW_WIDTH/2.0f;
+  position.y = WINDOW_HEIGHT/2.0f;
 
   // Dirección inicial aleatoria
   float angle = GetRandomValue(0, 1) ? 45.0f : 135.0f;  // 45° o 135°
@@ -49,12 +49,12 @@ void Ball::checkBoundaryCollision() {
   float halfHeight = getHeight() / 2;
 
   // Colisión con bordes superior e inferior
-  if (position.y - halfHeight <= 0 || position.y + halfHeight >= HEIGHT) {
+  if (position.y - halfHeight <= 0 || position.y + halfHeight >= WINDOW_HEIGHT) {
     pelotaReverseY();
   }
 
   // Colisión con bordes izquierdo y derecho
-  if (position.x - halfWidth <= 0 || position.x + halfWidth >= WIDTH) {
+  if (position.x - halfWidth <= 0 || position.x + halfWidth >= WINDOW_WIDTH) {
     // manejar el punto
     reset();
   }
