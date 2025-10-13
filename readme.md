@@ -49,7 +49,7 @@ Para ejecutar el videojuego, es necesario lo siguiente:
 
 - Sistema operativo `Linux` `x86-64`
 
-## Ejecución 
+## Ejecución
 
 Para ejecutar el juego, debe abrir una terminar en
 `/Pixel_Pong_PI_Ensamblador_Grupo04`, ingresar `make clean` y luego `make`.
