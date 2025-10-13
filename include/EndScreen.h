@@ -6,8 +6,8 @@
 class EndScreen {
  private:
   // Paths hacia todos los recursos graficos
-  const char* bg_path = "res/endScreen/menu_background.png";
-  const char* playAgain_path = "res/endScreen/playAgain.png";
+  const char* bg_path = "assets/endScreen/menu_background.png";
+  const char* playAgain_path = "assets/endScreen/playAgain.png";
 
   // Members
   Texture2D blur_bg;

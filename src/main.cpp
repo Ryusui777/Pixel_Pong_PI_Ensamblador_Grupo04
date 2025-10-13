@@ -21,7 +21,7 @@ int main() {
   // Ciclo del juego
   std::uint8_t paused = 0;
   std::uint8_t atHome = 1;
-  std::uint8_t ended = 0;
+  // std::uint8_t ended = 0;
   std::uint8_t playing = 0;
 
   while (!WindowShouldClose()) {

@@ -9,7 +9,7 @@
 class Home {
  private:
   // Ruta al asset que representa el botón de inicio
-  const char* start_button_path = "res/homeScreen/start_button.png";
+  const char* start_button_path = "assets/homeScreen/start_button.png";
   Button start_button;  // Botón de inicio
  public:
   /**

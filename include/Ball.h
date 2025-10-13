@@ -8,7 +8,7 @@
 class Ball {
  private:
   // Ruta a la imagen de la bola
-  const char* ball_path = "res/mainGame/yellow_ball.png";
+  const char* ball_path = "assets/mainGame/yellow_ball.png";
   Texture2D texture;  // Textura de la bola
   Vector2 position;  // Posición de la bola
   Vector2 velocity;  // Velocidad de la bola ???

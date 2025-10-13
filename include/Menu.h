@@ -9,11 +9,11 @@
 class Menu {
  private:
   // Ruta al fondo del menú (fondo azul con transparencia)
-  const char* bg_path = "res/menu/menu_background.png";
+  const char* bg_path = "assets/menu/menu_background.png";
   // Ruta a botón de resume
-  const char* resume_button_path ="res/menu/resume_button.png";
+  const char* resume_button_path ="assets/menu/resume_button.png";
   // Ruta a botón de home
-  const char* home_button_path ="res/menu/home_button.png";
+  const char* home_button_path ="assets/menu/home_button.png";
 
   // Fondo con blur
   Texture2D blurred_background;

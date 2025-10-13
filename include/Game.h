@@ -12,7 +12,7 @@
 class Game {
  private:
   // Path al botón de pausa
-  const char* pause_button_path = "res/mainGame/pause_button.png";
+  const char* pause_button_path = "assets/mainGame/pause_button.png";
   // Objeto jugador humano
   Player player;
   // Objeto jugador no humano

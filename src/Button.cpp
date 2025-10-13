@@ -22,7 +22,7 @@ void Button::drawButton() {
 
 // Verifica si el mouse está sobre un botón
 byte Button::isMouseAboveButton() {
-  float scale = 5.0f;
+  // float scale = 5.0f;
   Rectangle dst{ position.x, position.y,
     texture.width * SCALE, texture.height * SCALE };
   Vector2 origin{ dst.width/2.0f, dst.height/2.0f };

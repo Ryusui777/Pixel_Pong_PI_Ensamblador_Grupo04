@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #define PLAYER_SPEED 8
-#define PLAYER_ASSET_PATH (char*)"res/mainGame/red_player.png"
+#define PLAYER_ASSET_PATH (char*)"assets/mainGame/red_player.png"
 
 /** 
  * @brief Clase que representa al jugador humano de la partida
