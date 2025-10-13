@@ -3,14 +3,14 @@
 
 void Game::updateElements() {
   this->player.movePlayer();
-  this->ball.move();
+  this->ball.moveBall();
 }
 
 void Game::initializeGame() {
   // Inicializacion de los elementos
   this->player.initializePlayer();
   this->bot.init();
-  this->ball.init();
+  this->ball.initializeBall();
   this->pause.init((char*)pause_button_path, pausePos);
 
   // Dice que la escena es interactuable
@@ -19,7 +19,7 @@ void Game::initializeGame() {
 
 void Game::drawGameElements() {
   if (interactable) updateElements();
-  this->ball.draw();
+  this->ball.drawBall();
   this->player.drawPlayer();
   this->bot.draw();
   this->pause.draw();
@@ -32,5 +32,5 @@ void Game::isGamePaused(byte& paused) {
 
 void Game::resetMatch() {
   this->player.resetPlayerPosition();
-  this->ball.reset();
+  this->ball.resetBallPosition();
 }

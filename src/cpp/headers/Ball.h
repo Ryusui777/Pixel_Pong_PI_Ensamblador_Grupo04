@@ -3,43 +3,77 @@
 #include "shared.h"
 
 /**
- * @brief Clase que representa la pelota
+ * @brief Clase que representa la pelota del juego
  */
 class Ball {
  private:
-  // Path a la imagen de la bola
+  // Ruta a la imagen de la bola
   const char* ball_path = "res/mainGame/yellow_ball.png";
-  
-  Texture2D texture;
-  Vector2 position;
-  Vector2 velocity;
-  float speed;
+  Texture2D texture;  // Textura de la bola
+  Vector2 position;  // Posición de la bola
+  Vector2 velocity;  // Velocidad de la bola ???
+  float speed; // ???
 
  public:
   /**
-   * @brief Inicializa el jugador, carga su textura, y
-   * posicion inicial. Esta debe ser llamada despues de
-   * inicializar la pantalla de otra manera habra un error.
+   * @brief Se inicializa la bola
    */
-  void init();
+  void initializeBall();
+
   /**
-   * @brief Renderiza el jugador en pantalla
+   * @brief Renderiza la bola
    */
-  void draw();
-  void move();
-  void reset();
+  void drawBall();
 
-  // metodos para manejar colisiones
+  /**
+   * @brief Maneja movimiento de la bola
+   */
+  void moveBall();
+
+  /**
+   * @brief Restablece posición de la bola
+   */
+  void resetBallPosition();
+
+  /* Manejo de colisiones */
+
+  /**
+   * @brief Manejo de choques con paredes
+   */
   void checkBoundaryCollision();
-  void reverseX();  // Invertir dirección X
-  void reverseY();  // Invertir dirección Y
 
-  // Getters para la posición y tamaño (necesarios para colisiones)
-  Vector2 getPosition() const { return position; }
-  float getWidth() const { return texture.width * SCALE; }
-  float getHeight() const { return texture.height * SCALE; }
+  /**
+   * @brief Invertir trayectoria sobre eje X
+   */
+  void reverseHorizontalTrajectory();
+
+  /**
+   * @brief Invertir trayectoria sobre eje Y
+   */
+  void reverseVerticalTrajectory();
+
+  /* Getters para la posición y tamaño (necesarios para colisiones) */
+
+  /**
+   * @brief Getter para posición de la bola
+   */
+  Vector2 getBallPosition() const { return position; }
+
+  /**
+   * @brief Getter para ancho de pelota
+   */
+  float getBallWidth() const { return texture.width * SCALE; }
+
+  /**
+   * @brief Getter para altura de pelota
+   */
+  float getBallHeight() const { return texture.height * SCALE; }
+
+  /**
+   * @brief Getter para hitbox de pelota (?????)
+   */
   Rectangle getRect() const {
-    return {position.x - getWidth()/2, position.y
-      - getHeight()/2, getWidth(), getHeight()};
+    return {position.x - getBallWidth()/2, position.y
+      - getBallHeight()/2, getBallWidth(), getBallHeight()};
   }
 };
