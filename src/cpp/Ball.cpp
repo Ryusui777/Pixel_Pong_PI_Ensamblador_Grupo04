@@ -5,6 +5,7 @@ extern "C" void initPelotaMovement(Vector2*, Vector2*, float, float);
 extern "C" void pelotaReverseY();
 extern "C" void pelotaReverseX();
 extern "C" void pelotaMove();
+extern "C" float get_random_angle();
 
 void Ball::init(){
     this->texture = LoadTexture((char*)ball_path);
@@ -23,13 +24,14 @@ void Ball::reset(){
     position.y = HEIGHT/2.0f;
     
     // Dirección inicial aleatoria
-    float angle = GetRandomValue(0, 360); // 45° o 135°
+    float angle = get_random_angle();
 
     if(angle>= 80.0f && angle <= 100) angle = 45.0f;
     if(angle>= 260.0f && angle <= 280) angle = 135.0f;
     
     velocity.x = cos(angle * DEG2RAD) * speed;
     velocity.y = sin(angle * DEG2RAD) * speed;
+    for(int i = 0; i <100;++i)printf("Angle %f \n", get_random_angle());
 }
 
 void Ball::draw(){

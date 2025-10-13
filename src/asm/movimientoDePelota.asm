@@ -5,13 +5,23 @@ section .bss
     lowerLimit:   resd 1
 section .data
     negSign: dd -1.0
+    ; Angles
+    minAngle: dd 0
+    maxAngle: dd 360
+    defaultAngle: dd 45.0
+    g80: dd 70.0
+    g100: dd 100.0
+    g260: dd 260.0
+    g280: dd 280.0
+    
 section .text
-
+extern GetRandomValue
 
 global pelotaReverseX
 global pelotaReverseY
 global pelotaMove
 global initPelotaMovement
+global get_random_angle
 
 ;============================================
 ; Guarda los punteros hacia los vectores
@@ -84,4 +94,37 @@ reverse:
     vmulss xmm2, xmm0, xmm1
     vmovss dword[rax], xmm2 
     ret
+
+
+get_random_angle:    
+    mov edi, [minAngle]
+    mov esi, [maxAngle]
+    call GetRandomValue 
+
+    cvtsi2ss xmm0, eax
+
+    ; Angulo >= 80 y Angulo <= 100 
+    ; vmovss xmm1, dword[g80]
+    ; ucomiss xmm0, xmm1
+    ; jb .fine
+    ; vmovss xmm1, dword[g100]
+    ; ucomiss xmm0, xmm1
+    ; ja .check2
+    ; jmp .change
     
+
+    ; ; Angulo >= 260 y Angulo <= 100 
+    ; .check2:
+    ; vmovss xmm1, dword[g260]
+    ; ucomiss xmm0, xmm1
+    ; jb .fine
+    ; vmovss xmm1, dword[g280]
+    ; ucomiss xmm0, xmm1
+    ; ja .fine
+    ; jmp .change
+
+    ; .change:
+    ; movss xmm0, [defaultAngle]
+
+    .fine:
+    ret 
