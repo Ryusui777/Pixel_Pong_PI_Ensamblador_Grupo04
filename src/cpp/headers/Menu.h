@@ -1,33 +1,32 @@
-#pragma once 
-
+// Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
+#pragma once
 #include "shared.h"
 #include "Button.h"
 
-
 class Menu {
-    private:
-        // Paths hacia todos los recursos graficos
-        const char* bg_path = "res/menu/bg.png";
-        const char* resume_path ="res/menu/resume.png";
-        const char* home_path ="res/menu/home.png";
+ private:
+  // Paths hacia todos los recursos graficos
+  const char* bg_path = "res/menu/bg.png";
+  const char* resume_path ="res/menu/resume.png";
+  const char* home_path ="res/menu/home.png";
 
-        // Members
-        Texture2D blurBG;
-        Button resumeButton;
-        Button homeButton;
+  // Members
+  Texture2D blurBG;
+  Button resumeButton;
+  Button homeButton;
 
-    public:
-        /**
-         * @brief Inicia los elementos de la clase,
-         * carga sus texturas y posiciones.
-         */
-        void init();
-        /**
-         * @brief Rederiza el menu en pantalla
-         */
-        void draw();
+ public:
+  /**
+   * @brief Inicia los elementos de la clase,
+   * carga sus texturas y posiciones.
+   */
+  void init();
 
-        void resumed(byte&);
-        void goHome(byte&);
+  /**
+   * @brief Rederiza el menu en pantalla
+   */
+  void draw();
 
+  void resumed(byte&);
+  void goHome(byte&);
 };
