@@ -3,6 +3,7 @@ section .bss
     position_ptr: resq 1
     upperLimit:   resd 1
     lowerLimit:   resd 1
+
 section .data
     negSign: dd -1.0
     speed: dd 10.0
@@ -35,7 +36,7 @@ global pelotaMove
 global initPelotaMovement
 global resetBall
 global isBallOpossingPlayer
-global pelotaRebotoConJugador
+global pelotaReboto
 
 ;============================================
 ; Guarda los punteros hacia los vectores
@@ -76,7 +77,6 @@ pelotaMove:
     vmovss dword[r9], xmm2
     vmovss dword[r9+4], xmm3
 
-
     ret
 
 ;============================================
@@ -88,7 +88,12 @@ pelotaReverseX:
     call  reverse 
     ret
 
-pelotaRebotoConJugador: 
+;============================================
+; Cambia una variable que dice si el angulo 
+; de la bola va en direccion del jugador o 
+; su direccion contraria
+;============================================
+pelotaReboto: 
     mov r8d, dword[isOpposingPlayer]
     cmp r8d, 0
     je  .noOpposing

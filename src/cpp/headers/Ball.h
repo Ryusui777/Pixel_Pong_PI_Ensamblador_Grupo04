@@ -33,11 +33,15 @@ public:
     void reverseY();  // Invertir dirección Y
 
     void rebotarContraJugador();
+    void rebotarContraBot();
     
     // Getters para la posición y tamaño (necesarios para colisiones)
     Vector2 getPosition() const { return position; }
+
     float getWidth() const { return texture.width * SCALE; }
+
     float getHeight() const { return texture.height * SCALE; }
+
     Rectangle getRect() const { 
         return {position.x - getWidth()/2, position.y - getHeight()/2, getWidth(), getHeight()}; 
     }

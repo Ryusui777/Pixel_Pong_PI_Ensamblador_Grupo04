@@ -5,11 +5,7 @@ void Bot::init(){
     // Carga la textura del jugador
     this->texture = LoadTexture((char*)bot_path);
     SetTextureFilter(texture, TEXTURE_FILTER_POINT);
-    
-    // Centra el bot
-    const float margin = 5.0f;
-    position.y = HEIGHT / 2.0f;  
-    position.x = texture.width * SCALE + margin;
+    reset();
 }
 
 
@@ -19,6 +15,13 @@ void Bot::draw(){
                    texture.width * SCALE, texture.height * SCALE };
     Vector2 origin{ dst.width/2.0f, dst.height/2.0f };
     DrawTexturePro(texture, src, dst, origin, 0.0f, WHITE);
+}
+
+void Bot::reset(){
+    // Centra el bot
+    const float margin = 5.0f;
+    position.y = HEIGHT / 2.0f;  
+    position.x = texture.width * SCALE + margin;
 }
 
 Rectangle Bot::getRectangle(){
