@@ -25,14 +25,19 @@ void MainGame::draw(){
     this->bot.draw();
     this->pause.draw();
 
-    Rectangle r;
-    player.getRectangle(r);
     
-    if(CheckCollisionRecs(r, ball.getRect()) && !ball.isOpposing()) ball.reverseX();
+    // Chequea colision con jugador
+    if(CheckCollisionRecs(player.getRectangle(), ball.getRect()) && !ball.isOpposing()) ball.reverseX();
+
+    // Informacion para debuggear
     if(DEBUG_MODE){
+        Rectangle r;
+        r = player.getRectangle();
         DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
         r = ball.getRect();
         DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
+        if(ball.isOpposing()) printf("Ball is opposing player\n");
+        else printf("Ball is not opposing player\n");
     }
 
     

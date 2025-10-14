@@ -36,6 +36,6 @@ class Player{
         /**
          * @brief Get the Rectangle object
          */
-        void getRectangle(Rectangle&);
+        Rectangle getRectangle();
 
 };
