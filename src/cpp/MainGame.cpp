@@ -15,20 +15,20 @@ void MainGame::init(){
 void MainGame::updateElements(){
     this->player.move();
     this->ball.move();
-    if(pause.isClicked()) printf("El boton de pausa fue presionado\n");
 }
 
 void MainGame::draw(){
     if(interactable) updateElements();
+    this->ball.draw();
     this->player.draw();
     this->bot.draw();
-    this->ball.draw();
     this->pause.draw();
     
 }
 
 void MainGame::isPaused(byte& paused){
     paused = (this->pause.isClicked())? 1 : paused;
+    if(IsKeyDown(KEY_SPACE)) paused = 1;
 }
 
 void MainGame::reset(){

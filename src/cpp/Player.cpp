@@ -1,8 +1,8 @@
 #include "Player.h"
 
-extern "C" void moverJugadorArriba(float*);
-extern "C" void moverJugadorAbajo(float*);
-extern "C" void initPlayerMovement(float, float);
+extern "C" void moverJugadorArriba();
+extern "C" void moverJugadorAbajo();
+extern "C" void initPlayerMovement(float, float, Vector2*);
 
 
 void Player::init(){
@@ -14,17 +14,17 @@ void Player::init(){
     const float halfH = (texture.height * SCALE) * 0.5f;
     const float upperLimit = 0.0f + halfH;
     const float lowerLimit = (float)GetScreenHeight() - halfH;
-    initPlayerMovement(upperLimit, lowerLimit);
+    initPlayerMovement(upperLimit, lowerLimit, &position);
 
     reset();
 }
 
 void Player::moveDown(){
-    moverJugadorAbajo(&position.y);
+    moverJugadorAbajo();
 }
 
 void Player::moveUP(){
-    moverJugadorArriba(&position.y);
+    moverJugadorArriba();
 }
 void Player::move(){
     if (IsKeyDown(KEY_DOWN))  moveDown();
