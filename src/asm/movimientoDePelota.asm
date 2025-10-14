@@ -6,22 +6,27 @@ section .bss
 section .data
     negSign: dd -1.0
     ; Angles
+    DEG2RAD:    dd 0.0174532925
+    speed: dd 10.0
+
     minAngle: dd 0
     maxAngle: dd 360
     defaultAngle: dd 45.0
-    g80: dd 70.0
+    g80:  dd 80.0
     g100: dd 100.0
     g260: dd 260.0
     g280: dd 280.0
     
 section .text
-extern GetRandomValue
+extern  GetRandomValue 
+extern  cosf
+extern  sinf
 
 global pelotaReverseX
 global pelotaReverseY
 global pelotaMove
 global initPelotaMovement
-global get_random_angle
+global resetBall
 
 ;============================================
 ; Guarda los punteros hacia los vectores
@@ -96,35 +101,56 @@ reverse:
     ret
 
 
-get_random_angle:    
+resetBall:    
     mov edi, [minAngle]
     mov esi, [maxAngle]
     call GetRandomValue 
 
     cvtsi2ss xmm0, eax
 
-    ; Angulo >= 80 y Angulo <= 100 
-    ; vmovss xmm1, dword[g80]
-    ; ucomiss xmm0, xmm1
-    ; jb .fine
-    ; vmovss xmm1, dword[g100]
-    ; ucomiss xmm0, xmm1
-    ; ja .check2
-    ; jmp .change
+    ;Angulo >= 80 y Angulo <= 100 
+    vmovss xmm1, dword[g80]
+    ucomiss xmm0, xmm1
+    jb .fine
+    vmovss xmm1, dword[g100]
+    ucomiss xmm0, xmm1
+    ja .check2
+    jmp .change
     
 
-    ; ; Angulo >= 260 y Angulo <= 100 
-    ; .check2:
-    ; vmovss xmm1, dword[g260]
-    ; ucomiss xmm0, xmm1
-    ; jb .fine
-    ; vmovss xmm1, dword[g280]
-    ; ucomiss xmm0, xmm1
-    ; ja .fine
-    ; jmp .change
+    ; Angulo >= 260 y Angulo <= 100 
+.check2:
+    vmovss xmm1, dword[g260]
+    ucomiss xmm0, xmm1
+    jb .fine
+    vmovss xmm1, dword[g280]
+    ucomiss xmm0, xmm1
+    ja .fine
 
-    ; .change:
-    ; movss xmm0, [defaultAngle]
+.change:
+    movss xmm0, [defaultAngle] ; angle
 
-    .fine:
+.fine:
+
+    mov     r8, [velocity_ptr]
+
+    sub     rsp, 16 ; este espacio se va usar para guardar el angulo y alinear la pila
+
+    movss   [rsp], xmm0 
+
+    ; cos(angle * DEG2RAD) * speed
+    mulss   xmm0, dword [DEG2RAD] ; pasa el angulo a radianes
+    call    cosf                  
+    mulss   xmm0, dword [speed]   
+    movss   dword [r8], xmm0      
+
+    ; sin(angle * DEG2RAD) * speed ----
+    movss   xmm0, dword [rsp]     ; guardo el angulo en la pila
+    mulss   xmm0, dword [DEG2RAD] ; a radianes
+    call    sinf                  ; xmm0 = sin(angle_rad)
+    mulss   xmm0, dword [speed]
+    movss   dword [r8+4], xmm0    ; velocity.y
+
+    add     rsp, 16
+
     ret 
