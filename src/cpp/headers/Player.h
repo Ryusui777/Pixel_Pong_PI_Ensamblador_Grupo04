@@ -28,6 +28,14 @@ class Player{
          * @brief Renderiza el jugador en pantalla
          */
         void draw();
+        /**
+         * @brief 
+         */
         void reset();
+
+        /**
+         * @brief Get the Rectangle object
+         */
+        Rectangle getRectangle();
 
 };

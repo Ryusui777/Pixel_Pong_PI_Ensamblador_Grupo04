@@ -15,6 +15,7 @@ void MainGame::init(){
 void MainGame::updateElements(){
     this->player.move();
     this->ball.move();
+    
 }
 
 void MainGame::draw(){
@@ -23,6 +24,36 @@ void MainGame::draw(){
     this->player.draw();
     this->bot.draw();
     this->pause.draw();
+
+    
+    // Chequea colision con jugador
+    if(CheckCollisionRecs(player.getRectangle(), ball.getRect()) && !ball.isOpposing()){
+        ball.rebotarContraJugador();
+    }
+    // Chequea colosion con bot
+    else{
+        if(CheckCollisionRecs(bot.getRectangle(), ball.getRect()) && ball.isOpposing()){
+            ball.rebotarContraBot();
+        }
+    }
+
+    // Informacion para debuggear
+    if(DEBUG_MODE){
+        Rectangle r;
+
+        r = player.getRectangle();
+        DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
+
+        r = ball.getRect();
+        DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
+
+        r = bot.getRectangle();
+        DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
+
+        if(ball.isOpposing()) printf("Ball is opposing player\n");
+        else printf("Ball is not opposing player\n");
+    }
+
     
 }
 
@@ -33,5 +64,6 @@ void MainGame::isPaused(byte& paused){
 
 void MainGame::reset(){
     this->player.reset();
+    this->bot.reset();
     this->ball.reset();
 }

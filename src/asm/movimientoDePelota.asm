@@ -3,18 +3,26 @@ section .bss
     position_ptr: resq 1
     upperLimit:   resd 1
     lowerLimit:   resd 1
+
 section .data
     negSign: dd -1.0
-    ; Angles
-    DEG2RAD:    dd 0.0174532925
     speed: dd 10.0
+    isOpposingPlayer: dd 0
+    ; Angles
+    currentAngle: dd 0
+    
+    DEG2RAD:    dd 0.0174532925
 
     minAngle: dd 0
     maxAngle: dd 360
+
     defaultAngle: dd 45.0
+
     g80:  dd 80.0
+    g90:  dd 90.0
     g100: dd 100.0
     g260: dd 260.0
+    g270: dd 270.0
     g280: dd 280.0
     
 section .text
@@ -27,6 +35,8 @@ global pelotaReverseY
 global pelotaMove
 global initPelotaMovement
 global resetBall
+global isBallOpossingPlayer
+global pelotaReboto
 
 ;============================================
 ; Guarda los punteros hacia los vectores
@@ -67,7 +77,6 @@ pelotaMove:
     vmovss dword[r9], xmm2
     vmovss dword[r9+4], xmm3
 
-
     ret
 
 ;============================================
@@ -76,7 +85,25 @@ pelotaMove:
 ;============================================
 pelotaReverseX: 
     mov rax, [velocity_ptr]
-    call reverse 
+    call  reverse 
+    ret
+
+;============================================
+; Cambia una variable que dice si el angulo 
+; de la bola va en direccion del jugador o 
+; su direccion contraria
+;============================================
+pelotaReboto: 
+    mov r8d, dword[isOpposingPlayer]
+    cmp r8d, 0
+    je  .noOpposing
+    jmp .opposing
+.noOpposing:
+    mov dword[isOpposingPlayer], 1
+    jmp .end
+.opposing:
+    mov dword[isOpposingPlayer], 0
+.end:
     ret
 
 ;============================================
@@ -86,7 +113,7 @@ pelotaReverseX:
 pelotaReverseY: 
     mov rax, [velocity_ptr]
     add rax, 4
-    call reverse 
+    call  reverse 
     ret
 
 ;============================================
@@ -104,10 +131,10 @@ reverse:
 resetBall:    
     mov edi, [minAngle]
     mov esi, [maxAngle]
-    call GetRandomValue 
+    call  GetRandomValue 
 
     cvtsi2ss xmm0, eax
-
+    
     ;Angulo >= 80 y Angulo <= 100 
     vmovss xmm1, dword[g80]
     ucomiss xmm0, xmm1
@@ -151,6 +178,40 @@ resetBall:
     mulss   xmm0, dword [speed]
     movss   dword [r8+4], xmm0    ; velocity.y
 
+    movss xmm0, dword[rsp]
+    movss dword[currentAngle], xmm0
     add     rsp, 16
 
+    call  _isBallOpossingPlayer
+
     ret 
+
+
+_isBallOpossingPlayer: 
+    mov dword[isOpposingPlayer], 0
+
+    movss xmm0, dword[currentAngle] ; el angulo actual de la bola
+    movss xmm1, dword[g90]          ; angulo de 90
+
+    ; angle > 90 
+    ucomiss xmm0, xmm1
+    jb .endCheck
+.check2:
+    movss xmm1, dword[g270]
+
+    ucomiss xmm0, xmm1
+    ja .endCheck
+
+    mov dword[isOpposingPlayer], 1
+
+.endCheck:
+    ret
+
+
+isBallOpossingPlayer: 
+    xor rax, rax
+    mov eax, dword[isOpposingPlayer]
+    ret
+
+
+    
