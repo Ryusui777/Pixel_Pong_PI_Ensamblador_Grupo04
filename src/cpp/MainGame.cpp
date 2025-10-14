@@ -27,7 +27,9 @@ void MainGame::draw(){
 
     
     // Chequea colision con jugador
-    if(CheckCollisionRecs(player.getRectangle(), ball.getRect()) && !ball.isOpposing()) ball.reverseX();
+    if(CheckCollisionRecs(player.getRectangle(), ball.getRect()) && !ball.isOpposing()){
+        ball.rebotarContraJugador();
+    }
 
     // Informacion para debuggear
     if(DEBUG_MODE){

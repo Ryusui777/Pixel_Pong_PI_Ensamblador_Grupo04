@@ -35,6 +35,7 @@ global pelotaMove
 global initPelotaMovement
 global resetBall
 global isBallOpossingPlayer
+global pelotaRebotoConJugador
 
 ;============================================
 ; Guarda los punteros hacia los vectores
@@ -85,6 +86,9 @@ pelotaMove:
 pelotaReverseX: 
     mov rax, [velocity_ptr]
     call  reverse 
+    ret
+
+pelotaRebotoConJugador: 
     mov r8d, dword[isOpposingPlayer]
     cmp r8d, 0
     je  .noOpposing

@@ -6,6 +6,7 @@ extern "C" void pelotaReverseY();
 extern "C" void pelotaReverseX();
 extern "C" void pelotaMove();
 extern "C" void resetBall();
+extern "C" void pelotaRebotoConJugador();
 
 void Ball::init(){
     this->texture = LoadTexture((char*)ball_path);
@@ -57,6 +58,10 @@ void Ball::checkBoundaryCollision(){
         // manejar el punto
         reset(); 
     }
+}
+void Ball::rebotarContraJugador(){
+    reverseX();
+    pelotaRebotoConJugador();
 }
 
 void Ball::reverseX(){

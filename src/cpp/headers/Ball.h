@@ -31,6 +31,8 @@ public:
     void checkBoundaryCollision();
     void reverseX();  // Invertir dirección X
     void reverseY();  // Invertir dirección Y
+
+    void rebotarContraJugador();
     
     // Getters para la posición y tamaño (necesarios para colisiones)
     Vector2 getPosition() const { return position; }
