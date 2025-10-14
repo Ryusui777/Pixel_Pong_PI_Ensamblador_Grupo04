@@ -20,3 +20,12 @@ void Bot::draw(){
     Vector2 origin{ dst.width/2.0f, dst.height/2.0f };
     DrawTexturePro(texture, src, dst, origin, 0.0f, WHITE);
 }
+
+void Bot::getRectangle(Rectangle& rect){
+    float w = texture.width * SCALE;
+    float h = texture.height* SCALE;
+    rect.x = position.x - w * 0.5f;
+    rect.y = position.y - h * 0.5f;
+    rect.height = h;
+    rect.width = w;
+}

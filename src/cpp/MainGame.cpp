@@ -15,6 +15,7 @@ void MainGame::init(){
 void MainGame::updateElements(){
     this->player.move();
     this->ball.move();
+    
 }
 
 void MainGame::draw(){
@@ -23,6 +24,17 @@ void MainGame::draw(){
     this->player.draw();
     this->bot.draw();
     this->pause.draw();
+
+    Rectangle r;
+    player.getRectangle(r);
+    
+    if(CheckCollisionRecs(r, ball.getRect()) && !ball.isOpposing()) ball.reverseX();
+    if(DEBUG_MODE){
+        DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
+        r = ball.getRect();
+        DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
+    }
+
     
 }
 

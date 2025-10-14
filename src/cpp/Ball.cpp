@@ -53,7 +53,7 @@ void Ball::checkBoundaryCollision(){
     }
     
     // Colisión con bordes izquierdo y derecho
-    if (position.x - halfWidth <= 0 || position.x + halfWidth >= WIDTH) {
+    if (position.x - halfWidth <= 0 || position.x  >= WIDTH) {
         // manejar el punto
         reset(); 
     }

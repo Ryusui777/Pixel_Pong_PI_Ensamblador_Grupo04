@@ -2,6 +2,8 @@
 
 #include "shared.h"
 
+extern "C" int  isBallOpossingPlayer();
+
 class Ball {
 private:
     const char* ball_path = "res/mainGame/ball.png";
@@ -36,5 +38,8 @@ public:
     float getHeight() const { return texture.height * SCALE; }
     Rectangle getRect() const { 
         return {position.x - getWidth()/2, position.y - getHeight()/2, getWidth(), getHeight()}; 
+    }
+    int isOpposing(){
+        return isBallOpossingPlayer();
     }
 };

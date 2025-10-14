@@ -14,5 +14,7 @@ class Bot {
         void init();
         void move();
         void draw();
+        void getRectangle(Rectangle&);
+            
         
 };

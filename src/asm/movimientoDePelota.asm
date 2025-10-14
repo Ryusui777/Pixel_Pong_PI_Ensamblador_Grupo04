@@ -5,16 +5,22 @@ section .bss
     lowerLimit:   resd 1
 section .data
     negSign: dd -1.0
-    ; Angles
-    DEG2RAD:    dd 0.0174532925
     speed: dd 10.0
+    ; Angles
+    currentAngle: dd 0
+    
+    DEG2RAD:    dd 0.0174532925
 
     minAngle: dd 0
     maxAngle: dd 360
+
     defaultAngle: dd 45.0
+
     g80:  dd 80.0
+    g90:  dd 90.0
     g100: dd 100.0
     g260: dd 260.0
+    g270: dd 270.0
     g280: dd 280.0
     
 section .text
@@ -27,6 +33,7 @@ global pelotaReverseY
 global pelotaMove
 global initPelotaMovement
 global resetBall
+global isBallOpossingPlayer
 
 ;============================================
 ; Guarda los punteros hacia los vectores
@@ -107,6 +114,8 @@ resetBall:
     call GetRandomValue 
 
     cvtsi2ss xmm0, eax
+    
+    movss [currentAngle], xmm0
 
     ;Angulo >= 80 y Angulo <= 100 
     vmovss xmm1, dword[g80]
@@ -154,3 +163,28 @@ resetBall:
     add     rsp, 16
 
     ret 
+
+
+
+isBallOpossingPlayer: 
+    mov rax, 1
+
+    movss xmm0, dword[currentAngle]
+    movss xmm1, dword[g90]
+
+    ucomiss xmm0, xmm1
+    ja .check2
+    mov rax, 0
+
+.check2:
+    movss xmm1, dword[g270]
+
+    ucomiss xmm0, xmm1
+    jb .endCheck
+    mov rax, 0
+
+.endCheck:
+    ret
+
+
+    
