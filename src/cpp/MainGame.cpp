@@ -15,6 +15,7 @@ void MainGame::init(){
 void MainGame::updateElements(){
     this->player.move();
     this->ball.move();
+    this->bot.moveBot();
     
 }
 
