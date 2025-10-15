@@ -1,20 +1,3 @@
-// #include "HomeScreen.h"
-
-
-// void HomeScreen::init(){
-//     this->start.initializeButton((char*)start_path, start_button_pos);
-// }
-
-
-// void HomeScreen::draw(){
-//     this->start.drawButton();
-// }
-
-// void HomeScreen::started(byte& startVar){
-//     startVar = (this->start.isButtonBeingClicked())? 1 : startVar;
-//     if(IsKeyDown(KEY_ENTER)) startVar = 1;
-// }
-
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "HomeScreen.h"
 
@@ -22,7 +5,6 @@ void Home::initializeHomeScreen() {
   // Se inicializa el botón que tenemos en la pantalla de bienvenida
   this->start_button.initializeButton((char*)start_button_path, start_button_pos);
 }
-
 
 void Home::drawHomeScreen() {
   // Se dibuja botón que permite iniciar partida

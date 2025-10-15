@@ -1,3 +1,4 @@
+// Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
 #include <cstdint>
 #include <stdio.h>

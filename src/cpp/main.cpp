@@ -7,7 +7,7 @@
 int main(){
     // Componentes
     Window window;
-    MainGame mainGame;
+    Game mainGame;
     Home homeScreen;
     Menu menu;
     
@@ -15,7 +15,7 @@ int main(){
     // Inicializacion de componentes
     window.initializeWindow();
     homeScreen.initializeHomeScreen();
-    mainGame.init();
+    mainGame.initializeGame();
     menu.initializeMenu();
 
     // Ciclo del juego
@@ -32,17 +32,17 @@ int main(){
             homeScreen.drawHomeScreen();
             homeScreen.hasGameStarted(inGame);
             inHome = !(inGame);
-            if(inGame) mainGame.reset(); // resetea el juego
+            if(inGame) mainGame.resetMatch(); // resetea el juego
         }
         else if(inGame){
             mainGame.setInteractable();
-            mainGame.draw();
-            mainGame.isPaused(paused);
+            mainGame.drawGameElements();
+            mainGame.isGamePaused(paused);
             inGame = !(paused);
             if(!inGame) mainGame.setNotInteractable();
         }
         else if(paused){
-            mainGame.draw();
+            mainGame.drawGameElements();
             menu.drawMenu();
             menu.gameResumed(inGame);
             menu.goHome(inHome);
