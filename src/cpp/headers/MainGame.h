@@ -12,6 +12,7 @@ class MainGame {
         Player player;
         Bot bot;
         Ball ball;
+        
         Button pause;
 
 
