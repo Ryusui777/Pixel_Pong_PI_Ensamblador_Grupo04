@@ -5,7 +5,7 @@
 #define WIDTH 256*5
 #define HEIGHT 144*5
 #define SCALE 5.0f
-#define DEBUG_MODE 1
+#define DEBUG_MODE 0
 
 typedef std::uint8_t byte;
 
