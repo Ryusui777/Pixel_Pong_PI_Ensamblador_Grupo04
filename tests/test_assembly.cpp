@@ -14,7 +14,12 @@ extern "C" {
   void moverJugadorAbajo();
   void initPlayerMovement(float upperLimit, float lowerLimit
     , Vector2* position);
+
+  void moverBot();
+  void initBotMovement(float upperLimit, float lowerLimit, Vector2* position);
 }
+
+/* PRUEBAS PARA EL JUGADOR */
 
 // Clase de prueba para movimiento de jugador
 class PlayerMovementTest : public ::testing::Test {
@@ -85,7 +90,7 @@ TEST_F(PlayerMovementTest, MultipleMovements) {
   for (int i = 0; i < 2; i++) {
     moverJugadorArriba();
   }
-  
+
   EXPECT_FLOAT_EQ(position.y, initialY - 16.0f) 
     << "2 movimientos arriba son 16 píxeles";
   
@@ -93,7 +98,28 @@ TEST_F(PlayerMovementTest, MultipleMovements) {
   for (int i = 0; i < 3; i++) {
     moverJugadorAbajo();
   }
-  
+
   EXPECT_FLOAT_EQ(position.y, initialY + 8.0f) 
     << "Resultado total: -16 + 24 = +8 píxeles";
+}
+
+/* PRUEBAS PARA EL BOT */
+
+// Clase de prueba para movimiento del bot
+class BotMovementTest : public ::testing::Test {
+ protected:
+  Vector2 position;
+  void SetUp() override {
+    // Se pone en el centro
+    position = {640.0f, 360.0f};
+    initBotMovement(50.0f, 670.0f, &position);
+  }
+};
+
+// Prueba: Verificar que el bot se mueve de automáticamente
+TEST_F(BotMovementTest, BotMovesAutomatically) {
+  float initialY = position.y;
+  moverBot();
+  EXPECT_NE(position.y, initialY)
+    << "El bot debería moverse automáticamente";
 }
