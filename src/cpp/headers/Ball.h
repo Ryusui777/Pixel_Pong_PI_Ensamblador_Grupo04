@@ -14,7 +14,7 @@ class Ball {
   Texture2D texture;  // Textura de la bola
   Vector2 position;  // Posición de la bola
   Vector2 velocity;  // Velocidad de la bola ???
-  float speed; // ???
+  float speed;
 
  public:
   /**

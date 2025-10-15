@@ -64,11 +64,11 @@ void Ball::checkBoundaryCollision() {
   }
 }
 
-void Ball::rebotarContraJugador(){
+void Ball::rebotarContraJugador() {
     reverseHorizontalTrajectory();
     pelotaReboto();
 }
-void Ball::rebotarContraBot(){
+void Ball::rebotarContraBot() {
     reverseHorizontalTrajectory();
     pelotaReboto();
 }

@@ -9,7 +9,7 @@
  */
 class Window {
  private:
-  // Ruta a la imagen de fondo para la ventana de juego 
+  // Ruta a la imagen de fondo para la ventana de juego
   const char* game_background_path = "res/Game_BG.png";
   Texture2D game_background;  // Fondo de la ventana
 
@@ -17,6 +17,7 @@ class Window {
    * @brief Dibuja el fondo de la ventana
    */
   void drawWindowBackground();
+
  public:
   /**
    * @brief Inicializa la ventana con un ancho, alto, fondo, FPS y nombre

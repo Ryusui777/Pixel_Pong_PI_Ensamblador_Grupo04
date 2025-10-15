@@ -37,11 +37,11 @@ void Bot::moveBot() {
 void Bot::resetBot() {
   // Centra el bot
   const float margin = 5.0f;
-  position.y = WINDOW_HEIGHT / 2.0f;  
+  position.y = WINDOW_HEIGHT / 2.0f;
   position.x = texture.width * SCALE + margin;
 }
 
-Rectangle Bot::getRectangle(){
+Rectangle Bot::getRectangle() {
   Rectangle rect;
   float w = texture.width * SCALE;
   float h = texture.height* SCALE;

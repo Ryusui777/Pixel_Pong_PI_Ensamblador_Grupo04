@@ -1,3 +1,4 @@
+// Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include <stdio.h>
 #include "Window.h"
 #include "MainGame.h"
@@ -10,7 +11,6 @@ int main() {
   Game mainGame;
   Home homeScreen;
   Menu menu;
-  
 
   // Inicializacion de componentes
   window.initializeWindow();
@@ -24,24 +24,21 @@ int main() {
   std::uint8_t ended = 0;
   std::uint8_t inGame = 0;
 
-
   while (!WindowShouldClose()) {
     window.beginWindowDraw();
-    //? Todo el resto de componentes se renderizan en este periodo
+    // Todo el resto de componentes se renderizan en este periodo
     if (inHome) {
       homeScreen.drawHomeScreen();
       homeScreen.hasGameStarted(inGame);
       inHome = !(inGame);
-      if (inGame) mainGame.resetMatch(); // resetea el juego
-    }
-    else if (inGame) {
+      if (inGame) mainGame.resetMatch();  // resetea el juego
+    } else if (inGame) {
       mainGame.setInteractable();
       mainGame.drawGameElements();
       mainGame.isGamePaused(paused);
       inGame = !(paused);
       if (!inGame) mainGame.setNotInteractable();
-    }
-    else if (paused) {
+    } else if (paused) {
       mainGame.drawGameElements();
       menu.drawMenu();
       menu.gameResumed(inGame);
@@ -51,6 +48,6 @@ int main() {
     }
     window.endWindowDraw();
   }
-  window.killWindow(); // Cierra la vantana
+  window.killWindow();  // Cierra la vantana
   return 0;
 }

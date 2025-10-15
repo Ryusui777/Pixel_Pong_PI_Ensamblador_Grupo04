@@ -11,6 +11,7 @@ class Bot {
   const char* bot_path = "res/mainGame/player_yellow.png";
   Texture2D texture;  // Textura del bot
   Vector2 position;  // Posición del bot
+
  public:
   /**
    * @brief Carga la textura del bot y lo pone en su posición original

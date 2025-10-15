@@ -12,7 +12,8 @@ void Game::initializeGame() {
   this->player.initializePlayer();
   this->bot.initializeBot();
   this->ball.initializeBall();
-  this->pause_button.initializeButton((char*)pause_button_path, pause_button_pos);
+  this->pause_button.initializeButton((char*)pause_button_path
+    , pause_button_pos);
 
   // Dice que la escena es interactuable
   this->interactable = 0;
@@ -25,22 +26,19 @@ void Game::drawGameElements() {
   this->bot.drawBot();
   this->pause_button.drawButton();
 
-  
   // Chequea colision con jugador
   if (CheckCollisionRecs(player.getRectangle(), ball.getRect())
     && !ball.isOpposing()) {
     ball.rebotarContraJugador();
-  }
-  // Chequea colosion con bot
-  else {
-    if(CheckCollisionRecs(bot.getRectangle(), ball.getRect())
+  } else {  // Chequea colosion con bot
+    if (CheckCollisionRecs(bot.getRectangle(), ball.getRect())
       && ball.isOpposing()) {
       ball.rebotarContraBot();
     }
   }
 
   // Informacion para debuggear
-  if(DEBUG_MODE) {
+  if (DEBUG_MODE) {
     Rectangle r;
 
     r = player.getRectangle();
@@ -52,8 +50,11 @@ void Game::drawGameElements() {
     r = bot.getRectangle();
     DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
 
-    if(ball.isOpposing()) printf("Ball is opposing player\n");
-    else printf("Ball is not opposing player\n");
+    if (ball.isOpposing()) {
+       printf("Ball is opposing player\n");
+    } else {
+      printf("Ball is not opposing player\n");
+    }
   }
 }
 

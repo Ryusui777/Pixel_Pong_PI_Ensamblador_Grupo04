@@ -4,7 +4,8 @@
 void Menu::initializeMenu() {
   this->blurred_background = LoadTexture(bg_path);
   this->home_button.initializeButton((char*)home_button_path, home_button_pos);
-  this->resume_button.initializeButton((char*)resume_button_path, resume_button_pos);
+  this->resume_button.initializeButton((char*)resume_button_path
+    , resume_button_pos);
 }
 
 void Menu::drawMenu() {

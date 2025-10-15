@@ -3,7 +3,8 @@
 
 void Home::initializeHomeScreen() {
   // Se inicializa el botón que tenemos en la pantalla de bienvenida
-  this->start_button.initializeButton((char*)start_button_path, start_button_pos);
+  this->start_button.initializeButton((char*)start_button_path
+    , start_button_pos);
 }
 
 void Home::drawHomeScreen() {
