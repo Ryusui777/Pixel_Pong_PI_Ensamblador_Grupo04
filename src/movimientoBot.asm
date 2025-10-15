@@ -6,11 +6,13 @@ section .bss
   direction: resd 1
 
 section .data
-  vel: dd 4.0
+  vel: dd 4.0 ; Velocidad de bot
   negOne: dd -1.0
+  one: dd 1.0
 
 section .text
 
+; Funciones que son llamadas desde C++
 global moverBot
 global initBotMovement
 
@@ -20,32 +22,33 @@ initBotMovement:
   movss dword[lowerLimit], xmm1 ; lowerLimit
   mov [position_ptr], rdi ; puntero a position
   
-  ; Dirección inicial
-  mov dword[direction], __?float32?__(1.0)
+  ; Dirección inicial del bot
+  mov eax, dword[one]
+  mov dword[direction], eax
   ret
 
 ; El bot se mueve continuamente para arriba y abajo
 ; Cambia de dirección cuando toca los límites
 moverBot:
   mov rax, [position_ptr]
-  movss xmm0, dword [rax+4]        ; Poscion actual en eje y
-  movss xmm1, dword [vel]          ; Velocidad
-  movss xmm2, dword [direction]    ; Dirección
+  movss xmm0, dword [rax+4]  ; Posición actual en y
+  movss xmm1, dword [vel]  ; Velocidad
+  movss xmm2, dword [direction]  ; Dirección
   
-  ; Multiplica velocidad por dirección
-  mulss xmm1, xmm2                 ; vel * direction
-  addss xmm0, xmm1                 ; y += vel * direction
+  ; Multiplicar velocidad por dirección
+  mulss xmm1, xmm2
+  addss xmm0, xmm1
   
   ; Verifica si se llegó a límite superior
   movss xmm3, dword [upperLimit]
   ucomiss xmm0, xmm3
-  jae .checkLower               ; si y >= upperLimit, chequea limite inferior
+  jae .checkLower  ; si y >= upperLimit, chequea limite inferior
   
   ; Si, tocó el límite superior, invierte la dirección
-  movss xmm0, xmm3                 ; y = upperLimit
+  movss xmm0, xmm3  ; y = upperLimit
   movss xmm4, dword [direction]   
   movss xmm5, dword [negOne]
-  mulss xmm4, xmm5                 ; direction * -1
+  mulss xmm4, xmm5  ; direction * -1
   movss dword [direction], xmm4
   jmp .updatePosition
   
@@ -53,13 +56,13 @@ moverBot:
   ; Verifica límite inferior
   movss xmm3, dword [lowerLimit]
   ucomiss xmm0, xmm3
-  jbe .updatePosition              ; si y <= lowerLimit, todo bien
+  jbe .updatePosition  ; si y <= lowerLimit, todo bien
   
   ; Si tocó el límite inferior, invierte dirección
-  movss xmm0, xmm3                 ; y = lowerLimit
+  movss xmm0, xmm3  ; y = lowerLimit
   movss xmm4, dword [direction]
   movss xmm5, dword [negOne]
-  mulss xmm4, xmm5                 ; direction * -1
+  mulss xmm4, xmm5  ; direction * -1
   movss dword [direction], xmm4
   
 .updatePosition:

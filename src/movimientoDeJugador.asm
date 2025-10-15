@@ -1,3 +1,4 @@
+; Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 section .bss
     position_ptr: resq 1 
     upperLimit: resd 1
@@ -22,7 +23,7 @@ moverJugadorArriba:
     subss   xmm0, xmm1             ; y -= velocidad
     movss xmm1, dword[upperLimit] ; upperLimit
     ucomiss xmm0, xmm1            ; comparación
-    jae .upperOk                  
+    jae .upperOk
     movss xmm0, xmm1
     .upperOk:
     movss   dword [rax+4], xmm0
@@ -33,12 +34,12 @@ moverJugadorArriba:
 ;===========================
 moverJugadorAbajo:
     mov rax, [position_ptr]
-    movss   xmm0, dword [rax+4]      ; y
-    movss   xmm1, dword [vel]    
-    addss   xmm0, xmm1             ; y += velocidad
+    movss   xmm0, dword [rax+4]   ; y
+    movss   xmm1, dword [vel]
+    addss   xmm0, xmm1            ; y += velocidad
     movss xmm1, dword[lowerLimit] ; lowerLimit
     ucomiss xmm0, xmm1            ; comparación
-    jbe .lowerOk                  
+    jbe .lowerOk
     movss xmm0, xmm1
     .lowerOk:
     movss   dword [rax+4], xmm0
@@ -46,7 +47,7 @@ moverJugadorAbajo:
 
 
 ;===================================
-; Define los limites de la pantalla
+; Define los límites de la pantalla
 ; estos vienen ya contando el tamaño del
 ; sprite del jugador. 
 ; xmm0 -> upperLimit,

@@ -1,5 +1,5 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
-#include "MainGame.h"
+#include "Game.h"
 
 void Game::updateElements() {
   this->player.movePlayer();

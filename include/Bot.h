@@ -8,7 +8,7 @@
 class Bot {
  private:
   // Ruta a la textura del bot
-  const char* bot_path = "res/mainGame/player_yellow.png";
+  const char* bot_path = "assets/mainGame/player_yellow.png";
   Texture2D texture;  // Textura del bot
   Vector2 position;  // Posición del bot
 

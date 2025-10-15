@@ -1,9 +1,9 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include <stdio.h>
 #include "Window.h"
-#include "MainGame.h"
+#include "Game.h"
 #include "Menu.h"
-#include "HomeScreen.h"
+#include "Home.h"
 
 int main() {
   // Componentes
@@ -21,7 +21,6 @@ int main() {
   // Ciclo del juego
   std::uint8_t paused = 0;
   std::uint8_t inHome = 1;
-  std::uint8_t ended = 0;
   std::uint8_t inGame = 0;
 
   while (!WindowShouldClose()) {

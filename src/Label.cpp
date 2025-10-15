@@ -1,12 +1,12 @@
 #include "Label.h"
 
-void Label::init(char* path, Vector2 position) {
+void Label::initializeLabel(char* path, Vector2 position) {
   this->texture = LoadTexture(path);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
   this->position = position;
 }
 
-void Label::draw()  {
+void Label::drawLabel() {
   Rectangle src{ 0, 0, (float)texture.width, (float)texture.height };
   Rectangle dst{ position.x, position.y,
     texture.width * SCALE, texture.height * SCALE };

@@ -10,9 +10,9 @@
 class Home {
  private:
   // Ruta al asset que representa el botón de inicio
-  const char* start_button_path = "res/homeScreen/start.png";
-    const char* logoPath="res/homeScreen/Logo.png";
-  const char* bg_paht="res/homeScreen/bg.png";
+  const char* start_button_path = "assets/homeScreen/start_button.png";
+    const char* logoPath="assets/homeScreen/game_logo.png";
+  const char* bg_paht="assets/homeScreen/home_background.png";
 
   Vector2 logoPos= {
       .x = WINDOW_WIDTH/2.0f,
