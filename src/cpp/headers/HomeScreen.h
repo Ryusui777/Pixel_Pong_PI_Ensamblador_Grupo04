@@ -3,7 +3,7 @@
 #include "Button.h"
 #include "Label.h"
 #include "shared.h"
-#include "Label.h"
+
 /**
  * @brief Clase que representa la pantalla de bienvenida del juego
  */
