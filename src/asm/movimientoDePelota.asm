@@ -30,33 +30,45 @@ extern  GetRandomValue
 extern  cosf
 extern  sinf
 
-global pelotaReverseX
-global pelotaReverseY
+global isBallOpossingPlayer
 global pelotaMove
 global initPelotaMovement
 global resetBall
-global isBallOpossingPlayer
 global pelotaReboto
+global pelotaReverseX
+global pelotaReverseY
 
-;============================================
-; Guarda los punteros hacia los vectores
-; de posicion y velocidad. Ademas define los
-; bordes inferiores y superiores tomando en 
-; cuenta el tamano de la sprite.
-; Parametros: 
-; rdi -> puntero hacia el vector de velocidad
-; rsi -> puntero hacia el vector de posicion
-; edx -> el limite superior de la pantalla
-; ecx -> el limite inferior de la pantalla
-;============================================
-initPelotaMovement: 
-    mov [velocity_ptr], rdi
-    mov [position_ptr], rsi
-    mov [upperLimit], edx
-    mov [lowerLimit], ecx
+
+_isBallOpossingPlayer: 
+    mov dword[isOpposingPlayer], 0
+
+    movss xmm0, dword[currentAngle] ; el angulo actual de la bola
+    movss xmm1, dword[g90]          ; angulo de 90
+
+    ; angle > 90 
+    ucomiss xmm0, xmm1
+    jb .endCheck
+.check2:
+    movss xmm1, dword[g270]
+
+    ucomiss xmm0, xmm1
+    ja .endCheck
+
+    mov dword[isOpposingPlayer], 1
+
+.endCheck:
     ret
-    
 
+
+isBallOpossingPlayer: 
+    xor rax, rax
+    mov eax, dword[isOpposingPlayer]
+    ret
+
+
+
+
+;
 ;============================================
 ; Actualiza la posicion de la pelota
 ;============================================
@@ -78,15 +90,25 @@ pelotaMove:
     vmovss dword[r9+4], xmm3
 
     ret
-
 ;============================================
-; Invierte la direccion de la pelota en el
-; eje x
+; Guarda los punteros hacia los vectores
+; de posicion y velocidad. Ademas define los
+; bordes inferiores y superiores tomando en 
+; cuenta el tamano de la sprite.
+; Parametros: 
+; rdi -> puntero hacia el vector de velocidad
+; rsi -> puntero hacia el vector de posicion
+; edx -> el limite superior de la pantalla
+; ecx -> el limite inferior de la pantalla
 ;============================================
-pelotaReverseX: 
-    mov rax, [velocity_ptr]
-    call  reverse 
+initPelotaMovement: 
+    mov [velocity_ptr], rdi
+    mov [position_ptr], rsi
+    mov [upperLimit], edx
+    mov [lowerLimit], ecx
     ret
+    
+
 
 ;============================================
 ; Cambia una variable que dice si el angulo 
@@ -106,6 +128,24 @@ pelotaReboto:
 .end:
     ret
 
+
+;============================================
+; Cambia de signo el numero que este apuntado 
+; por rax
+;============================================
+
+
+
+
+;============================================
+; Invierte la direccion de la pelota en el
+; eje x
+;============================================
+pelotaReverseX: 
+    mov rax, [velocity_ptr]
+    call  reverse 
+    ret
+
 ;============================================
 ; Invierte la direccion de la pelota en el
 ; eje y
@@ -116,10 +156,7 @@ pelotaReverseY:
     call  reverse 
     ret
 
-;============================================
-; Cambia de signo el numero que este apuntado 
-; por rax
-;============================================
+
 reverse: 
     vmovss xmm0, dword[rax]
     vmovss xmm1, dword[negSign]
@@ -186,32 +223,3 @@ resetBall:
 
     ret 
 
-
-_isBallOpossingPlayer: 
-    mov dword[isOpposingPlayer], 0
-
-    movss xmm0, dword[currentAngle] ; el angulo actual de la bola
-    movss xmm1, dword[g90]          ; angulo de 90
-
-    ; angle > 90 
-    ucomiss xmm0, xmm1
-    jb .endCheck
-.check2:
-    movss xmm1, dword[g270]
-
-    ucomiss xmm0, xmm1
-    ja .endCheck
-
-    mov dword[isOpposingPlayer], 1
-
-.endCheck:
-    ret
-
-
-isBallOpossingPlayer: 
-    xor rax, rax
-    mov eax, dword[isOpposingPlayer]
-    ret
-
-
-    
