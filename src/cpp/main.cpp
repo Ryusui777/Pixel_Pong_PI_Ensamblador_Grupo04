@@ -13,7 +13,7 @@ int main(){
     
 
     // Inicializacion de componentes
-    window.init();
+    window.initializeWindow();
     homeScreen.init();
     mainGame.init();
     menu.init();
@@ -26,7 +26,7 @@ int main(){
 
 
     while(!WindowShouldClose()){
-        window.beginDraw();
+        window.beginWindowDraw();
         //? Todo el resto de componentes se renderizan en este periodo
         if(inHome){
             homeScreen.draw();
@@ -51,10 +51,10 @@ int main(){
         }
 
         //?
-        window.endDraw();
+        window.endWindowDraw();
     }
 
-    window.kill(); // Cierra la vantana
+    window.killWindow(); // Cierra la vantana
 
     return 0;
 }
