@@ -11,7 +11,7 @@ extern "C" void pelotaReboto();
 
 void Ball::initializeBall() {
   this->texture = LoadTexture((char*)ball_path);
-  this->speed = 5.0f;  // Velocidad inicial
+  this->speed = 10.0f;  // Velocidad inicial
 
   // Define limites inferior y superior
   float upperLimt = getBallHeight() / 2.0f;
@@ -24,11 +24,7 @@ void Ball::initializeBall() {
 void Ball::resetBallPosition() {
   position.x = WINDOW_WIDTH/2.0f;
   position.y = WINDOW_HEIGHT/2.0f;
-
-  // Dirección inicial aleatoria
-  float angle = GetRandomValue(0, 1) ? 45.0f : 135.0f;  // 45° o 135°
-  velocity.x = cos(angle * DEG2RAD) * speed;
-  velocity.y = sin(angle * DEG2RAD) * speed;
+  resetBall();
 }
 
 void Ball::drawBall() {
