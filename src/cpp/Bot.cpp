@@ -14,7 +14,7 @@ void Bot::initializeBot() {
   // Configura los limites de la pantalla
   const float halfH = (texture.height * SCALE) * 0.5f;
   const float upperLimit = 0.0f + halfH;
-  const float lowerLimit = (float)HEIGHT - halfH;
+  const float lowerLimit = (float)WINDOW_HEIGHT - halfH;
 
   // Se llama a la función de ensamblador
   initBotMovement(upperLimit, lowerLimit, &position);
@@ -37,7 +37,7 @@ void Bot::moveBot() {
 void Bot::resetBot() {
   // Centra el bot
   const float margin = 5.0f;
-  position.y = HEIGHT / 2.0f;  
+  position.y = WINDOW_HEIGHT / 2.0f;  
   position.x = texture.width * SCALE + margin;
 }
 

@@ -11,8 +11,8 @@ void Menu::drawMenu() {
   // Fondo
   float drawW = blurred_background.width * SCALE;
   float drawH = blurred_background.height * SCALE;
-  float offsetX = (WIDTH  - drawW) / 2.0f;
-  float offsetY = (HEIGHT - drawH) / 2.0f;
+  float offsetX = (WINDOW_WIDTH  - drawW) / 2.0f;
+  float offsetY = (WINDOW_HEIGHT - drawH) / 2.0f;
   DrawTextureEx(blurred_background, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
 
   // Interfaz de usuario

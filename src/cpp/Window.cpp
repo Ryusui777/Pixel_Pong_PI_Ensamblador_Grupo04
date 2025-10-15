@@ -3,7 +3,7 @@
 
 void Window::initializeWindow() {
   // Inicializa la ventana
-  InitWindow(WIDTH, HEIGHT, "Pixel pong");
+  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Pixel pong");
 
   // Carga la textura del game_background
   this->game_background = LoadTexture(game_background_path);
@@ -25,7 +25,7 @@ void Window::endWindowDraw() {
 void Window::drawWindowBackground() {
   float drawW = game_background.width * SCALE;
   float drawH = game_background.height * SCALE;
-  float offsetX = (WIDTH  - drawW) / 2.0f;
-  float offsetY = (HEIGHT - drawH) / 2.0f;
+  float offsetX = (WINDOW_WIDTH  - drawW) / 2.0f;
+  float offsetY = (WINDOW_HEIGHT - drawH) / 2.0f;
   DrawTextureEx(game_background, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
 }
