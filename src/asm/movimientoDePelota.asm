@@ -6,17 +6,14 @@ section .bss
 
 section .data
     negSign: dd -1.0
-    speed: dd 10.0
+    speed: dd 10.0  ; Velocidad de la bola
     isOpposingPlayer: dd 0
-    ; Angles
-    currentAngle: dd 0
-    
+    currentAngle: dd 0  ; Ángulo de la bola
     DEG2RAD:    dd 0.0174532925
-
+    ; Rango de ángulos posibles de la bola
     minAngle: dd 0
     maxAngle: dd 360
-
-    defaultAngle: dd 45.0
+    defaultAngle: dd 45.0  ; Ángulo por defecto de la bola
 
     g80:  dd 80.0
     g90:  dd 90.0
@@ -30,6 +27,7 @@ extern  GetRandomValue
 extern  cosf
 extern  sinf
 
+; Funciones que llamamos desde C++
 global pelotaReverseX
 global pelotaReverseY
 global pelotaMove
@@ -40,14 +38,14 @@ global pelotaReboto
 
 ;============================================
 ; Guarda los punteros hacia los vectores
-; de posicion y velocidad. Ademas define los
+; de posición y velocidad. Además, define los
 ; bordes inferiores y superiores tomando en 
-; cuenta el tamano de la sprite.
-; Parametros: 
+; cuenta el tamaño de la sprite.
+; Parámetros: 
 ; rdi -> puntero hacia el vector de velocidad
 ; rsi -> puntero hacia el vector de posicion
-; edx -> el limite superior de la pantalla
-; ecx -> el limite inferior de la pantalla
+; edx -> el límite superior de la pantalla
+; ecx -> el límite inferior de la pantalla
 ;============================================
 initPelotaMovement: 
     mov [velocity_ptr], rdi
@@ -56,9 +54,8 @@ initPelotaMovement:
     mov [lowerLimit], ecx
     ret
     
-
 ;============================================
-; Actualiza la posicion de la pelota
+; Actualiza la posición de la pelota
 ;============================================
 pelotaMove: 
     mov r8, [velocity_ptr]
@@ -127,7 +124,6 @@ reverse:
     vmovss dword[rax], xmm2 
     ret
 
-
 resetBall:    
     mov edi, [minAngle]
     mov esi, [maxAngle]
@@ -135,7 +131,7 @@ resetBall:
 
     cvtsi2ss xmm0, eax
     
-    ;Angulo >= 80 y Angulo <= 100 
+    ; Ángulo >= 80 y Ángulo <= 100 
     vmovss xmm1, dword[g80]
     ucomiss xmm0, xmm1
     jb .fine
@@ -143,9 +139,8 @@ resetBall:
     ucomiss xmm0, xmm1
     ja .check2
     jmp .change
-    
 
-    ; Angulo >= 260 y Angulo <= 100 
+    ; Ángulo >= 260 y Ángulo <= 100 
 .check2:
     vmovss xmm1, dword[g260]
     ucomiss xmm0, xmm1
@@ -160,9 +155,7 @@ resetBall:
 .fine:
 
     mov     r8, [velocity_ptr]
-
     sub     rsp, 16 ; este espacio se va usar para guardar el angulo y alinear la pila
-
     movss   [rsp], xmm0 
 
     ; cos(angle * DEG2RAD) * speed
@@ -183,9 +176,7 @@ resetBall:
     add     rsp, 16
 
     call  _isBallOpossingPlayer
-
     ret 
-
 
 _isBallOpossingPlayer: 
     mov dword[isOpposingPlayer], 0
@@ -196,6 +187,7 @@ _isBallOpossingPlayer:
     ; angle > 90 
     ucomiss xmm0, xmm1
     jb .endCheck
+
 .check2:
     movss xmm1, dword[g270]
 
@@ -207,11 +199,7 @@ _isBallOpossingPlayer:
 .endCheck:
     ret
 
-
 isBallOpossingPlayer: 
     xor rax, rax
     mov eax, dword[isOpposingPlayer]
     ret
-
-
-    

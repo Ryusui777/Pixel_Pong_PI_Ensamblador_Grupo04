@@ -21,7 +21,7 @@ moverJugadorArriba:
     movss   xmm1, dword [vel]    
     subss   xmm0, xmm1             ; y -= velocidad
     movss xmm1, dword[upperLimit] ; upperLimit
-    ucomiss xmm0, xmm1            ; comparacion
+    ucomiss xmm0, xmm1            ; comparación
     jae .upperOk                  
     movss xmm0, xmm1
     .upperOk:
@@ -37,7 +37,7 @@ moverJugadorAbajo:
     movss   xmm1, dword [vel]    
     addss   xmm0, xmm1             ; y += velocidad
     movss xmm1, dword[lowerLimit] ; lowerLimit
-    ucomiss xmm0, xmm1            ; comparacion
+    ucomiss xmm0, xmm1            ; comparación
     jbe .lowerOk                  
     movss xmm0, xmm1
     .lowerOk:
@@ -47,18 +47,14 @@ moverJugadorAbajo:
 
 ;===================================
 ; Define los limites de la pantalla
-; estos vienen ya contando el tamano del
+; estos vienen ya contando el tamaño del
 ; sprite del jugador. 
 ; xmm0 -> upperLimit,
 ; xmm1 -> lowerLimit, 
-; rdi -> puntero hacia la posicion del jugador
+; rdi -> puntero hacia la posición del jugador
 ;===================================
 initPlayerMovement: 
     movss dword[upperLimit], xmm0
     movss dword[lowerLimit], xmm1
     mov [position_ptr], rdi
     ret
-    
-
-
-
