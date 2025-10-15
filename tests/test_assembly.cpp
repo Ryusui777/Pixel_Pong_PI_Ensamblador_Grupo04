@@ -1,6 +1,5 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include <gtest/gtest.h>
-#include <cmath>
 
 // Definir Vector2 para tests
 struct Vector2 {
@@ -18,20 +17,10 @@ extern "C" {
   void moverBot();
   void initBotMovement(float upperLimit, float lowerLimit, Vector2* position);
 
-  void pelotaMove();
-
   void pelotaReverseX();
-
   void pelotaReverseY();
-
   void initPelotaMovement(Vector2* velocity, Vector2* position
     , float upperLimit, float lowerLimit);
-
-  void resetBall();
-
-  void pelotaReboto();
-
-  int isBallOpossingPlayer();
 }
 
 /* PRUEBAS PARA EL JUGADOR */
