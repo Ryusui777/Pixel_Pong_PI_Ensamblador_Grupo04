@@ -1,28 +1,56 @@
-# 🎮 Pixel Pong
+# Pixel Pong
 
-Proyecto integrador del curso de Lenguaje Ensamblador.
+## Descripción
 
-## 👥 Integrantes
+`Pixel Pong` es una versión minimalista del videojuego `Pong`, programada en
+`C++`, con rutinas críticas en ensamblador `x86-64`. El proyecto tiene como
+objetivo demostrar las posibilidades de integración que existen entre código de
+de alto y bajo nivel. Para la interfaz gráfica del juego, se emplea la
+biblioteca `Raylib`.
 
-Brandon Alfaro
+Este proyecto es parte del curso **CI0119 - Proyecto Integrador de Lenguaje
+Ensablador**, impartido por el Ing. Sleyter Angulo (Escuela de Ciencias de la
+Computación e Informática - UCR), durante el II ciclo lectivo del año 2025. Los
+integrantes del grupo de trabajo encargados de elaborar este proyecto son:
 
-Enrique Ramírez
+- [Brandon Alfaro](brandon.alfarosaborio@ucr.ac.cr)
+- [David Orias](david.orias@ucr.ac.cr)
+- [Enrique Ramírez](enrique.ramirez@ucr.ac.cr)
+- [Joaquín Rodríguez](joaquin.rodriguezcontreras@ucr.ac.cr)
 
-David Orias
+## Características principales
 
-Joaquín Rodríguez
+El juego es una réplica del ya conocido `Pong`, adaptado al contexto particular
+del curso. Al iniciar, se muestra una pantalla de bienvenida que permite iniciar
+la partida. La experiencia de juego consiste de un solo jugador humano contra un
+bot.
 
-## 🧩 Descripción
+Existe la posibilidad de pausar la partida con la tecla `space`. hacerlo brinda
+la posibilidad de regresar a la pantalla principal de juego o retornar a la
+partida.
 
-Pixel Pong es una versión minimalista del clásico juego Pong, programada en C++ con rutinas críticas en ensamblador x86-64 (NASM).
-El proyecto demuestra la integración entre código de alto y bajo nivel, empleando la biblioteca gráfica Raylib para la visualización y control.
+El jugador humano es capaz de moverse hacia arriba y hacia abajo únicamente.
+Es capaz de hacerlo presionando las teclas de `up` y `down` del teclado. Por
+otro lado, el bot se mueve automáticamente de arriba a abajo a una velocidad
+constante.
 
-## ⚙ Requisitos
+Se obtiene un punto cuando se logra que la pelota llegue a la pared de nuestra
+contraparte.
 
-- Compilador de g++
+## Requisitos de uso
 
-- NASM
+Para ejecutar el videojuego, es necesario lo siguiente:
 
-- Raylib instalado
+- Tener instalado el compilador `g++`
 
-- Sistema operativo Linux x86-64
+- Tener instalado `NASM`
+
+- Tener instalada la biblioteca [Raylib](https://www.raylib.com/)
+
+- Sistema operativo `Linux` `x86-64`
+
+## Ejecución
+
+Para ejecutar el juego, debe abrir una terminar en
+`/Pixel_Pong_PI_Ensamblador_Grupo04`, ingresar `make clean` y luego `make`.
+Seguidamente, se abrirá una ventana con el juego.

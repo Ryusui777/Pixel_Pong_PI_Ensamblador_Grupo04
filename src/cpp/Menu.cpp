@@ -1,29 +1,30 @@
+// Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Menu.h"
 
-
-void Menu::init(){
-    this->blurBG = LoadTexture(bg_path);
-    this->homeButton.init((char*)home_path, homePos);
-    this->resumeButton.init((char*)resume_path, resumePos);
+void Menu::initializeMenu() {
+  this->blurred_background = LoadTexture(bg_path);
+  this->home_button.initializeButton((char*)home_button_path, home_button_pos);
+  this->resume_button.initializeButton((char*)resume_button_path
+    , resume_button_pos);
 }
 
-void Menu::draw(){
-    // Background
-    float drawW = blurBG.width * SCALE;
-    float drawH = blurBG.height * SCALE;
-    float offsetX = (WIDTH  - drawW) / 2.0f;
-    float offsetY = (HEIGHT - drawH) / 2.0f;
-    DrawTextureEx(blurBG, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
+void Menu::drawMenu() {
+  // Fondo
+  float drawW = blurred_background.width * SCALE;
+  float drawH = blurred_background.height * SCALE;
+  float offsetX = (WINDOW_WIDTH  - drawW) / 2.0f;
+  float offsetY = (WINDOW_HEIGHT - drawH) / 2.0f;
+  DrawTextureEx(blurred_background, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
 
-    // UI elements
-    this->homeButton.draw();
-    this->resumeButton.draw();
+  // Interfaz de usuario
+  this->home_button.drawButton();
+  this->resume_button.drawButton();
 }
 
-void Menu::resumed(byte& resumeVar){
-    resumeVar = (this->resumeButton.isClicked())? 1 : resumeVar;
+void Menu::gameResumed(byte& resumeVar) {
+  resumeVar = (this->resume_button.isButtonBeingClicked())? 1 : resumeVar;
 }
 
-void Menu::goHome(byte& goHomeVar){
-    goHomeVar = (this->homeButton.isClicked())? 1 : goHomeVar;
+void Menu::goHome(byte& goHomeVar) {
+  goHomeVar = (this->home_button.isButtonBeingClicked())? 1 : goHomeVar;
 }

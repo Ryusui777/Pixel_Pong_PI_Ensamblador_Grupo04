@@ -222,4 +222,3 @@ resetBall:
     call  _isBallOpossingPlayer
 
     ret 
-
