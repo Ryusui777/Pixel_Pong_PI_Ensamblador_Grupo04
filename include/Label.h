@@ -8,6 +8,6 @@ class Label {
   Texture2D texture;
   Vector2 position;
   public:
-  void init(char*, Vector2);
-  void draw();
+  void initializeLabel(char*, Vector2);
+  void drawLabel();
 };
