@@ -4,12 +4,12 @@
 extern "C" void initBotMovement(float, float, Vector2*);
 extern "C" void moverBot();
 
-void Bot::init() {
+void Bot::initializeBot() {
   // Carga la textura del bot
   this->texture = LoadTexture((char*)bot_path);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 
-  reset();
+  resetBot();
 
   // Configura los limites de la pantalla
   const float halfH = (texture.height * SCALE) * 0.5f;
@@ -21,7 +21,7 @@ void Bot::init() {
 }
 
 // Dibujar al bot
-void Bot::draw() {
+void Bot::drawBot() {
   Rectangle src{0, 0, (float)texture.width, (float)texture.height};
   Rectangle dst{position.x, position.y,
     texture.width * SCALE, texture.height * SCALE };
@@ -34,20 +34,20 @@ void Bot::moveBot() {
   moverBot();
 }
 
-void Bot::reset(){
-    // Centra el bot
-    const float margin = 5.0f;
-    position.y = HEIGHT / 2.0f;  
-    position.x = texture.width * SCALE + margin;
+void Bot::resetBot() {
+  // Centra el bot
+  const float margin = 5.0f;
+  position.y = HEIGHT / 2.0f;  
+  position.x = texture.width * SCALE + margin;
 }
 
 Rectangle Bot::getRectangle(){
-    Rectangle rect;
-    float w = texture.width * SCALE;
-    float h = texture.height* SCALE;
-    rect.x = position.x - w * 0.5f;
-    rect.y = position.y - h * 0.5f;
-    rect.height = h;
-    rect.width = w;
-    return rect;
+  Rectangle rect;
+  float w = texture.width * SCALE;
+  float h = texture.height* SCALE;
+  rect.x = position.x - w * 0.5f;
+  rect.y = position.y - h * 0.5f;
+  rect.height = h;
+  rect.width = w;
+  return rect;
 }

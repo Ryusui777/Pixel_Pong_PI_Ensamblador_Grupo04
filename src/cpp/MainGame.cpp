@@ -3,7 +3,7 @@
 void MainGame::init(){
     // Inicializacion de lo elementos
     this->player.init();
-    this->bot.init();
+    this->bot.initializeBot();
     this->ball.init();
     this->pause.initializeButton((char*)pausePath, pause_button_pos);
 
@@ -22,7 +22,7 @@ void MainGame::draw(){
     if(interactable) updateElements();
     this->ball.draw();
     this->player.draw();
-    this->bot.draw();
+    this->bot.drawBot();
     this->pause.drawButton();
 
     
@@ -64,6 +64,6 @@ void MainGame::isPaused(byte& paused){
 
 void MainGame::reset(){
     this->player.reset();
-    this->bot.reset();
+    this->bot.resetBot();
     this->ball.reset();
 }
