@@ -1,3 +1,4 @@
+// Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Label.h"
 
 void Label::initializeLabel(char* path, Vector2 position) {

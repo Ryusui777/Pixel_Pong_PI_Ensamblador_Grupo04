@@ -51,12 +51,12 @@ void Player::resetPlayerPosition() {
 }
 
 Rectangle Player::getRectangle() {
-    Rectangle rect;
-    float w = texture.width * SCALE;
-    float h = texture.height* SCALE;
-    rect.x = position.x - w * 0.5f;
-    rect.y = position.y - h * 0.5f;
-    rect.height = h;
-    rect.width = w;
-    return rect;
+  Rectangle rect;
+  float w = texture.width * SCALE;
+  float h = texture.height* SCALE;
+  rect.x = position.x - w * 0.5f;
+  rect.y = position.y - h * 0.5f;
+  rect.height = h;
+  rect.width = w;
+  return rect;
 }

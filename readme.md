@@ -52,5 +52,8 @@ Para ejecutar el videojuego, es necesario lo siguiente:
 ## Ejecución
 
 Para ejecutar el juego, debe abrir una terminar en
-`/Pixel_Pong_PI_Ensamblador_Grupo04`, ingresar `make clean` y luego `make`.
+`/Pixel_Pong_PI_Ensamblador_Grupo04`, ingresar `make clean`, luego `make` y
+finalmente `make run`.
 Seguidamente, se abrirá una ventana con el juego.
+
+Para pruebas (con Google Tests), se debe ingresar `make test`
