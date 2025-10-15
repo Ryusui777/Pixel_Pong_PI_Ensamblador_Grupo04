@@ -1,12 +1,11 @@
 #include "MainGame.h"
 
-
 void MainGame::init(){
     // Inicializacion de lo elementos
     this->player.init();
     this->bot.init();
     this->ball.init();
-    this->pause.init((char*)pausePath, pausePos);
+    this->pause.initializeButton((char*)pausePath, pause_button_pos);
 
     // Dice que la escena es interactuable
     this->interactable = 0;
@@ -24,7 +23,7 @@ void MainGame::draw(){
     this->ball.draw();
     this->player.draw();
     this->bot.draw();
-    this->pause.draw();
+    this->pause.drawButton();
 
     
     // Chequea colision con jugador
@@ -59,7 +58,7 @@ void MainGame::draw(){
 }
 
 void MainGame::isPaused(byte& paused){
-    paused = (this->pause.isClicked())? 1 : paused;
+    paused = (this->pause.isButtonBeingClicked())? 1 : paused;
     if(IsKeyDown(KEY_SPACE)) paused = 1;
 }
 

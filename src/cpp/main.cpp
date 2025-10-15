@@ -8,15 +8,15 @@ int main(){
     // Componentes
     Window window;
     MainGame mainGame;
-    HomeScreen homeScreen;
+    Home homeScreen;
     Menu menu;
     
 
     // Inicializacion de componentes
     window.initializeWindow();
-    homeScreen.init();
+    homeScreen.initializeHomeScreen();
     mainGame.init();
-    menu.init();
+    menu.initializeMenu();
 
     // Ciclo del juego
     std::uint8_t paused = 0;
@@ -29,8 +29,8 @@ int main(){
         window.beginWindowDraw();
         //? Todo el resto de componentes se renderizan en este periodo
         if(inHome){
-            homeScreen.draw();
-            homeScreen.started(inGame);
+            homeScreen.drawHomeScreen();
+            homeScreen.hasGameStarted(inGame);
             inHome = !(inGame);
             if(inGame) mainGame.reset(); // resetea el juego
         }
@@ -43,8 +43,8 @@ int main(){
         }
         else if(paused){
             mainGame.draw();
-            menu.draw();
-            menu.resumed(inGame);
+            menu.drawMenu();
+            menu.gameResumed(inGame);
             menu.goHome(inHome);
             paused = !(inGame);
             if(paused) paused = !(inHome);
@@ -58,4 +58,3 @@ int main(){
 
     return 0;
 }
-
