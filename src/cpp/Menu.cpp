@@ -8,14 +8,14 @@ void Menu::initializeMenu() {
 }
 
 void Menu::drawMenu() {
-  // Background
+  // Fondo
   float drawW = blurred_background.width * SCALE;
   float drawH = blurred_background.height * SCALE;
   float offsetX = (WIDTH  - drawW) / 2.0f;
   float offsetY = (HEIGHT - drawH) / 2.0f;
   DrawTextureEx(blurred_background, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
 
-  // UI elements
+  // Interfaz de usuario
   this->home_button.drawButton();
   this->resume_button.drawButton();
 }

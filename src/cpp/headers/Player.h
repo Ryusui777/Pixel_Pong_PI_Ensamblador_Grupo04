@@ -1,41 +1,55 @@
-#pragma once 
+// Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
+#pragma once
 #include "raylib.h"
 #include "shared.h"
 #include <stdio.h>
 
-#define SPEED 8
-#define PLY_PATH (char*)"res/mainGame/player_red.png"
+#define PLAYER_SPEED 8
+#define PLAYER_ASSET_PATH (char*)"res/mainGame/player_red.png"
 
+/** 
+ * @brief Clase que representa al jugador humano de la partida
+ */
+class Player {
+ private:
+  Vector2 position;  // Posicion del jugador
+  Texture2D texture;  // Textura del jugador
 
+  /**
+   * @brief Auxiliar de `movePlayer()` para mover hacia arriba al jugador
+   */
+  void movePlayerDown();
 
-class Player{
-    private:
+  /**
+   * @brief Auxiliar de `movePlayer()` para mover hacia abajo al jugador
+   */
+  void movePlayerUp();
 
-        Vector2 position; // Posicion del jugador
-        Texture2D texture; // textura del jugador
-        void moveDown();
-        void moveUP();
+ public:
+  /**
+  * @brief Inicializa al jugador, carga su textura, y posicion inicial. 
+  * @remark Debe ser llamada despues de inicializar la pantalla. De otra manera,
+  * habrá un error.
+  */
+  void initializePlayer();
 
-    public:
-        void move();
-        /**
-         * @brief Inicializa el jugador, carga su textura, y
-         * posicion inicial. Esta debe ser llamada despues de
-         * inicializar la pantalla de otra manera habra un error.
-         */
-        void init();
-        /**
-         * @brief Renderiza el jugador en pantalla
-         */
-        void draw();
-        /**
-         * @brief 
-         */
-        void reset();
+  /**
+  * @brief Renderiza el jugador en pantalla
+  */
+  void drawPlayer();
 
-        /**
-         * @brief Get the Rectangle object
-         */
-        Rectangle getRectangle();
+  /**
+   * @brief Se mueve al jugador hacia arriba o abajo según input de teclado
+   */
+  void movePlayer();
 
+  /**
+   * @brief Se restablece posición de jugador dentro del mapa de juego.
+   */
+  void resetPlayerPosition();
+
+  /**
+   * @brief Rectangulo del jugador
+  */
+  Rectangle getRectangle();
 };
