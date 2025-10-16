@@ -1,57 +1,80 @@
-# ===== Config =====
-CXX       := g++
-ASM       := nasm
-CXXFLAGS  := -std=c++20 -O2 -Wall -Wextra -Isrc/cpp/headers
-ASFLAGS   := -f elf64
-LDFLAGS   := -no-pie
-# Raylib (Linux X11). Si usas pkg-config: LDFLAGS += $(shell pkg-config --libs --cflags raylib)
-LIBS      := -lraylib -lm -ldl -lpthread -lGL -lX11
+# Compilador y Flags
+CXX = g++
+CXXFLAGS = -Wall -Wextra -std=c++17 -I./include -no-pie
+LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -no-pie
+TESTFLAGS = -lgtest -lgtest_main -pthread -no-pie
 
-# ===== Fuentes / Objetos =====
-ASM_SOURCES := $(wildcard src/asm/*.asm)
-CPP_SOURCES := $(wildcard src/cpp/*.cpp)
+# Ensamblador
+AS = nasm
+ASFLAGS = -f elf64
 
-OBJ_DIR     := build
-ASM_OBJECTS := $(patsubst src/asm/%.asm, $(OBJ_DIR)/%.o, $(ASM_SOURCES))
-CPP_OBJECTS := $(patsubst src/cpp/%.cpp, $(OBJ_DIR)/%.o, $(CPP_SOURCES))
-OBJECTS     := $(ASM_OBJECTS) $(CPP_OBJECTS)
+# Directorios
+SRC_DIR = src
+BUILD_DIR = build
+BIN_DIR = bin
+INCLUDE_DIR = include
+TEST_DIR = tests
 
-TARGET := $(OBJ_DIR)/output
+# Archivos fuente
+CPP_SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+ASM_SOURCES = $(wildcard $(SRC_DIR)/*.asm)
+TEST_SOURCES = $(wildcard $(TEST_DIR)/*.cpp)
 
-# ===== Targets de alto nivel =====
-.PHONY: all build run clean val debug release
+# Archivos objeto
+CPP_OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(CPP_SOURCES))
+ASM_OBJECTS = $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SOURCES))
+TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/test_%.o, $(TEST_SOURCES))
 
-all: clean build run
+# Objetos sin main.o para tests
+CPP_OBJECTS_NO_MAIN = $(filter-out $(BUILD_DIR)/main.o, $(CPP_OBJECTS))
 
-build: $(TARGET)
+OBJECTS = $(CPP_OBJECTS) $(ASM_OBJECTS)
 
+# Ejecutables
+TARGET = $(BIN_DIR)/program
+TEST_TARGET = $(BIN_DIR)/test_runner
+
+# Target principal
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
+
+# Compilar C++
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Compilar ensamblador
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm
+	@mkdir -p $(BUILD_DIR)
+	$(AS) $(ASFLAGS) $< -o $@
+
+# Compilar tests
+$(BUILD_DIR)/test_%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Build tests
+$(TEST_TARGET): $(ASM_OBJECTS) $(TEST_OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(ASM_OBJECTS) $(TEST_OBJECTS) -o $(TEST_TARGET) $(TESTFLAGS) $(LDFLAGS)
+
+# Correr programa
 run: $(TARGET)
 	./$(TARGET)
 
-val: $(TARGET)
-	valgrind ./$(TARGET)
+# Correr tests
+test: $(TEST_TARGET)
+	./$(TEST_TARGET)
 
+# Clean todo
 clean:
-	rm -rf $(OBJ_DIR)
+	rm -rf $(BUILD_DIR)/*.o $(BIN_DIR)/program $(BIN_DIR)/test_runner
 
-debug: CXXFLAGS += -O0 -g
-debug: clean build
+# Clean solo tests
+clean-tests:
+	rm -rf $(BUILD_DIR)/test_*.o $(BIN_DIR)/test_runner
 
-release: CXXFLAGS += -O3 -DNDEBUG
-release: clean build
-
-# ===== Reglas de construcción =====
-$(TARGET): $(OBJECTS)
-	@echo "🔗 Linkeando → $@"
-	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
-
-# .asm → .o
-$(OBJ_DIR)/%.o: src/asm/%.asm
-	@mkdir -p $(OBJ_DIR)
-	$(ASM) $(ASFLAGS) $< -o $@
-
-# .cpp → .o
-$(OBJ_DIR)/%.o: src/cpp/%.cpp
-	@mkdir -p $(OBJ_DIR)
-	$(CXX) -c $(CXXFLAGS) $< -o $@
-
+.PHONY: all clean run test clean-tests
