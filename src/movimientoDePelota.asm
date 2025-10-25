@@ -7,7 +7,7 @@ section .bss
 
 section .data
     negSign: dd -1.0
-    speed: dd 10.0  ; Velocidad de la bola
+    speed: dd 10.0  ; Velocidad por defecto de la bola
     isOpposingPlayer: dd 0
     currentAngle: dd 0  ; Ángulo actual de la bola
     DEG2RAD:    dd 0.0174532925
@@ -24,7 +24,7 @@ section .data
     g280: dd 280.0
     
 section .text
-extern  GetRandomValue 
+extern  GetRandomValue
 extern  cosf
 extern  sinf
 
@@ -36,6 +36,7 @@ global resetBall
 global pelotaReboto
 global pelotaReverseX
 global pelotaReverseY
+global setBallSpeed
 
 
 _isBallOpossingPlayer: 
@@ -59,13 +60,18 @@ _isBallOpossingPlayer:
     ret
 
 
-isBallOpossingPlayer: 
+isBallOpossingPlayer:
     xor rax, rax
     mov eax, dword[isOpposingPlayer]
     ret
 
+; Establecer la velocidad de la bola
+setBallSpeed:
+    movss dword[speed], xmm0  ; nuevo valor de velocidad (float)
+    ret
+
 ;============================================
-; Actualiza la posición de la bola
+; Actualizar la posición de la bola
 ;============================================
 pelotaMove: 
     mov r8, [velocity_ptr]
@@ -197,4 +203,4 @@ resetBall:
     add     rsp, 16
     call  _isBallOpossingPlayer
 
-    ret 
+    ret

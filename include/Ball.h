@@ -3,6 +3,13 @@
 #include "shared.h"
 
 extern "C" int  isBallOpossingPlayer();
+extern "C" void setBallSpeed(float newSpeed);
+extern "C" void initPelotaMovement(Vector2*, Vector2*, float, float);
+extern "C" void pelotaReverseY();
+extern "C" void pelotaReverseX();
+extern "C" void pelotaMove();
+extern "C" void resetBall();
+extern "C" void pelotaReboto();
 
 /**
  * @brief Clase que representa la pelota del juego
@@ -56,6 +63,15 @@ class Ball {
 
   void rebotarContraJugador();
   void rebotarContraBot();
+
+  /**
+   * @brief Método encargado de establecer la velocidad de la bola
+   * @param speed Valor entre 10 y 20
+   */
+  void setSpeed(float speed) {
+    setBallSpeed(speed);
+  }
+
   /* Getters para la posición y tamaño (necesarios para colisiones) */
 
   /**
