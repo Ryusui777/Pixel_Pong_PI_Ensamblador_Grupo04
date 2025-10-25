@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Menu.h"
 #include "Home.h"
+#include "Settings.h"
 
 int main() {
   // Componentes
@@ -11,33 +12,41 @@ int main() {
   Game mainGame;
   Home homeScreen;
   Menu menu;
+  Settings settings;
 
   // Inicializacion de componentes
   window.initializeWindow();
   homeScreen.initializeHomeScreen();
   mainGame.initializeGame();
   menu.initializeMenu();
+  settings.initializeSettings();
 
   // Ciclo del juego
   std::uint8_t paused = 0;
   std::uint8_t inHome = 1;
   std::uint8_t inGame = 0;
+  std::uint8_t inSettings = 0;
 
   while (!WindowShouldClose()) {
     window.beginWindowDraw();
-    // Todo el resto de componentes se renderizan en este periodo
     if (inHome) {
       homeScreen.drawHomeScreen();
       homeScreen.hasGameStarted(inGame);
-      inHome = !(inGame);
-      if (inGame) mainGame.resetMatch();  // resetea el juego
-    } else if (inGame) {
+      homeScreen.gameSettings(inSettings);
+      inHome = !(inGame || inSettings);
+      if (inGame) mainGame.resetMatch();  // Juego queda en estado inicial
+    } else if (inSettings) {  // ajustes en pantalla de bienvenida
+      homeScreen.drawHomeScreen();
+      settings.drawSettings();
+      settings.goHome(inHome);
+      inSettings = !(inHome);
+    } else if (inGame) {  // partida
       mainGame.setInteractable();
       mainGame.drawGameElements();
       mainGame.isGamePaused(paused);
       inGame = !(paused);
       if (!inGame) mainGame.setNotInteractable();
-    } else if (paused) {
+    } else if (paused) {  // menú de pausa dentro del juego
       mainGame.drawGameElements();
       menu.drawMenu();
       menu.gameResumed(inGame);

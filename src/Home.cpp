@@ -6,6 +6,8 @@ void Home::initializeHomeScreen() {
   this->blurBG = LoadTexture(bg_paht);
   this->start_button.initializeButton((char*)start_button_path
     , start_button_pos);
+  this->settings_button.initializeButton((char*)settings_button_path
+    , settings_button_pos);
     this->logo.initializeLabel((char*)logoPath, logoPos);
 }
 
@@ -18,7 +20,14 @@ void Home::drawHomeScreen() {
     DrawTextureEx(blurBG, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
 
     this->start_button.drawButton();
+    this->settings_button.drawButton();
     this->logo.drawLabel();
+}
+
+// Ir a ajustes de juego 
+void Home::gameSettings(byte& settings) {
+  // Si se toca botón de settings, vamos a ventana de ajustes
+  settings = (this->settings_button.isButtonBeingClicked()) ? 1 : 0;
 }
 
 void Home::hasGameStarted(byte& startVar) {

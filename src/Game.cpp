@@ -58,8 +58,11 @@ void Game::drawGameElements() {
   }
 }
 
+// Pausar juego
 void Game::isGamePaused(byte& paused) {
+  // Si se toca botón de pausa, pausamos
   paused = (this->pause_button.isButtonBeingClicked()) ? 1 : paused;
+  // Pero también, si tocamos espacio, pausamos
   if (IsKeyDown(KEY_SPACE)) paused = 1;
 }
 
