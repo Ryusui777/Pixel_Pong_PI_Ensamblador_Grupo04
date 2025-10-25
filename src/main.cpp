@@ -34,7 +34,11 @@ int main() {
       homeScreen.hasGameStarted(inGame);
       homeScreen.gameSettings(inSettings);
       inHome = !(inGame || inSettings);
-      if (inGame) mainGame.resetMatch();  // Juego queda en estado inicial
+      if (inGame) {
+        // Aplica la velocidad configurada antes de empezar el juego
+        mainGame.applyBallSpeed(settings.getBallSpeed());
+        mainGame.resetMatch();  // resetea el estado de juego
+      }
     } else if (inSettings) {  // ajustes en pantalla de bienvenida
       homeScreen.drawHomeScreen();
       settings.drawSettings();

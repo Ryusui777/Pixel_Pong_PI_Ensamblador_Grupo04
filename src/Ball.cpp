@@ -2,13 +2,6 @@
 #include "Ball.h"
 #include <cmath>
 
-extern "C" void initPelotaMovement(Vector2*, Vector2*, float, float);
-extern "C" void pelotaReverseY();
-extern "C" void pelotaReverseX();
-extern "C" void pelotaMove();
-extern "C" void resetBall();
-extern "C" void pelotaReboto();
-
 void Ball::initializeBall() {
   this->texture = LoadTexture((char*)ball_path);
   this->speed = 10.0f;  // Velocidad inicial

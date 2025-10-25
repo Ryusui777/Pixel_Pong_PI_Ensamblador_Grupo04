@@ -63,4 +63,12 @@ class Game {
    * @brief Restablece el progreso de la partida.
    */
   void resetMatch();
+
+  /**
+   * @brief Aplica la velocidad configurada a la bola
+   * @param speed Velocidad de la pelota (entre 10 y 20)
+   */
+  void applyBallSpeed(float speed) {
+    this->ball.setSpeed(speed);
+  }
 };

@@ -2,6 +2,7 @@
 #pragma once
 #include "shared.h"
 #include "Button.h"
+#include "Slider.h"
 
 /**
  * @brief Clase encargada de los ajustes del juego
@@ -10,17 +11,21 @@ class Settings {
  private:
   // Ruta al fondo del menú de settings (fondo azul con transparencia)
   const char* bg_path = "assets/settings/settings_background.png";
-  // // Ruta a botón de resume
-  // const char* resume_button_path ="assets/menu/resume_button.png";
+
   // Ruta a botón de home
   const char* home_button_path ="assets/settings/home_button.png";
 
   // Fondo con blur
   Texture2D blurred_background;
-  // // Botón de regresar a partida
-  // Button resume_button;
+
   // Botón de regresar a home
   Button home_button;
+
+  // Selector para controlar la velocidad de la bola
+  Slider speedSlider;
+  
+  // Velocidad actual de la pelota
+  float ballSpeed;
 
  public:
   /**
@@ -34,13 +39,16 @@ class Settings {
    */
   void drawSettings();
 
-  // /**
-  //  * @brief Se regresa a la partida
-  //  */
-  // void homeResumed(byte&);
-
   /**
    * @brief Se regresa al inicio
    */
   void goHome(byte&);
+
+  /**
+   * @brief Obtiene la velocidad actual configurada
+   * @return Velocidad de la bola
+   */
+  float getBallSpeed() const {
+    return ballSpeed;
+  }
 };

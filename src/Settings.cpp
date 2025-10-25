@@ -4,26 +4,35 @@
 void Settings::initializeSettings() {
   this->blurred_background = LoadTexture(bg_path);
   this->home_button.initializeButton((char*)home_button_path, home_button_pos);
-  // this->resume_button.initializeButton((char*)resume_button_path
-  //   , resume_button_pos);
+
+  // Inicializar selector de velocidad
+  Vector2 sliderPos = {
+    (1280 / 2.0f) - 150.0f,
+    (720 / 4.0f) - 35.0f
+  };
+  speedSlider.initializeSlider(sliderPos, 300.0f, 10.0f, 10.0f, 20.0f, 10.0f);
+  ballSpeed = 10.0f;
 }
 
 void Settings::drawSettings() {
-  // Fondo
-  float drawW = blurred_background.width * SCALE;
-  float drawH = blurred_background.height * SCALE;
-  float offsetX = (WINDOW_WIDTH  - drawW) / 2.0f;
-  float offsetY = (WINDOW_HEIGHT - drawH) / 2.0f;
-  DrawTextureEx(blurred_background, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
+  // Tapar logo, etc..
+  DrawRectangle(0, 0, 1280, 720, (Color){20, 7, 110, 255});
 
-  // Interfaz de usuario
+  const char* title = "VELOCIDAD DE LA BOLA"; // título del selector
+  int titleWidth = MeasureText(title, 30);
+  DrawText(title, 1280 / 2 - titleWidth / 2, 720 / 4 - 100, 30, WHITE);
+
+  // Actualizar el selector
+  speedSlider.updateSlider();
+  // Dibujar el selector
+  speedSlider.drawSlider();
+  
+  // Actualizar la velocidad actual
+  ballSpeed = speedSlider.getValue();
+
+  // Interfaz de usuario (botón de home)
   this->home_button.drawButton();
-  // this->resume_button.drawButton();
 }
-
-// void Settings::gameResumed(byte& resumeVar) {
-//   resumeVar = (this->resume_button.isButtonBeingClicked())? 1 : resumeVar;
-// }
 
 void Settings::goHome(byte& goHomeVar) {
   goHomeVar = (this->home_button.isButtonBeingClicked())? 1 : goHomeVar;
