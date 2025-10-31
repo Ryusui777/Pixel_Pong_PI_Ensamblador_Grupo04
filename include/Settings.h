@@ -24,6 +24,9 @@ class Settings {
   // Selector para controlar la velocidad de la bola
   Slider speedSlider;
   
+  // Selector para controlar la velocidad de la bola
+  Slider volumeSlider;
+
   // Velocidad actual de la pelota
   float ballSpeed;
 
