@@ -77,4 +77,11 @@ clean:
 clean-tests:
 	rm -rf $(BUILD_DIR)/test_*.o $(BIN_DIR)/test_runner
 
-.PHONY: all clean run test clean-tests
+CPPLINT_FLAGS = --filter=-build/include_subdir,-readability/casting,-runtime/references
+lint-src:
+	cpplint $(CPPLINT_FLAGS) $(SRC_DIR)/*.cpp
+
+lint-include:
+	cpplint $(CPPLINT_FLAGS) $(INCLUDE_DIR)/*.h
+
+.PHONY: all clean run test clean-tests lint-all lint-include lint-src

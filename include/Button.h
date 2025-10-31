@@ -1,8 +1,8 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
-#include "raylib.h"
-#include "shared.h"
 #include <stdio.h>
+#include "shared.h"
+#include "raylib.h"
 
 const Vector2 home_button_pos = {
   .x = WINDOW_WIDTH/2.0f,

@@ -24,7 +24,7 @@ void Home::drawHomeScreen() {
   this->logo.drawLabel();
 }
 
-// Ir a ajustes de juego 
+// Ir a ajustes de juego
 void Home::gameSettings(byte& settings) {
   // Si se toca botón de settings, vamos a ventana de ajustes
   settings = (this->settings_button.isButtonBeingClicked()) ? 1 : settings;

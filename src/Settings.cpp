@@ -28,10 +28,11 @@ void Settings::drawSettings() {
   // Tapar logo, etc..
   DrawRectangle(0, 0, 1280, 720, (Color){20, 7, 110, 255});
 
-   // título del selector de velocidadd
+  // título del selector de velocidadd
   const char* speedTitle = "VELOCIDAD DE LA BOLA";
   int speedTitleWidth = MeasureText(speedTitle, 30);
-  DrawText(speedTitle, 1280 / 2 - speedTitleWidth / 2, 720 / 4 - 100, 30, WHITE);
+  DrawText(speedTitle, 1280 / 2 - speedTitleWidth / 2, 720 / 4 - 100, 30
+    , WHITE);
 
   // Actualizar el selector de velocidad
   speedSlider.updateSlider();
@@ -43,7 +44,8 @@ void Settings::drawSettings() {
 
   const char* volumeTitle = "VOLUMEN";
   int volumeTitleWidth = MeasureText(volumeTitle, 30);
-  DrawText(volumeTitle, 1280 / 2 - volumeTitleWidth / 2, 720 / 4 + 20, 30, WHITE);
+  DrawText(volumeTitle, 1280 / 2 - volumeTitleWidth / 2, 720 / 4 + 20, 30
+    , WHITE);
 
   // Actualizar el selector de sonido
   volumeSlider.updateSlider();
