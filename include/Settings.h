@@ -40,12 +40,12 @@ class Settings {
   /**
    * @brief Rederiza el menú en pantalla
    */
-  void drawSettings();
+  void drawSettings(SoundManager* soundManager);
 
   /**
    * @brief Se regresa al inicio
    */
-  void goHome(byte&);
+  void goHome(byte&, SoundManager* soundManager);
 
   /**
    * @brief Obtiene la velocidad actual configurada

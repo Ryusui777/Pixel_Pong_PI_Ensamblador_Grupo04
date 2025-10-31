@@ -19,12 +19,11 @@ void Settings::initializeSettings() {
     (1280 / 2.0f) - 150.0f,
     (720 / 4.0f) + 100.0f
   };
-  volumeSlider.initializeSlider(volumeSliderPos, 300.0f, 10.0f, 0.0f, 10.0f
-    , 5.0f);
-  ballSpeed = 10.0f;
+  volumeSlider.initializeSlider(volumeSliderPos, 300.0f, 10.0f, 0.0f, 1.0f
+    , 0.5f);
 }
 
-void Settings::drawSettings() {
+void Settings::drawSettings(SoundManager* soundManager) {
   // Tapar logo, etc..
   DrawRectangle(0, 0, 1280, 720, (Color){20, 7, 110, 255});
 
@@ -52,11 +51,17 @@ void Settings::drawSettings() {
   // Dibujar el selector de sonido
   volumeSlider.drawSlider();
 
+  // Subir o bajar sonido
+  if (soundManager) {
+    float currentVolume = volumeSlider.getValue();
+    soundManager->setVolume(currentVolume);
+  }
 
   // Interfaz de usuario (botón de home)
   this->home_button.drawButton();
 }
 
-void Settings::goHome(byte& goHomeVar) {
-  goHomeVar = (this->home_button.isButtonBeingClicked())? 1 : goHomeVar;
+void Settings::goHome(byte& goHomeVar, SoundManager* soundManager) {
+  goHomeVar = (this->home_button.isButtonBeingClicked(soundManager))
+    ? 1 : goHomeVar;
 }

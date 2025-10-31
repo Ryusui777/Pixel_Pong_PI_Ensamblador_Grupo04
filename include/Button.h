@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "shared.h"
 #include "raylib.h"
+#include "SoundManager.h"
 
 const Vector2 home_button_pos = {
   .x = WINDOW_WIDTH/2.0f,
@@ -35,7 +36,7 @@ const Vector2 settings_button_pos = {
 class Button {
  private:
   Vector2 position;  // Posicion del botón
-  Texture2D texture;  // textura del botón
+  Texture2D texture;  // Textura del botón
 
  public:
   /**
@@ -64,7 +65,5 @@ class Button {
    * y el usuario mantiene presionado solo se activa una vez
    * @return 1 si fue presionado, 0 si no
    */
-  byte isButtonBeingClicked() {
-    return isMouseAboveButton() && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
-  }
+  byte isButtonBeingClicked(SoundManager* soundManager);
 };
