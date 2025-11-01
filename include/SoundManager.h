@@ -17,9 +17,6 @@ class SoundManager {
   Sound playerScoreSound;
   // Sonido cuando se anota un punto al bot
   Sound botScoreSound;
-  // Nivel de volumen
-  float masterVolume;
-  bool initialized;
 
  public:
   SoundManager();
@@ -64,9 +61,4 @@ class SoundManager {
    * @brief establecer volumen
    */
   void setVolume(float volume);
-
-  /**
-   * @brief obtener volumen
-   */
-  float getVolume() const;
 };

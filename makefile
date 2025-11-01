@@ -3,6 +3,7 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17 -I./include -no-pie
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -no-pie
 TESTFLAGS = -lgtest -lgtest_main -pthread -no-pie
+CPPLINT_FLAGS = --filter=-build/include_subdir,-readability/casting,-runtime/references
 
 # Ensamblador
 AS = nasm
@@ -77,11 +78,12 @@ clean:
 clean-tests:
 	rm -rf $(BUILD_DIR)/test_*.o $(BIN_DIR)/test_runner
 
-CPPLINT_FLAGS = --filter=-build/include_subdir,-readability/casting,-runtime/references
+# Pasarle cpplint a los archivos cpp
 lint-src:
 	cpplint $(CPPLINT_FLAGS) $(SRC_DIR)/*.cpp
 
+# Pasarle cpplint a los archivos h
 lint-include:
 	cpplint $(CPPLINT_FLAGS) $(INCLUDE_DIR)/*.h
 
-.PHONY: all clean run test clean-tests lint-all lint-include lint-src
+.PHONY: all clean run test clean-tests lint-include lint-src
