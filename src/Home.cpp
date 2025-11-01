@@ -24,15 +24,17 @@ void Home::drawHomeScreen() {
   this->logo.drawLabel();
 }
 
-// Ir a ajustes de juego 
-void Home::gameSettings(byte& settings) {
+// Ir a ajustes de juego
+void Home::gameSettings(byte& settings, SoundManager* soundManager) {
   // Si se toca botón de settings, vamos a ventana de ajustes
-  settings = (this->settings_button.isButtonBeingClicked()) ? 1 : settings;
+  settings = (this->settings_button.isButtonBeingClicked(soundManager)) ? 1
+    : settings;
 }
 
-void Home::hasGameStarted(byte& startVar) {
+void Home::hasGameStarted(byte& startVar, SoundManager* soundManager) {
   // True si se le dio click al botón
-  startVar = (this->start_button.isButtonBeingClicked()) ? 1 : startVar;
+  startVar = (this->start_button.isButtonBeingClicked(soundManager)) ? 1
+    : startVar;
   // True si se tocó enter
   if (IsKeyDown(KEY_ENTER)) startVar = 1;
 }

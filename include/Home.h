@@ -36,10 +36,13 @@ class Home {
    */
   void drawHomeScreen();
 
-  void gameSettings(byte& settings);
+  /**
+   * @brief Para ir a settings
+   */
+  void gameSettings(byte& settings, SoundManager* soundManager);
 
   /**
    * @brief Verifica si se dio click al botón de inicio
    */
-  void hasGameStarted(byte&);
+  void hasGameStarted(byte&, SoundManager* soundManager);
 };

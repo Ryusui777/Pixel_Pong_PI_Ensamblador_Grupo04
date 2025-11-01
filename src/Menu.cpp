@@ -21,10 +21,12 @@ void Menu::drawMenu() {
   this->resume_button.drawButton();
 }
 
-void Menu::gameResumed(byte& resumeVar) {
-  resumeVar = (this->resume_button.isButtonBeingClicked())? 1 : resumeVar;
+void Menu::gameResumed(byte& resumeVar, SoundManager* soundManager) {
+  resumeVar = (this->resume_button.isButtonBeingClicked(soundManager))? 1
+    : resumeVar;
 }
 
-void Menu::goHome(byte& goHomeVar) {
-  goHomeVar = (this->home_button.isButtonBeingClicked())? 1 : goHomeVar;
+void Menu::goHome(byte& goHomeVar, SoundManager* soundManager) {
+  goHomeVar = (this->home_button.isButtonBeingClicked(soundManager))? 1
+    : goHomeVar;
 }

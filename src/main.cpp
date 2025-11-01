@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "Home.h"
 #include "Settings.h"
+#include "SoundManager.h"
 
 int main() {
   // Componentes
@@ -13,9 +14,11 @@ int main() {
   Home homeScreen;
   Menu menu;
   Settings settings;
+  SoundManager soundManager;
 
   // Inicializacion de componentes
   window.initializeWindow();
+  soundManager.initializeSounds();
   homeScreen.initializeHomeScreen();
   mainGame.initializeGame();
   menu.initializeMenu();
@@ -31,8 +34,8 @@ int main() {
     window.beginWindowDraw();
     if (inHome) {
       homeScreen.drawHomeScreen();
-      homeScreen.hasGameStarted(inGame);
-      homeScreen.gameSettings(inSettings);
+      homeScreen.hasGameStarted(inGame, &soundManager);
+      homeScreen.gameSettings(inSettings, &soundManager);
       inHome = !(inGame || inSettings);
       if (inGame) {
         // Aplica la velocidad configurada antes de empezar el juego
@@ -41,25 +44,27 @@ int main() {
       }
     } else if (inSettings) {  // ajustes en pantalla de bienvenida
       homeScreen.drawHomeScreen();
-      settings.drawSettings();
-      settings.goHome(inHome);
+      settings.drawSettings(&soundManager);
+      settings.goHome(inHome, &soundManager);
       inSettings = !(inHome);
     } else if (inGame) {  // partida
       mainGame.setInteractable();
-      mainGame.drawGameElements();
-      mainGame.isGamePaused(paused);
+      mainGame.drawGameElements(&soundManager);
+      mainGame.isGamePaused(paused, &soundManager);
       inGame = !(paused);
       if (!inGame) mainGame.setNotInteractable();
     } else if (paused) {  // menú de pausa dentro del juego
-      mainGame.drawGameElements();
+      mainGame.drawGameElements(&soundManager);
       menu.drawMenu();
-      menu.gameResumed(inGame);
-      menu.goHome(inHome);
+      menu.gameResumed(inGame, &soundManager);
+      menu.goHome(inHome, &soundManager);
       paused = !(inGame);
       if (paused) paused = !(inHome);
     }
     window.endWindowDraw();
   }
-  window.killWindow();  // Cierra la vantana
+
+  soundManager.unloadSounds();
+  window.killWindow();  // Cierra la ventana
   return 0;
 }

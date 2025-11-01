@@ -1,9 +1,9 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Game.h"
 
-void Game::updateElements() {
+void Game::updateElements(SoundManager* soundManager) {
   this->player.movePlayer();
-  this->ball.moveBall();
+  this->ball.moveBall(soundManager);
   this->bot.moveBot();
 }
 
@@ -19,8 +19,8 @@ void Game::initializeGame() {
   this->interactable = 0;
 }
 
-void Game::drawGameElements() {
-  if (interactable) updateElements();
+void Game::drawGameElements(SoundManager* soundManager) {
+  if (interactable) updateElements(soundManager);
   this->ball.drawBall();
   this->player.drawPlayer();
   this->bot.drawBot();
@@ -29,11 +29,11 @@ void Game::drawGameElements() {
   // Chequea colision con jugador
   if (CheckCollisionRecs(player.getRectangle(), ball.getRect())
     && !ball.isOpposing()) {
-    ball.rebotarContraJugador();
+    ball.rebotarContraJugador(soundManager);
   } else {  // Chequea colosion con bot
     if (CheckCollisionRecs(bot.getRectangle(), ball.getRect())
       && ball.isOpposing()) {
-      ball.rebotarContraBot();
+      ball.rebotarContraBot(soundManager);
     }
   }
 
@@ -59,9 +59,9 @@ void Game::drawGameElements() {
 }
 
 // Pausar juego
-void Game::isGamePaused(byte& paused) {
+void Game::isGamePaused(byte& paused, SoundManager* soundManager) {
   // Si se toca botón de pausa, pausamos
-  paused = (this->pause_button.isButtonBeingClicked()) ? 1 : paused;
+  paused = (this->pause_button.isButtonBeingClicked(soundManager)) ? 1 : paused;
   // Pero también, si tocamos espacio, pausamos
   if (IsKeyDown(KEY_SPACE)) paused = 1;
 }
