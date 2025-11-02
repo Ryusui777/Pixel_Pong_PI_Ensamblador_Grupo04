@@ -20,7 +20,6 @@ class SoundManager {
 
  public:
   SoundManager();
-  ~SoundManager();
 
   /**
    * @brief Inicializar sonidos
