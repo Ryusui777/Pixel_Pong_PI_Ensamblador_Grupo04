@@ -50,13 +50,45 @@ void Player::resetPlayerPosition() {
   position.x = WINDOW_WIDTH - texture.width * SCALE - margin;
 }
 
-Rectangle Player::getRectangle() {
-  Rectangle rect;
+HitBox_t Player::getRectangle() {
+  HitBox_t hitBox;
+
   float w = texture.width * SCALE;
   float h = texture.height* SCALE;
-  rect.x = position.x - w * 0.5f;
-  rect.y = position.y - h * 0.5f;
-  rect.height = h;
-  rect.width = w;
-  return rect;
+  
+  float hit_w = w;
+  float hit_h = h / 4;
+  
+  float hitbox_starting_pos_x = position.x - w * 0.5f;
+  float hitbox_starting_pos_y = position.y - h * 0.5f;
+
+  hitBox.upperHitBox = {
+    .x = hitbox_starting_pos_x,
+    .y = hitbox_starting_pos_y,
+    .width = hit_w,
+    .height = hit_h
+  };
+
+  hitBox.upperMiddleHitBox = {
+    .x = hitbox_starting_pos_x,
+    .y = (hitbox_starting_pos_y + hit_h),
+    .width = hit_w,
+    .height = hit_h
+  };
+
+  hitBox.lowerMiddleHitBox = {
+    .x = hitbox_starting_pos_x,
+    .y = (hitbox_starting_pos_y + 2*hit_h),
+    .width = hit_w,
+    .height = hit_h
+  };
+
+  hitBox.lowerHitBox = {
+    .x = hitbox_starting_pos_x,
+    .y = (hitbox_starting_pos_y + 3*hit_h),
+    .width = hit_w,
+    .height = hit_h
+  };
+
+  return hitBox;
 }

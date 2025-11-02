@@ -36,5 +36,5 @@ class Bot {
   /**
    * @brief hitbox del bot
    */
-  Rectangle getRectangle();
+  HitBox_t getRectangle();
 };

@@ -4,6 +4,7 @@ section .bss
     position_ptr: resq 1
     upperLimit:   resd 1
     lowerLimit:   resd 1
+    
 
 section .data
     negSign: dd -1.0
@@ -16,12 +17,18 @@ section .data
 
     defaultAngle: dd 45.0  ; Ángulo por defecto de la pelota
 
+    g0:   dd 0.0
     g80:  dd 80.0
     g90:  dd 90.0
     g100: dd 100.0
+    g180:   dd 180.0
     g260: dd 260.0
     g270: dd 270.0
     g280: dd 280.0
+    g360: dd 360.0
+
+
+    gSpin: dd 20.0
     
 section .text
 extern  GetRandomValue
@@ -37,6 +44,7 @@ global pelotaReboto
 global pelotaReverseX
 global pelotaReverseY
 global setBallSpeed
+
 
 
 _isBallOpossingPlayer: 
@@ -60,13 +68,13 @@ _isBallOpossingPlayer:
     ret
 
 
-isBallOpossingPlayer:
+isBallOpossingPlayer: 
     xor rax, rax
     mov eax, dword[isOpposingPlayer]
     ret
 
 ; Establecer la velocidad de la bola
-setBallSpeed:
+setBallSpeed: 
     movss dword[speed], xmm0  ; nuevo valor de velocidad (float)
     ret
 
@@ -202,5 +210,108 @@ resetBall:
     movss dword[currentAngle], xmm0
     add     rsp, 16
     call  _isBallOpossingPlayer
+
+    ret
+
+;============================================
+; Normaliza el angulo entre [0, 360]
+;============================================
+normalize_angle: 
+     ; if angle < 0: angle += 360
+    ucomiss xmm0, dword [g0]
+    jae .checkHigh           ; if angle >= 0 
+    addss   xmm0, dword [g360]
+.checkHigh:
+    ; if angle >= 360  angle -= 360
+    ucomiss xmm0, dword [g360]
+    jb .done
+    subss   xmm0, dword [g360]
+.done:
+    ret
+
+;============================================
+; Calucula el reflejo del angulo
+;============================================
+base_reflect: 
+    movss   xmm0, dword [g180]         ; xmm0 = 180
+    movss   xmm1, dword [currentAngle] ; xmm1 = old angle
+    subss   xmm0, xmm1                 ; xmm0 = 180 - angle
+    ret
+
+
+
+;============================================
+; Cambia la direccion de la pelota si rebota
+; en la parte superior de la paleta
+;============================================
+global rebote_superior
+rebote_superior: 
+     ; invierte vx
+    call    pelotaReverseX
+
+    ; angle' = 180 - angle
+    call    base_reflect        ; xmm0 = 180 - currentAngle
+
+    ; angle' -= spin
+    subss   xmm0, dword [gSpin]
+
+    ; normalizar
+    call    normalize_angle
+
+    ; guardar
+    movss   dword [currentAngle], xmm0
+
+    ; actualizar bandera
+    call    pelotaReboto
+
+    ret
+    
+
+;============================================
+; Cambia la direccion de la pelota si rebota
+; en la parte inferior de la paleta
+;============================================
+global rebote_inferior
+rebote_inferior: 
+    ; invierte vx
+    call    pelotaReverseX
+
+    ; angle' = 180 - angle
+    call    base_reflect        ; xmm0 = 180 - currentAngle
+
+    ; angle' += spin
+    addss   xmm0, dword [gSpin]
+
+    ; normalizar
+    call    normalize_angle
+
+    ; guardar
+    movss   dword [currentAngle], xmm0
+
+    ; actualizar bandera
+    call   pelotaReboto 
+
+    ret
+
+;============================================
+; Cambia la direccion de la pelota si rebota
+; en la parte central de la paleta
+;============================================
+global rebote_central
+rebote_central: 
+ ; invierte vx
+    call    pelotaReverseX
+
+    ; angle' = 180 - angle
+    call    base_reflect
+
+    ; normalizar a [0,360)
+    call    normalize_angle
+
+    ; guardar nuevo ángulo
+    movss   dword [currentAngle], xmm0
+
+    ; actualizar bandera isOpposingPlayer
+    call   pelotaReboto 
 
     ret
