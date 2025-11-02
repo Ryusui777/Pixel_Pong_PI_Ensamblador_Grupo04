@@ -7,6 +7,9 @@
 #define PLAYER_SPEED 8
 #define PLAYER_ASSET_PATH (char*)"assets/mainGame/player_red.png"
 
+
+
+
 /** 
  * @brief Clase que representa al jugador humano de la partida
  */
@@ -51,5 +54,5 @@ class Player {
   /**
    * @brief Rectangulo del jugador
   */
-  Rectangle getRectangle();
+  HitBox_t getRectangle();
 };

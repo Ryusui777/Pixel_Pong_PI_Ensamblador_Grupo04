@@ -64,6 +64,12 @@ class Game {
    */
   void resetMatch();
 
+
+  /**
+   * @brief Chequea las colisiones entre los elementos
+   */
+  void checkCollisions();
+
   /**
    * @brief Aplica la velocidad configurada a la bola
    * @param speed Velocidad de la pelota (entre 10 y 20)
