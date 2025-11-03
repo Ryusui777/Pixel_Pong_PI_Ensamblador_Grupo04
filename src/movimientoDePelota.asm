@@ -4,11 +4,21 @@ section .bss
     position_ptr: resq 1
     upperLimit:   resd 1
     lowerLimit:   resd 1
-    
 
 section .data
+    game_dificulty: db 0
+
     negSign: dd -1.0
+    one: dd 1.0
+
+    ; Speed related
+    n10: dd 10.0
     speed: dd 10.0  ; Velocidad por defecto de la bola
+
+    easySpeedLimit:     dd 15.0
+    mediumSpeedLimit:   dd 20.0
+    hardSpeedLimit:     dd 20.0
+
     isOpposingPlayer: dd 0
     currentAngle: dd 0  ; Ángulo actual de la bola
     DEG2RAD:    dd 0.0174532925
@@ -18,13 +28,17 @@ section .data
     defaultAngle: dd 45.0  ; Ángulo por defecto de la pelota
 
     g0:   dd 0.0
+    g60:  dd 60.0
     g80:  dd 80.0
     g90:  dd 90.0
     g100: dd 100.0
-    g180:   dd 180.0
+    g120: dd 120.0
+    g180: dd 180.0
+    g240: dd 240.0
     g260: dd 260.0
     g270: dd 270.0
     g280: dd 280.0
+    g300: dd 300.0
     g360: dd 360.0
 
 
@@ -44,7 +58,7 @@ global pelotaReboto
 global pelotaReverseX
 global pelotaReverseY
 global setBallSpeed
-
+global setDifficulty
 
 
 _isBallOpossingPlayer: 
@@ -76,6 +90,15 @@ isBallOpossingPlayer:
 ; Establecer la velocidad de la bola
 setBallSpeed: 
     movss dword[speed], xmm0  ; nuevo valor de velocidad (float)
+    ret
+
+;============================================
+; Cambia la dificultad del juego
+; dil -> la dificultad que se quiere que este
+;        el juego
+;============================================
+setDifficulty: 
+    mov byte[game_dificulty], dil
     ret
 
 ;============================================
@@ -155,6 +178,9 @@ pelotaReverseY:
     call  reverse 
     ret
 
+;============================================
+; Invierte a lo que apunte rax
+;============================================
 reverse: 
     vmovss xmm0, dword[rax]
     vmovss xmm1, dword[negSign]
@@ -162,33 +188,54 @@ reverse:
     vmovss dword[rax], xmm2 
     ret
 
+;============================================
+; Resetea la velocidad, anglo y posicion de la
+; pelota
+;============================================
 resetBall:    
+    ; Resetea la velocidad de la pelota
+    movss xmm0, [n10]
+    movss dword[speed], xmm0
     mov edi, [minAngle]
     mov esi, [maxAngle]
     call  GetRandomValue 
     cvtsi2ss xmm0, eax
     ; Ángulo >= 80 y ángulo <= 100 
-    vmovss xmm1, dword[g80]
+    vmovss xmm1, dword[g60]
     ucomiss xmm0, xmm1
     jb .fine
-    vmovss xmm1, dword[g100]
+    vmovss xmm1, dword[g120]
     ucomiss xmm0, xmm1
     ja .check2
     jmp .change
 
+    ; DEBUG 
+    ; movss xmm0, dword[g0]
+    ; DEBUG
+
 ; Ángulo >= 260 y ángulo <= 100 
 .check2:
-    vmovss xmm1, dword[g260]
+    ; DEBUG 
+    ; movss xmm0, dword[g180]
+    ; DEBUG
+    vmovss xmm1, dword[g240]
     ucomiss xmm0, xmm1
     jb .fine
-    vmovss xmm1, dword[g280]
+    vmovss xmm1, dword[g300]
     ucomiss xmm0, xmm1
     ja .fine
 
 .change:
+    ; DEBUG 
+    ; movss xmm0, dword[g180]
+    ; DEBUG
     movss xmm0, [defaultAngle]
 
 .fine:
+    ; DEBUG 
+    ; movss xmm0, dword[g90]
+    ; DEBUG
+
     mov     r8, [velocity_ptr]
     sub     rsp, 16 ; este espacio se va usar para guardar el ángulo y alinear la pila
     movss   [rsp], xmm0 
@@ -209,9 +256,11 @@ resetBall:
     movss xmm0, dword[rsp]
     movss dword[currentAngle], xmm0
     add     rsp, 16
+
     call  _isBallOpossingPlayer
 
     ret
+
 
 ;============================================
 ; Normaliza el angulo entre [0, 360]
@@ -299,19 +348,66 @@ rebote_inferior:
 ;============================================
 global rebote_central
 rebote_central: 
- ; invierte vx
+
+  ; 1. invierte la velocidad X
     call    pelotaReverseX
 
-    ; angle' = 180 - angle
-    call    base_reflect
+    mov     r8, [velocity_ptr]    ; velocity_vector
+    movss   xmm1, dword [r8]          ; xmm1 = vx
 
-    ; normalizar a [0,360)
-    call    normalize_angle
+    ucomiss xmm1, dword [g0]
+    jb      .going_left          ; if vx < 0
 
-    ; guardar nuevo ángulo
+    ; vx >= 0
+    movss   xmm0, dword [g0]
+    jmp     .store_angle
+
+.going_left:
+    ; vx < 0 
+    movss   xmm0, dword [g180]
+
+.store_angle:
+    ; guardar nuevo ángulo global
     movss   dword [currentAngle], xmm0
 
-    ; actualizar bandera isOpposingPlayer
+
     call   pelotaReboto 
 
     ret
+
+global incrementar_velocidad
+incrementar_velocidad: 
+
+    ; Aumentar la velocidad 1
+    movss xmm0, dword[one]
+    movss xmm1, dword[speed]
+    addss xmm1, xmm0 ; speed += 1
+
+    mov al, byte[game_dificulty]
+
+    ; easy level 
+    cmp al, 0
+    jne .checkMedium
+    ucomiss xmm1, dword[easySpeedLimit]
+    jb .endIncrementar
+    movss xmm1, dword[easySpeedLimit]
+    jmp .endIncrementar
+.checkMedium:
+    ; medium level
+    cmp al, 1
+    jne .checkHard
+    ucomiss xmm1, dword[mediumSpeedLimit]
+    jb .endIncrementar
+    movss xmm1, dword[mediumSpeedLimit]
+    jmp .endIncrementar
+.checkHard:
+    ; hard level
+    ucomiss xmm1, dword[hardSpeedLimit]
+    jb .endIncrementar
+    movss xmm1, dword[hardSpeedLimit]
+
+.endIncrementar:
+    movss dword[speed], xmm1
+
+    ret
+    

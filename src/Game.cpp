@@ -4,6 +4,8 @@
 extern "C" void rebote_central();
 extern "C" void rebote_superior();
 extern "C" void rebote_inferior();
+extern "C" void incrementar_velocidad();
+extern "C" void setDifficulty(char);
 
 
 void Game::updateElements(SoundManager* soundManager) {
@@ -101,6 +103,10 @@ void Game::drawGameElements(SoundManager* soundManager) {
   this->bot.drawBot();
   this->pause_button.drawButton();
   checkCollisions();
+  if(!((int)GetTime() % 2)){ incrementar_velocidad(); printf("time %d\n", (int)GetTime());}
+  if(IsKeyDown(KEY_B)) setDifficulty(0); // Easy
+  if(IsKeyDown(KEY_N)) setDifficulty(1); // Medium
+  if(IsKeyDown(KEY_M)) setDifficulty(2); // Hard
 }
 
 // Pausar juego
