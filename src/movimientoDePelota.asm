@@ -1,32 +1,41 @@
 ; Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
+
+; ===========================
+; Sección BSS: punteros y límites (no inicializados)
+; ===========================
 section .bss
-    velocity_ptr: resq 1
-    position_ptr: resq 1
-    upperLimit:   resd 1
-    lowerLimit:   resd 1
+    velocity_ptr: resq 1        ; puntero (qword) al vector de velocidad {vx, vy}
+    position_ptr: resq 1        ; puntero (qword) al vector de posición {x, y}
+    upperLimit:   resd 1        ; límite superior pantalla (int)
+    lowerLimit:   resd 1        ; límite inferior pantalla (int)
 
+; ===========================
+; Sección DATA: constantes y estado del juego
+; ===========================
 section .data
-    game_dificulty: db 0
+    game_dificulty: db 0        ; 0: easy, 1: medium, 2: hard
 
-    negSign: dd -1.0
-    one: dd 1.0
+    negSign: dd -1.0            ; -1.0 (para invertir signos)
+    one: dd 1.0                 ; 1.0
 
-    ; Speed related
+    ; Velocidad
     n10: dd 10.0
-    speed: dd 10.0  ; Velocidad por defecto de la bola
+    speed: dd 10.0              ; velocidad actual de la bola
 
     easySpeedLimit:     dd 15.0
     mediumSpeedLimit:   dd 20.0
     hardSpeedLimit:     dd 20.0
 
-    isOpposingPlayer: dd 0
-    currentAngle: dd 0  ; Ángulo actual de la bola
-    DEG2RAD:    dd 0.0174532925
-    minAngle: dd 0  ; Menor ángulo posible de la bola
-    maxAngle: dd 360 ; Mayor ángulo posible de la bola
+    isOpposingPlayer: dd 0      ; bandera: 1 si el ángulo va hacia el oponente
+    currentAngle: dd 0          ; ángulo actual en grados
+    DEG2RAD:    dd 0.0174532925 ; conversión a radianes
 
-    defaultAngle: dd 45.0  ; Ángulo por defecto de la pelota
+    minAngle: dd 0              ; ángulo mínimo para aleatorio
+    maxAngle: dd 360            ; ángulo máximo para aleatorio
 
+    defaultAngle: dd 45.0       ; ángulo por defecto si cae en bandas prohibidas
+
+    ; Grados de ayuda
     g0:   dd 0.0
     g60:  dd 60.0
     g80:  dd 80.0
@@ -41,15 +50,17 @@ section .data
     g300: dd 300.0
     g360: dd 360.0
 
+    gSpin: dd 20.0              ; “efecto” para rebotes superior/inferior
 
-    gSpin: dd 20.0
-    
+; ===========================
+; Sección TEXT: código
+; ===========================
 section .text
-extern  GetRandomValue
-extern  cosf
-extern  sinf
+extern  GetRandomValue          ; int GetRandomValue(int min, int max)
+extern  cosf                    ; float cosf(float)
+extern  sinf                    ; float sinf(float)
 
-; Funciones que se llaman desde C++
+; Exportadas a C++
 global isBallOpossingPlayer
 global pelotaMove
 global initPelotaMovement
@@ -60,80 +71,83 @@ global pelotaReverseY
 global setBallSpeed
 global setDifficulty
 
-
+; ------------------------------------------------------------
+; _isBallOpossingPlayer (interno): evalúa si el ángulo ∈ [90,270]
+;   - Si 90 <= angle <= 270 → isOpposingPlayer = 1
+;   - Caso contrario → 0
+; ------------------------------------------------------------
 _isBallOpossingPlayer: 
     mov dword[isOpposingPlayer], 0
 
-    movss xmm0, dword[currentAngle] ; el ángulo actual de la bola
-    movss xmm1, dword[g90]          ; ángulo de 90
+    movss xmm0, dword[currentAngle] ; xmm0 = angle
+    movss xmm1, dword[g90]          ; xmm1 = 90
 
-    ; angle > 90 
+    ; if angle < 90 → salir (sigue en 0)
     ucomiss xmm0, xmm1
     jb .endCheck
-.check2:
-    movss xmm1, dword[g270]
 
+.check2:
+    movss xmm1, dword[g270]         ; xmm1 = 270
+    ; if angle > 270 → salir (sigue en 0)
     ucomiss xmm0, xmm1
     ja .endCheck
 
+    ; aquí: 90 <= angle <= 270
     mov dword[isOpposingPlayer], 1
 
 .endCheck:
     ret
 
-
+; ------------------------------------------------------------
+; isBallOpossingPlayer(): retorna bandera isOpposingPlayer
+; ------------------------------------------------------------
 isBallOpossingPlayer: 
     xor rax, rax
     mov eax, dword[isOpposingPlayer]
     ret
 
-; Establecer la velocidad de la bola
+; ------------------------------------------------------------
+; setBallSpeed(xmm0): establece velocidad (float)
+; ------------------------------------------------------------
 setBallSpeed: 
-    movss dword[speed], xmm0  ; nuevo valor de velocidad (float)
+    movss dword[speed], xmm0
     ret
 
-;============================================
-; Cambia la dificultad del juego
-; dil -> la dificultad que se quiere que este
-;        el juego
-;============================================
+; ------------------------------------------------------------
+; setDifficulty(dil): cambia dificultad (0/1/2)
+;   dil = registro bajo de rdi (char)
+; ------------------------------------------------------------
 setDifficulty: 
     mov byte[game_dificulty], dil
     ret
 
-;============================================
-; Actualizar la posición de la bola
-;============================================
+; ------------------------------------------------------------
+; pelotaMove(): position += velocity
+;   Usa velocity_ptr y position_ptr
+; ------------------------------------------------------------
 pelotaMove: 
     mov r8, [velocity_ptr]
 
-    vmovss xmm0, [r8] ; velocity.x
-    vmovss xmm1, [r8+4] ; velocity.y
+    vmovss xmm0, [r8]        ; vx
+    vmovss xmm1, [r8+4]      ; vy
 
     mov r9, [position_ptr]
 
-    vmovss xmm2, [r9] ; position.x
-    vmovss xmm3, [r9+4]; position.y
+    vmovss xmm2, [r9]        ; x
+    vmovss xmm3, [r9+4]      ; y
 
-    vaddss xmm2, xmm0; position.x + velocity.x
-    vaddss xmm3, xmm1; position.x + velocity.x
+    vaddss xmm2, xmm0        ; x += vx   (2-op: dst = dst + src)
+    vaddss xmm3, xmm1        ; y += vy
 
-    vmovss dword[r9], xmm2
-    vmovss dword[r9+4], xmm3
+    vmovss dword [r9],   xmm2
+    vmovss dword [r9+4], xmm3
 
     ret
 
-;============================================
-; Guarda los punteros hacia los vectores
-; de posición y velocidad. Además, define los
-; bordes inferiores y superiores; tomando en 
-; cuenta el tamano de la sprite.
-; Parámetros: 
-; rdi -> puntero hacia el vector de velocidad
-; rsi -> puntero hacia el vector de posicion
-; edx -> el límite superior de la pantalla
-; ecx -> el límite inferior de la pantalla
-;============================================
+; ------------------------------------------------------------
+; initPelotaMovement(rdi=vel*, rsi=pos*, edx=upper, ecx=lower)
+; Guarda punteros y límites
+; ------------------------------------------------------------
 initPelotaMovement: 
     mov [velocity_ptr], rdi
     mov [position_ptr], rsi
@@ -141,11 +155,9 @@ initPelotaMovement:
     mov [lowerLimit], ecx
     ret
 
-;============================================
-; Cambia una variable que dice si el ángulo 
-; de la bola va en dirección del jugador o 
-; su dirección contraria
-;============================================
+; ------------------------------------------------------------
+; pelotaReboto(): conmuta isOpposingPlayer
+; ------------------------------------------------------------
 pelotaReboto: 
     mov r8d, dword[isOpposingPlayer]
     cmp r8d, 0
@@ -159,48 +171,49 @@ pelotaReboto:
 .end:
     ret
 
-;============================================
-; Invierte la dirección de la pelota en el
-; eje x
-;============================================
+; ------------------------------------------------------------
+; pelotaReverseX(): invierte vx
+; ------------------------------------------------------------
 pelotaReverseX: 
-    mov rax, [velocity_ptr]
-    call  reverse 
+    mov rax, [velocity_ptr] ; rax -> vx
+    call  reverse
     ret
 
-;============================================
-; Invierte la dirección de la pelota en el
-; eje y
-;============================================
+; ------------------------------------------------------------
+; pelotaReverseY(): invierte vy
+; ------------------------------------------------------------
 pelotaReverseY: 
     mov rax, [velocity_ptr]
-    add rax, 4
-    call  reverse 
+    add rax, 4              ; rax -> vy
+    call  reverse
     ret
 
-;============================================
-; Invierte a lo que apunte rax
-;============================================
+; ------------------------------------------------------------
+; reverse(): *rax = -(*rax)  (float)
+; ------------------------------------------------------------
 reverse: 
-    vmovss xmm0, dword[rax]
-    vmovss xmm1, dword[negSign]
-    vmulss xmm2, xmm0, xmm1
-    vmovss dword[rax], xmm2 
+    vmovss xmm0, dword[rax]     ; cargar valor
+    vmovss xmm1, dword[negSign] ; -1.0
+    vmulss xmm2, xmm0, xmm1     ; xmm2 = -valor
+    vmovss dword[rax], xmm2     ; guardar
     ret
 
-;============================================
-; Resetea la velocidad, anglo y posicion de la
-; pelota
-;============================================
-resetBall:    
-    ; Resetea la velocidad de la pelota
+; ------------------------------------------------------------
+; resetBall(): resetea velocidad/ángulo y calcula nueva velocidad
+;             según ángulo aleatorio (evita bandas 60-120 y 240-300)
+; ------------------------------------------------------------
+resetBall: 
+    ; velocidad por defecto
     movss xmm0, [n10]
     movss dword[speed], xmm0
+
+    ; ángulo aleatorio en [minAngle, maxAngle]
     mov edi, [minAngle]
     mov esi, [maxAngle]
-    call  GetRandomValue 
-    cvtsi2ss xmm0, eax
-    ; Ángulo >= 80 y ángulo <= 100 
+    call  GetRandomValue
+    cvtsi2ss xmm0, eax       ; xmm0 = float(angle)
+
+    ; Si 60 <= angle <= 120 → usar defaultAngle
     vmovss xmm1, dword[g60]
     ucomiss xmm0, xmm1
     jb .fine
@@ -209,15 +222,13 @@ resetBall:
     ja .check2
     jmp .change
 
-    ; DEBUG 
+    ; DEBUG:
     ; movss xmm0, dword[g0]
-    ; DEBUG
 
-; Ángulo >= 260 y ángulo <= 100 
+; Si 240 <= angle <= 300 → usar defaultAngle
 .check2:
-    ; DEBUG 
+    ; DEBUG:
     ; movss xmm0, dword[g180]
-    ; DEBUG
     vmovss xmm1, dword[g240]
     ucomiss xmm0, xmm1
     jb .fine
@@ -226,188 +237,207 @@ resetBall:
     ja .fine
 
 .change:
-    ; DEBUG 
+    ; DEBUG:
     ; movss xmm0, dword[g180]
-    ; DEBUG
     movss xmm0, [defaultAngle]
 
 .fine:
-    ; DEBUG 
+    ; DEBUG:
     ; movss xmm0, dword[g90]
-    ; DEBUG
 
+    ; Construir vector velocidad desde el ángulo y speed
     mov     r8, [velocity_ptr]
-    sub     rsp, 16 ; este espacio se va usar para guardar el ángulo y alinear la pila
-    movss   [rsp], xmm0 
+    sub     rsp, 16
+    movss   [rsp], xmm0          ; guardar ángulo (grados) en la pila
 
-    ; cos(angle * DEG2RAD) * speed
-    mulss   xmm0, dword [DEG2RAD] ; pasa el ángulo a radianes
-    call    cosf                  
-    mulss   xmm0, dword [speed]   
-    movss   dword [r8], xmm0      
-
-    ; sin(angle * DEG2RAD) * speed
-    movss   xmm0, dword [rsp]     ; guardo el ángulo en la pila
-    mulss   xmm0, dword [DEG2RAD] ; a radianes
-    call    sinf                  ; xmm0 = sin(angle_rad)
+    ; vx = cos(angle*DEG2RAD) * speed
+    mulss   xmm0, dword [DEG2RAD]
+    call    cosf
     mulss   xmm0, dword [speed]
-    movss   dword [r8+4], xmm0    ; velocity.y
+    movss   dword [r8], xmm0
 
+    ; vy = sin(angle*DEG2RAD) * speed
+    movss   xmm0, dword [rsp]    ; restaurar ángulo (grados)
+    mulss   xmm0, dword [DEG2RAD]
+    call    sinf
+    mulss   xmm0, dword [speed]
+    movss   dword [r8+4], xmm0
+
+    ; guardar ángulo global
     movss xmm0, dword[rsp]
     movss dword[currentAngle], xmm0
     add     rsp, 16
 
+    ; actualizar bandera de oposición
     call  _isBallOpossingPlayer
-
     ret
 
-
-;============================================
-; Normaliza el angulo entre [0, 360]
-;============================================
+; ------------------------------------------------------------
+; normalize_angle(xmm0): normaliza xmm0 a [0, 360)
+;   Entrada/Salida: xmm0 = ángulo
+; ------------------------------------------------------------
 normalize_angle: 
-     ; if angle < 0: angle += 360
+    ; if angle < 0 → +360
     ucomiss xmm0, dword [g0]
-    jae .checkHigh           ; if angle >= 0 
+    jae .checkHigh
     addss   xmm0, dword [g360]
 .checkHigh:
-    ; if angle >= 360  angle -= 360
+    ; if angle >= 360 → -360
     ucomiss xmm0, dword [g360]
     jb .done
     subss   xmm0, dword [g360]
 .done:
     ret
 
-;============================================
-; Calucula el reflejo del angulo
-;============================================
+; ------------------------------------------------------------
+; base_reflect(): devuelve (180 - currentAngle) en xmm0
+; ------------------------------------------------------------
 base_reflect: 
-    movss   xmm0, dword [g180]         ; xmm0 = 180
-    movss   xmm1, dword [currentAngle] ; xmm1 = old angle
-    subss   xmm0, xmm1                 ; xmm0 = 180 - angle
+    movss   xmm0, dword [g180]         ; 180
+    movss   xmm1, dword [currentAngle] ; currentAngle
+    subss   xmm0, xmm1                 ; 180 - angle
     ret
 
-
-
-;============================================
-; Cambia la direccion de la pelota si rebota
-; en la parte superior de la paleta
-;============================================
+; ------------------------------------------------------------
+; rebote_superior(): invierte vx y aplica reflejo “hacia arriba”
+;   angle' = normalize((180 - angle) - spin)
+; ------------------------------------------------------------
 global rebote_superior
 rebote_superior: 
-     ; invierte vx
-    call    pelotaReverseX
+    call    pelotaReverseX             ; invierte vx
 
-    ; angle' = 180 - angle
-    call    base_reflect        ; xmm0 = 180 - currentAngle
+    call    base_reflect               ; xmm0 = 180 - angle
+    subss   xmm0, dword [gSpin]        ; - spin
+    call    normalize_angle            ; normalizar
 
-    ; angle' -= spin
-    subss   xmm0, dword [gSpin]
-
-    ; normalizar
-    call    normalize_angle
-
-    ; guardar
-    movss   dword [currentAngle], xmm0
-
-    ; actualizar bandera
-    call    pelotaReboto
-
+    movss   dword [currentAngle], xmm0 ; guardar nuevo ángulo
+    call    pelotaReboto               ; alternar bandera de oposición
     ret
-    
 
-;============================================
-; Cambia la direccion de la pelota si rebota
-; en la parte inferior de la paleta
-;============================================
+; ------------------------------------------------------------
+; rebote_inferior(): invierte vx y aplica reflejo “hacia abajo”
+;   angle' = normalize((180 - angle) + spin)
+; ------------------------------------------------------------
 global rebote_inferior
 rebote_inferior: 
-    ; invierte vx
     call    pelotaReverseX
 
-    ; angle' = 180 - angle
-    call    base_reflect        ; xmm0 = 180 - currentAngle
-
-    ; angle' += spin
-    addss   xmm0, dword [gSpin]
-
-    ; normalizar
+    call    base_reflect               ; xmm0 = 180 - angle
+    addss   xmm0, dword [gSpin]        ; + spin
     call    normalize_angle
 
-    ; guardar
     movss   dword [currentAngle], xmm0
-
-    ; actualizar bandera
-    call   pelotaReboto 
-
+    call   pelotaReboto
     ret
 
-;============================================
-; Cambia la direccion de la pelota si rebota
-; en la parte central de la paleta
-;============================================
+; ------------------------------------------------------------
+; rebote_central(): rebote en zona central de la paleta
+;   - Invierte vx
+;   - Fija ángulo exactamente a 0° si vx>=0, o 180° si vx<0
+;   (NÓTESE: aquí no hay easing, es un “snap” duro por diseño actual)
+; ------------------------------------------------------------
 global rebote_central
 rebote_central: 
-
-  ; 1. invierte la velocidad X
+    ; invierte la velocidad X
     call    pelotaReverseX
 
-    mov     r8, [velocity_ptr]    ; velocity_vector
-    movss   xmm1, dword [r8]          ; xmm1 = vx
+    mov     r8, [velocity_ptr]         ; cargar vx
+    movss   xmm1, dword [r8]           ; xmm1 = vx
 
+    ; si vx < 0 → 180°, si no → 0°
     ucomiss xmm1, dword [g0]
-    jb      .going_left          ; if vx < 0
-
-    ; vx >= 0
-    movss   xmm0, dword [g0]
+    jb      .going_left
+    movss   xmm0, dword [g0]           ; target = 0°
     jmp     .store_angle
 
 .going_left:
-    ; vx < 0 
-    movss   xmm0, dword [g180]
+    movss   xmm0, dword [g180]         ; target = 180°
 
 .store_angle:
-    ; guardar nuevo ángulo global
-    movss   dword [currentAngle], xmm0
-
-
-    call   pelotaReboto 
-
+    movss   dword [currentAngle], xmm0 ; guardar nuevo ángulo
+    call   pelotaReboto
     ret
 
+; ------------------------------------------------------------
+; incrementar_velocidad(): speed += 1, saturada por dificultad
+;   - easy:  <= 15
+;   - medium:<= 20
+;   - hard:  <= 20
+; ------------------------------------------------------------
 global incrementar_velocidad
 incrementar_velocidad: 
+   ; Guardar speed viejo
+    vmovss xmm4, dword [speed]      ; xmm4 = old_speed
 
     ; Aumentar la velocidad 1
-    movss xmm0, dword[one]
-    movss xmm1, dword[speed]
-    addss xmm1, xmm0 ; speed += 1
+    vmovss xmm0, dword [one]        ; 1.0
+    vmovss xmm1, dword [speed]      ; xmm1 = speed
+    addss  xmm1, xmm0               ; xmm1 = speed + 1
 
-    mov al, byte[game_dificulty]
+    mov    al, byte [game_dificulty]
 
-    ; easy level 
-    cmp al, 0
-    jne .checkMedium
-    ucomiss xmm1, dword[easySpeedLimit]
-    jb .endIncrementar
-    movss xmm1, dword[easySpeedLimit]
-    jmp .endIncrementar
+    ; easy (0)
+    cmp    al, 0
+    jne    .checkMedium
+    ucomiss xmm1, dword [easySpeedLimit]
+    jb     .storeNew
+    vmovss xmm1, dword [easySpeedLimit]
+    jmp    .storeNew
+
 .checkMedium:
-    ; medium level
-    cmp al, 1
-    jne .checkHard
-    ucomiss xmm1, dword[mediumSpeedLimit]
-    jb .endIncrementar
-    movss xmm1, dword[mediumSpeedLimit]
-    jmp .endIncrementar
-.checkHard:
-    ; hard level
-    ucomiss xmm1, dword[hardSpeedLimit]
-    jb .endIncrementar
-    movss xmm1, dword[hardSpeedLimit]
+    ; medium (1)
+    cmp    al, 1
+    jne    .checkHard
+    ucomiss xmm1, dword [mediumSpeedLimit]
+    jb     .storeNew
+    vmovss xmm1, dword [mediumSpeedLimit]
+    jmp    .storeNew
 
-.endIncrementar:
-    movss dword[speed], xmm1
+.checkHard:
+    ; hard (2)
+    ucomiss xmm1, dword [hardSpeedLimit]
+    jb     .storeNew
+    vmovss xmm1, dword [hardSpeedLimit]
+
+.storeNew:
+    ; Escribir nueva speed
+    vmovss dword [speed], xmm1      ; [speed] = new_speed
+
+    ; === Re-escalar el vector de velocidad ===
+    ; Si old_speed == 0 → recalcular con trig (evitar /0)
+    ucomiss xmm4, dword [g0]        ; old_speed ? 0.0
+    jne    .scaleVector
+
+    ; old_speed == 0.0 → recomputar vx,vy desde currentAngle
+    ; vx = cos(angle*DEG2RAD)*speed ; vy = sin(...) * speed
+    vmovss xmm0, dword [currentAngle]
+    mulss  xmm0, dword [DEG2RAD]
+    call   cosf
+    mulss  xmm0, dword [speed]
+    mov    r8, [velocity_ptr]
+    vmovss dword [r8], xmm0         ; vx
+
+    vmovss xmm0, dword [currentAngle]
+    mulss  xmm0, dword [DEG2RAD]
+    call   sinf
+    mulss  xmm0, dword [speed]
+    vmovss dword [r8+4], xmm0       ; vy
+    ret
+
+.scaleVector:
+    ; factor = new_speed / old_speed
+    divss  xmm1, xmm4               ; xmm1 = factor
+
+    mov    r8, [velocity_ptr]
+
+    ; vx *= factor
+    vmovss xmm0, dword [r8]
+    mulss  xmm0, xmm1
+    vmovss dword [r8], xmm0
+
+    ; vy *= factor
+    vmovss xmm0, dword [r8+4]
+    mulss  xmm0, xmm1
+    vmovss dword [r8+4], xmm0
 
     ret
-    

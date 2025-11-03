@@ -103,7 +103,13 @@ void Game::drawGameElements(SoundManager* soundManager) {
   this->bot.drawBot();
   this->pause_button.drawButton();
   checkCollisions();
-  if(!((int)GetTime() % 2)){ incrementar_velocidad(); printf("time %d\n", (int)GetTime());}
+  static int lastTick = -1;
+  int t = (int)GetTime();
+  if (t % 2 == 0 && t != lastTick) {
+    incrementar_velocidad();
+    lastTick = t;
+  }
+
   if(IsKeyDown(KEY_B)) setDifficulty(0); // Easy
   if(IsKeyDown(KEY_N)) setDifficulty(1); // Medium
   if(IsKeyDown(KEY_M)) setDifficulty(2); // Hard
