@@ -1,6 +1,7 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Game.h"
 #include <iostream>
+#define PROBANDO 1
 extern "C" void rebote_central();
 extern "C" void rebote_superior();
 extern "C" void rebote_inferior();
@@ -21,6 +22,11 @@ void Game::initializeGame() {
   this->ball.initializeBall();
   this->pause_button.initializeButton((char*)pause_button_path
     , pause_button_pos);
+
+  #if PROBANDO
+  this->marcadorBot.init({WINDOW_WIDTH/4, 30.0f});
+  this->marcadorPly.init({(WINDOW_WIDTH/2 + WINDOW_WIDTH/4), 30.0f});
+  #endif
 
   // Dice que la escena es interactuable
   this->interactable = 0;
@@ -91,8 +97,6 @@ void Game::checkCollisions(){
     r = bot.getRectangle().lowerHitBox;
     DrawRectangleLines(r.x, r.y, r.width, r.height, WHITE);
 
-    
-
   }
 
 }
@@ -102,6 +106,8 @@ void Game::drawGameElements(SoundManager* soundManager) {
   this->player.drawPlayer();
   this->bot.drawBot();
   this->pause_button.drawButton();
+  this->marcadorBot.draw(98);
+  this->marcadorPly.draw(2);
   checkCollisions();
   static int lastTick = -1;
   int t = (int)GetTime();

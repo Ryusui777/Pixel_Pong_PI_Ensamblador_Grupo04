@@ -5,6 +5,9 @@
 #include "Button.h"
 #include "Bot.h"
 #include "Ball.h"
+#include "Label.h"
+#include "Marcador.h"
+
 
 /**
  * @brief Clase responsable de la partida en juego.
@@ -23,6 +26,9 @@ class Game {
   Button pause_button;
   // Indicador de si un elemento es interactuable
   std::uint8_t interactable;
+
+  Marcador marcadorPly;
+  Marcador marcadorBot;
 
   void updateElements(SoundManager* soundManager);
 
