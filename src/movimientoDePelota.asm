@@ -70,6 +70,10 @@ global pelotaReverseX
 global pelotaReverseY
 global setBallSpeed
 global setDifficulty
+global getCurrentAngle
+global getIsOpposingPlayer
+global getGameDifficulty
+global setCurrentAngle
 
 ; ------------------------------------------------------------
 ; _isBallOpossingPlayer (interno): evalúa si el ángulo ∈ [90,270]
@@ -440,4 +444,20 @@ incrementar_velocidad:
     mulss  xmm0, xmm1
     vmovss dword [r8+4], xmm0
 
+    ret
+
+getCurrentAngle:
+    movss xmm0, [currentAngle]
+    ret
+
+getIsOpposingPlayer:
+    mov eax, [isOpposingPlayer]
+    ret
+
+getGameDifficulty:
+    movzx eax, byte [game_dificulty]
+    ret
+
+setCurrentAngle:
+    movss dword [currentAngle], xmm0
     ret
