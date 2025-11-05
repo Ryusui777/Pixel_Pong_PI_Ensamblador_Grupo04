@@ -11,6 +11,7 @@ extern "C" void pelotaReverseX();
 extern "C" void pelotaMove();
 extern "C" void resetBall();
 extern "C" void pelotaReboto();
+extern "C" void anotacion();
 
 /**
  * @brief Clase que representa la pelota del juego
