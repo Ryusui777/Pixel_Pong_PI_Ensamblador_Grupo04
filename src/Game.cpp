@@ -78,4 +78,5 @@ void Game::resetMatch() {
   this->player.resetPlayerPosition();
   this->bot.resetBot();
   this->ball.resetBallPosition();
+  resetScore();
 }
