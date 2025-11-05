@@ -10,13 +10,6 @@ class Label {
   Texture2D texture;
   Vector2 position;
  public:
-  int getWidht(){
-    return texture.width;
-  }
-  float getHeight(){
-    return texture.height;
-
-  }
   void initializeLabel(char*, Vector2);
   void drawLabel();
 };

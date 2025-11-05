@@ -1,5 +1,5 @@
 section .data
-    puntajeJugador: dd 1
+    puntajeJugador: dd 0
     puntajeBot: dd 0
 section .text
 

@@ -52,7 +52,6 @@ void Ball::checkBoundaryCollision(SoundManager* soundManager) {
   if (position.x - halfWidth <= 0) {
     anotacion();
     soundManager->playBotScore();
-    
     resetBallPosition();
   } else if (position.x + halfWidth >= WINDOW_WIDTH) {
     anotacion();
