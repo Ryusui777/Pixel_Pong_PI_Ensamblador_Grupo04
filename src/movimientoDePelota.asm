@@ -39,7 +39,6 @@ global pelotaReverseY
 global setBallSpeed
 global getCurrentAngle
 global getIsOpposingPlayer
-global getGameDifficulty
 global setCurrentAngle
 _isBallOpossingPlayer: 
     mov dword[isOpposingPlayer], 0
