@@ -7,6 +7,9 @@ extern "C" void rebote_superior();
 extern "C" void rebote_inferior();
 extern "C" void incrementar_velocidad();
 extern "C" void setDifficulty(char);
+extern "C" int getPlyScore();
+extern "C" int getBotScore();
+extern "C" void resetScore();
 
 
 void Game::updateElements(SoundManager* soundManager) {
@@ -106,8 +109,10 @@ void Game::drawGameElements(SoundManager* soundManager) {
   this->player.drawPlayer();
   this->bot.drawBot();
   this->pause_button.drawButton();
-  this->marcadorBot.draw(98);
-  this->marcadorPly.draw(2);
+
+  this->marcadorBot.draw(getBotScore());
+  this->marcadorPly.draw(getPlyScore());
+
   checkCollisions();
   static int lastTick = -1;
   int t = (int)GetTime();
@@ -133,4 +138,5 @@ void Game::resetMatch() {
   this->player.resetPlayerPosition();
   this->bot.resetBot();
   this->ball.resetBallPosition();
+  resetScore();
 }

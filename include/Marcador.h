@@ -29,6 +29,7 @@ class Marcador {
         numbers2[0] = LoadTexture((char*)"assets/mainGame/numbers/number009.png");
 
         SetTextureFilter(numbers[0], TEXTURE_FILTER_POINT);
+
         for(int i = 0; i < 9; ++i){
             std::ostringstream fileName;
             fileName << "assets/mainGame/numbers/number00" << i << ".png";
@@ -38,7 +39,7 @@ class Marcador {
         }
     }
 
-    void draw(int number){
+    void draw(int n){
         Vector2 positionFirstNumber{
             .x = (position.x-(numbers[0].width*SCALE/2)),
             .y = position.y
@@ -48,16 +49,22 @@ class Marcador {
             .y = position.y
         };
 
-        int orinal = number;
-        while(number > 10){
-            number/=10;
+        int orinal = n;
+        while(n >= 10){
+            n/=10;
         }
 
-        drawElement(numbers[number], positionFirstNumber);
-        if(orinal > 10){
-            drawElement(numbers2[orinal-number*10], positionSecoundNumber);
+        if(IsKeyPressed(KEY_A)) anotacion();
+
+
+        if(orinal >= 10){
+            drawElement(numbers[n], positionFirstNumber);
+            drawElement(numbers2[orinal-n*10], positionSecoundNumber);
         }
-        else drawElement(numbers2[orinal-number*10], positionSecoundNumber);
+        else {
+            drawElement(numbers2[0], positionFirstNumber);
+            drawElement(numbers[n], positionSecoundNumber);
+        }
     }
     
 
