@@ -37,7 +37,9 @@ global pelotaReboto
 global pelotaReverseX
 global pelotaReverseY
 global setBallSpeed
-
+global getCurrentAngle
+global getIsOpposingPlayer
+global setCurrentAngle
 _isBallOpossingPlayer: 
     mov dword[isOpposingPlayer], 0
     movss xmm0, dword[currentAngle] ; el ángulo actual de la bola
@@ -177,4 +179,14 @@ resetBall:
     add     rsp, 16
     call  _isBallOpossingPlayer
 
+    ret
+
+getCurrentAngle:
+    movss xmm0, [currentAngle]
+    ret
+getIsOpposingPlayer:
+    mov eax, [isOpposingPlayer]
+    ret
+setCurrentAngle:
+    movss dword [currentAngle], xmm0
     ret
