@@ -34,7 +34,7 @@ class Bot {
   void resetBot();
 
   /**
-   * @brief hitbox del bot
+   * @brief hitbox
    */
-  HitBox_t getRectangle();
+  Rectangle getRectangle();
 };

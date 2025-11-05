@@ -41,45 +41,13 @@ void Bot::resetBot() {
   position.x = texture.width * SCALE + margin;
 }
 
-HitBox_t Bot::getRectangle() {
-  HitBox_t hitBox;
-
+Rectangle Bot::getRectangle() {
+  Rectangle rect;
   float w = texture.width * SCALE;
   float h = texture.height* SCALE;
-  
-  float hit_w = w;
-  float hit_h = h / 4;
-  
-  float hitbox_starting_pos_x = position.x - w * 0.5f;
-  float hitbox_starting_pos_y = position.y - h * 0.5f;
-
-  hitBox.upperHitBox = {
-    .x = hitbox_starting_pos_x,
-    .y = hitbox_starting_pos_y,
-    .width = hit_w,
-    .height = hit_h
-  };
-
-  hitBox.upperMiddleHitBox = {
-    .x = hitbox_starting_pos_x,
-    .y = (hitbox_starting_pos_y + hit_h),
-    .width = hit_w,
-    .height = hit_h
-  };
-
-  hitBox.lowerMiddleHitBox = {
-    .x = hitbox_starting_pos_x,
-    .y = (hitbox_starting_pos_y + 2*hit_h),
-    .width = hit_w,
-    .height = hit_h
-  };
-
-  hitBox.lowerHitBox = {
-    .x = hitbox_starting_pos_x,
-    .y = (hitbox_starting_pos_y + 3*hit_h),
-    .width = hit_w,
-    .height = hit_h
-  };
-
-  return hitBox;
+  rect.x = position.x - w * 0.5f;
+  rect.y = position.y - h * 0.5f;
+  rect.height = h;
+  rect.width = w;
+  return rect;
 }
