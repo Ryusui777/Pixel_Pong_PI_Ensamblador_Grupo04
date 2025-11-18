@@ -9,6 +9,7 @@ void loop() {
   int yValue = analogRead(JOY_Y);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
   
@@ -16,11 +17,15 @@ void loop() {
 =======
 
 >>>>>>> 2aa1e46 ( Se actualiza velocidad de recorrido del joystick)
+=======
+  
+>>>>>>> 5f6bb0d (Se agregan archivos para uso de joystick)
   if (yValue > 700) {
     Serial.println('U');  // Arriba
   } else if (yValue < 300) {
     Serial.println('D');  // Abajo
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -33,4 +38,8 @@ void loop() {
 
   delay(10);
 >>>>>>> 2aa1e46 ( Se actualiza velocidad de recorrido del joystick)
+=======
+  
+  delay(50);
+>>>>>>> 5f6bb0d (Se agregan archivos para uso de joystick)
 }
