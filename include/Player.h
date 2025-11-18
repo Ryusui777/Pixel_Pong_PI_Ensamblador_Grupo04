@@ -1,7 +1,11 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
 #include "raylib.h"
+<<<<<<< HEAD
 #include "arduinoController.h"
+=======
+#include "arduino_controller.h"
+>>>>>>> 5f6bb0d (Se agregan archivos para uso de joystick)
 #include "shared.h"
 #include <stdio.h>
 
