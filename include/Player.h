@@ -2,6 +2,7 @@
 #pragma once
 #include <stdio.h>
 #include "raylib.h"
+#include "arduino_controller.h"
 #include "shared.h"
 
 #define PLAYER_SPEED 8
@@ -14,6 +15,7 @@ class Player {
  private:
   Vector2 position;  // Posicion del jugador
   Texture2D texture;  // Textura del jugador
+  ArduinoController arduino;
 
   /**
    * @brief Auxiliar de `movePlayer()` para mover hacia arriba al jugador
