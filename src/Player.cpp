@@ -6,6 +6,7 @@ extern "C" void moverJugadorAbajo();
 extern "C" void initPlayerMovement(float, float, Vector2*);
 
 void Player::initializePlayer() {
+  arduino.connect("/dev/ttyACM0");
   // Carga la textura del jugador
   this->texture = LoadTexture(PLAYER_ASSET_PATH);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
@@ -38,8 +39,16 @@ void Player::drawPlayer() {
 }
 
 void Player::movePlayer() {
-  if (IsKeyDown(KEY_DOWN)) movePlayerDown();
-  if (IsKeyDown(KEY_UP)) movePlayerUp();
+  // if (IsKeyDown(KEY_DOWN)) movePlayerDown();
+  // if (IsKeyDown(KEY_UP)) movePlayerUp();
+
+  if (IsKeyDown(KEY_DOWN)) movePlayerDown();  // teclas
+  if (IsKeyDown(KEY_UP)) movePlayerUp();  // teclas
+
+  // joystick
+  char cmd = arduino.readCommand();
+  if (cmd == 'U') movePlayerUp();
+  if (cmd == 'D') movePlayerDown();
 }
 
 
