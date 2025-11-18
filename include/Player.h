@@ -1,6 +1,7 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
 #include "raylib.h"
+#include "arduino_controller.h"
 #include "shared.h"
 #include <stdio.h>
 
@@ -14,6 +15,7 @@ class Player {
  private:
   Vector2 position;  // Posicion del jugador
   Texture2D texture;  // Textura del jugador
+  ArduinoController arduino;
 
   /**
    * @brief Auxiliar de `movePlayer()` para mover hacia arriba al jugador
