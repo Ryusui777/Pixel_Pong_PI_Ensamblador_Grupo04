@@ -7,12 +7,12 @@ void setup() {
 
 void loop() {
   int yValue = analogRead(JOY_Y);
-  
+
   if (yValue > 700) {
     Serial.println('U');  // Arriba
   } else if (yValue < 300) {
     Serial.println('D');  // Abajo
   }
-  
-  delay(50);
+
+  delay(10);
 }
