@@ -1,3 +1,5 @@
+# make upload-arduino; make run
+
 # Compilador y Flags
 CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17 -I./include -no-pie
@@ -26,7 +28,7 @@ CPP_OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(CPP_SOURCES))
 ASM_OBJECTS = $(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, $(ASM_SOURCES))
 TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.cpp, $(BUILD_DIR)/test_%.o, $(TEST_SOURCES))
 
-# Objetos sin main.o para tests
+# Objetos sin main.o para tests (hecho con Claude)
 CPP_OBJECTS_NO_MAIN = $(filter-out $(BUILD_DIR)/main.o, $(CPP_OBJECTS))
 
 OBJECTS = $(CPP_OBJECTS) $(ASM_OBJECTS)
@@ -62,6 +64,11 @@ $(TEST_TARGET): $(ASM_OBJECTS) $(TEST_OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(ASM_OBJECTS) $(TEST_OBJECTS) -o $(TEST_TARGET) $(TESTFLAGS) $(LDFLAGS)
 
+# Arduino (Le pedí ayuda a Claude con esto)
+ARDUINO_INO = joystickControl
+ARDUINO_PORT = /dev/ttyACM0
+ARDUINO_BOARD = arduino:avr:uno
+
 # Correr programa
 run: $(TARGET)
 	./$(TARGET)
@@ -69,6 +76,10 @@ run: $(TARGET)
 # Correr tests
 test: $(TEST_TARGET)
 	./$(TEST_TARGET)
+
+upload-arduino:
+	arduino-cli compile --fqbn $(ARDUINO_BOARD) $(ARDUINO_INO)
+	arduino-cli upload -p $(ARDUINO_PORT) --fqbn $(ARDUINO_BOARD) $(ARDUINO_INO)
 
 # Clean todo
 clean:
@@ -86,4 +97,4 @@ lint-src:
 lint-include:
 	cpplint $(CPPLINT_FLAGS) $(INCLUDE_DIR)/*.h
 
-.PHONY: all clean run test clean-tests lint-include lint-src
+.PHONY: all clean run upload-arduino test clean-tests lint-include lint-src
