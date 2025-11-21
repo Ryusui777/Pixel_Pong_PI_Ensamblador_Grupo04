@@ -1,4 +1,10 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
+/**
+ * @note Se usó IA (Claude y Deepseek) par aconsultar por recomendaciones de
+ * casos de prueba unitarios; esto antes de que el profesor nos indicara que no
+ * eran estas el tipo de pruebas requeridas.
+ */
+
 #include <gtest/gtest.h>
 
 // Definir Vector2 para tests

@@ -49,6 +49,8 @@ Para ejecutar el videojuego, es necesario lo siguiente:
 
 - Sistema operativo `Linux` `x86-64`
 
+- Tener instalado `arduino-cli`
+
 ## Ejecución
 
 Para ejecutar el juego, debe abrir una terminar en
@@ -56,4 +58,24 @@ Para ejecutar el juego, debe abrir una terminar en
 finalmente `make run`.
 Seguidamente, se abrirá una ventana con el juego.
 
+Si desea jugar de tal manera que pueda mover al jugador con un Joystick de
+Arduino, lo puede hacer ingresando `make clean; make upload-arduino; make run`
+en la terminal.
+
 Para pruebas (con Google Tests), se debe ingresar `make test`
+
+## Fuentes
+
+Efectos de sonido: [Mixkit](https://mixkit.co/free-sound-effects/arcade/)
+
+Instrucciones para x86-64: [x86 and amd64 instruction reference](https://www.felixcloutier.com/x86/)
+
+Versión online de Pong: [Pong Game](https://www.ponggame.org)
+
+Archivos para comunicación con Arduino: Adaptados con Inteligencia Artificial a partir de código facilitado por el Prof. Sleyter Angulo.
+
+Implementación del Slider: [Claude | Anthropic](https://www.claude.ai)
+
+Sugerencias de casos de prueba unitarios: [Claude | Anthropic](https://www.claude.ai)
+
+Consultas sobre instrucciones en ensamblador: [Claude | Anthropic](https://www.claude.ai)
