@@ -25,6 +25,7 @@ class Ball {
   float speed;
 
  public:
+  friend class Bot;
   /**
    * @brief Se inicializa la bola
    */

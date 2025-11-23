@@ -17,8 +17,9 @@ void Game::updateElements(SoundManager* soundManager) {
 void Game::initializeGame() {
   // Inicializacion de los elementos
   this->player.initializePlayer();
-  this->bot.initializeBot();
+  
   this->ball.initializeBall();
+  this->bot.initializeBot(&ball);
   this->pause_button.initializeButton((char*)pause_button_path
     , pause_button_pos);
 
