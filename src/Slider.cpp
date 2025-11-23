@@ -80,7 +80,7 @@ void Slider::drawSlider() {
 
   // Dibujar el valor actual
   char valueText[32];
-  snprintf(valueText, sizeof(valueText), "%.1f", currentValue);
+  snprintf(valueText, sizeof(valueText), "%d", (int)(currentValue));
   int textWidth = MeasureText(valueText, 20);
   DrawText(valueText, position.x + width / 2 - textWidth / 2, position.y - 30
     , 20, WHITE);
