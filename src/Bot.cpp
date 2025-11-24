@@ -7,9 +7,13 @@ extern "C" void moverBot();
 
 void Bot::initializeBot(Ball* ball) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   // Carga la textura del bot
 =======
 >>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
+=======
+  // Carga la textura del bot
+>>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
   this->texture = LoadTexture((char*)bot_path);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 
