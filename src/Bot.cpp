@@ -1,10 +1,12 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Bot.h"
+#include <iostream>
 
 extern "C" void initBotMovement(float, float, Vector2*, Vector2*, Vector2*);
 extern "C" void moverBot();
 
 void Bot::initializeBot(Ball* ball) {
+  // Carga la textura del bot
   this->texture = LoadTexture((char*)bot_path);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 
@@ -31,8 +33,10 @@ void Bot::drawBot() {
 
 // Se llama desde Game
 void Bot::moveBot() {
-  moverBot();
+    moverBot();
+    
 }
+
 
 void Bot::resetBot() {
   // Centra el bot
