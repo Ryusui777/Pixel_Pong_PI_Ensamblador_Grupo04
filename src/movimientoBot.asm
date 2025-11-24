@@ -7,18 +7,22 @@ section .bss
   lowerLimit: resd 1
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   direction: resd 1        ; para el movimiento autonomo
 =======
 >>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
 =======
   direction: resd 1        ; para el movimiento autonomo
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+>>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
 
 section .data
   vel: dd 3.5 ; Velocidad de bot
   negOne: dd -1.0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   one: dd 1.0
   zero: dd 0.0
 =======
@@ -27,6 +31,8 @@ section .data
   one: dd 1.0
   zero: dd 0.0
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+>>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
 
 section .text
 
@@ -39,6 +45,7 @@ initBotMovement:
   mov [position_ptr], rdi ; puntero a position
   mov [ball_position_ptr], rsi
   mov [ball_velocity_ptr], rdx
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -92,10 +99,26 @@ moverBot:
 
   subss xmm0, xmm1         ; diferencia
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+  ret
+
+; El bot se mueve continuamente para arriba y abajo
+; Cambia de dirección cuando toca los límites
+; El bot sigue a la pelota
+moverBot:
+  mov r8, [ball_position_ptr]
+  mov r9, [position_ptr]
+
+  movss xmm0, [r8+4] ; y pelota (para seguir la bola)
+  movss xmm1, [r9+4] ; y bot
+
+  subss xmm0, xmm1 ; diferencia
+>>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
   ; Valor absoluto
   movss xmm3, xmm0
   movss xmm4, xmm0
   movss xmm5, [negOne]
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   mulss xmm4, xmm5         ; -diferencia
@@ -237,4 +260,32 @@ moverBot:
 =======
   movss [r10+4], xmm1
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+  mulss xmm4, xmm5 ; -diferencia
+  maxss xmm3, xmm4 ; max(diferencia, -diferencia) = |diferencia|
+  
+  ; Limitar velocidad
+  movss xmm4, [vel]
+  minss xmm3, xmm4
+  
+  ; Determinar dirección
+  xorps xmm5, xmm5
+  comiss xmm0, xmm5
+  jb .mover_arriba
+  
+  addss xmm1, xmm3
+  jmp .aplicar_limites
+  
+.mover_arriba:
+  subss xmm1, xmm3
+  
+; limites de la ventana
+.aplicar_limites:
+  movss xmm2, [upperLimit]
+  maxss xmm1, xmm2
+  movss xmm2, [lowerLimit]
+  minss xmm1, xmm2
+  
+  movss [r9+4], xmm1
+>>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
   ret
