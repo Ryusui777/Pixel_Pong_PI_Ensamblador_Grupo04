@@ -7,10 +7,10 @@ section .bss
 
 section .data
     negSign: dd -1.0
-    speed: dd 10.0  ; Velocidad por defecto de la bola
+    speed: dd 10.0  ; Velocidad de la bola
     isOpposingPlayer: dd 0
     currentAngle: dd 0  ; Ángulo actual de la bola
-    DEG2RAD:    dd 0.0174532925 ; para convertir de grados a radianes
+    DEG2RAD:    dd 0.0174532925
     minAngle: dd 0  ; Menor ángulo posible de la bola
     maxAngle: dd 360 ; Mayor ángulo posible de la bola
 
@@ -22,9 +22,9 @@ section .data
     g260: dd 260.0
     g270: dd 270.0
     g280: dd 280.0
-
+    
 section .text
-extern  GetRandomValue
+extern  GetRandomValue 
 extern  cosf
 extern  sinf
 
@@ -36,38 +36,37 @@ global resetBall
 global pelotaReboto
 global pelotaReverseX
 global pelotaReverseY
-global setBallSpeed
-global getCurrentAngle
-global getIsOpposingPlayer
-global setCurrentAngle
+
+
 _isBallOpossingPlayer: 
     mov dword[isOpposingPlayer], 0
-    movss xmm0, dword[currentAngle] ; el ángulo actual de la bola
-    movss xmm1, dword[g90] ; ángulo de 90
 
-    ; ángulo > 90
+    movss xmm0, dword[currentAngle] ; el ángulo actual de la bola
+    movss xmm1, dword[g90]          ; ángulo de 90
+
+    ; angle > 90 
     ucomiss xmm0, xmm1
     jb .endCheck
 .check2:
     movss xmm1, dword[g270]
+
     ucomiss xmm0, xmm1
     ja .endCheck
+
     mov dword[isOpposingPlayer], 1
 
 .endCheck:
     ret
 
-isBallOpossingPlayer:
+
+isBallOpossingPlayer: 
     xor rax, rax
     mov eax, dword[isOpposingPlayer]
     ret
 
-; Establecer la velocidad de la bola
-setBallSpeed:
-    movss dword[speed], xmm0  ; nuevo valor de velocidad (float)
-    ret
-
-; Actualizar la posición de la bola
+;============================================
+; Actualiza la posición de la bola
+;============================================
 pelotaMove: 
     mov r8, [velocity_ptr]
 
@@ -87,7 +86,17 @@ pelotaMove:
 
     ret
 
-; Guarda punteros y límites
+;============================================
+; Guarda los punteros hacia los vectores
+; de posición y velocidad. Además, define los
+; bordes inferiores y superiores; tomando en 
+; cuenta el tamano de la sprite.
+; Parámetros: 
+; rdi -> puntero hacia el vector de velocidad
+; rsi -> puntero hacia el vector de posicion
+; edx -> el límite superior de la pantalla
+; ecx -> el límite inferior de la pantalla
+;============================================
 initPelotaMovement: 
     mov [velocity_ptr], rdi
     mov [position_ptr], rsi
@@ -95,8 +104,11 @@ initPelotaMovement:
     mov [lowerLimit], ecx
     ret
 
-; Cambia una variable que dice si el ángulo de la bola va en dirección del
-; jugador o su dirección contraria
+;============================================
+; Cambia una variable que dice si el ángulo 
+; de la bola va en dirección del jugador o 
+; su dirección contraria
+;============================================
 pelotaReboto: 
     mov r8d, dword[isOpposingPlayer]
     cmp r8d, 0
@@ -110,13 +122,19 @@ pelotaReboto:
 .end:
     ret
 
-; Invierte la dirección de la pelota en el eje x
+;============================================
+; Invierte la dirección de la pelota en el
+; eje x
+;============================================
 pelotaReverseX: 
     mov rax, [velocity_ptr]
     call  reverse 
     ret
 
-; Invierte la dirección de la pelota en el eje y
+;============================================
+; Invierte la dirección de la pelota en el
+; eje y
+;============================================
 pelotaReverseY: 
     mov rax, [velocity_ptr]
     add rax, 4
@@ -179,14 +197,4 @@ resetBall:
     add     rsp, 16
     call  _isBallOpossingPlayer
 
-    ret
-
-getCurrentAngle:
-    movss xmm0, [currentAngle]
-    ret
-getIsOpposingPlayer:
-    mov eax, [isOpposingPlayer]
-    ret
-setCurrentAngle:
-    movss dword [currentAngle], xmm0
-    ret
+    ret 

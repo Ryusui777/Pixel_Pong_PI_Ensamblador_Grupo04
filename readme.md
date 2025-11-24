@@ -57,7 +57,3 @@ finalmente `make run`.
 Seguidamente, se abrirá una ventana con el juego.
 
 Para pruebas (con Google Tests), se debe ingresar `make test`
-
-## Fuentes
-
-Los sonidos fueron tomados de https://mixkit.co/free-sound-effects/arcade/

@@ -30,13 +30,3 @@ byte Button::isMouseAboveButton() {
   Vector2 m = GetMousePosition();
   return CheckCollisionPointRec(m, bounds);
 }
-
-byte Button::isButtonBeingClicked(SoundManager* soundManager) {
-  if (isMouseAboveButton() && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-    if (soundManager) {
-      soundManager->playButtonClick();  // Click
-    }
-    return 1;
-  }
-  return 0;
-}

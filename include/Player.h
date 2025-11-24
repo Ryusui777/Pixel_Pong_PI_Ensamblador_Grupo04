@@ -1,8 +1,8 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
-#include <stdio.h>
 #include "raylib.h"
 #include "shared.h"
+#include <stdio.h>
 
 #define PLAYER_SPEED 8
 #define PLAYER_ASSET_PATH (char*)"assets/mainGame/player_red.png"
