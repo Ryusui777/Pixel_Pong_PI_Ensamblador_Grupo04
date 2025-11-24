@@ -5,7 +5,6 @@
 #include "Button.h"
 #include "Bot.h"
 #include "Ball.h"
-#include "Marcador.h"
 
 /**
  * @brief Clase responsable de la partida en juego.
@@ -24,11 +23,8 @@ class Game {
   Button pause_button;
   // Indicador de si un elemento es interactuable
   std::uint8_t interactable;
-  // Puntaje jugador
-  Marcador marcadorPly;
-  // Puntaje bot
-  Marcador marcadorBot;
-  void updateElements(SoundManager* soundManager);
+
+  void updateElements();
 
  public:
   /**
@@ -40,7 +36,7 @@ class Game {
   /**
    * @brief Rederiza los elementos de la partida en pantalla.
    */
-  void drawGameElements(SoundManager* soundManager);
+  void drawGameElements();
 
   /**
    * @brief Cambia el estado del juego,
@@ -61,18 +57,10 @@ class Game {
    * @remarks La partida se pausa tocando el botón de pausa en la ventana o con
    * la tecla espacio.
    */
-  void isGamePaused(byte& paused, SoundManager* soundManager);
+  void isGamePaused(byte&);
 
   /**
    * @brief Restablece el progreso de la partida.
    */
   void resetMatch();
-
-  /**
-   * @brief Aplica la velocidad configurada a la bola
-   * @param speed Velocidad de la pelota (entre 10 y 20)
-   */
-  void applyBallSpeed(float speed) {
-    this->ball.setSpeed(speed);
-  }
 };

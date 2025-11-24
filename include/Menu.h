@@ -37,10 +37,10 @@ class Menu {
   /**
    * @brief Se regresa a la partida
    */
-  void gameResumed(byte&, SoundManager* soundManager);
+  void gameResumed(byte&);
 
   /**
    * @brief Se regresa al inicio
    */
-  void goHome(byte&, SoundManager* soundManager);
+  void goHome(byte&);
 };

@@ -2,6 +2,13 @@
 #include "Ball.h"
 #include <cmath>
 
+extern "C" void initPelotaMovement(Vector2*, Vector2*, float, float);
+extern "C" void pelotaReverseY();
+extern "C" void pelotaReverseX();
+extern "C" void pelotaMove();
+extern "C" void resetBall();
+extern "C" void pelotaReboto();
+
 void Ball::initializeBall() {
   this->texture = LoadTexture((char*)ball_path);
   this->speed = 10.0f;  // Velocidad inicial
@@ -28,14 +35,14 @@ void Ball::drawBall() {
   DrawTexturePro(texture, src, dst, origin, 0.0f, WHITE);
 }
 
-void Ball::moveBall(SoundManager* soundManager) {
+void Ball::moveBall() {
   // Actualizar posición
   pelotaMove();
   // Verificar colisiones con los bordes
-  checkBoundaryCollision(soundManager);
+  checkBoundaryCollision();
 }
 
-void Ball::checkBoundaryCollision(SoundManager* soundManager) {
+void Ball::checkBoundaryCollision() {
   float halfWidth = getBallWidth() / 2;
   float halfHeight = getBallHeight() / 2;
 
@@ -43,37 +50,23 @@ void Ball::checkBoundaryCollision(SoundManager* soundManager) {
   if (position.y - halfHeight <= 0 || position.y + halfHeight
     >= WINDOW_HEIGHT) {
     pelotaReverseY();
-    if (soundManager) {
-      soundManager->playWallHit();  // Sonido de golpe con muro
-    }
   }
 
-  // Anotación de punto
-  if (position.x - halfWidth <= 0) {
-    anotacion();
-    soundManager->playBotScore();
-    resetBallPosition();
-  } else if (position.x + halfWidth >= WINDOW_WIDTH) {
-    anotacion();
-    soundManager->playPlayerScore();
+  // Colisión con bordes izquierdo y derecho
+  if (position.x - halfWidth <= 0 || position.x + halfWidth
+    >= WINDOW_WIDTH) {
+    // manejar el punto
     resetBallPosition();
   }
 }
 
-void Ball::rebotarContraJugador(SoundManager* soundManager) {
-  reverseHorizontalTrajectory();
-  pelotaReboto();
-  if (soundManager) {
-    soundManager->playPaddleHit();  // Sonidito
-  }
+void Ball::rebotarContraJugador() {
+    reverseHorizontalTrajectory();
+    pelotaReboto();
 }
-
-void Ball::rebotarContraBot(SoundManager* soundManager) {
-  reverseHorizontalTrajectory();
-  pelotaReboto();
-  if (soundManager) {
-    soundManager->playPaddleHit();  // Sonidito
-  }
+void Ball::rebotarContraBot() {
+    reverseHorizontalTrajectory();
+    pelotaReboto();
 }
 
 void Ball::reverseHorizontalTrajectory() {
