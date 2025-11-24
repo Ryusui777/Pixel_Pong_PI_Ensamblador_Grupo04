@@ -1,14 +1,14 @@
 ; Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 section .bss
   position_ptr: resq 1 
+  ball_position_ptr: resq 1
+  ball_velocity_ptr: resq 1
   upperLimit: resd 1
-  lowerLimit: resd 1 
-  direction: resd 1
+  lowerLimit: resd 1
 
 section .data
-  vel: dd 4.0 ; Velocidad de bot
+  vel: dd 3.5 ; Velocidad de bot
   negOne: dd -1.0
-  one: dd 1.0
 
 section .text
 
@@ -21,50 +21,49 @@ initBotMovement:
   movss dword[upperLimit], xmm0 ; upperLimit
   movss dword[lowerLimit], xmm1 ; lowerLimit
   mov [position_ptr], rdi ; puntero a position
-  
-  ; Dirección inicial del bot
-  mov eax, dword[one]
-  mov dword[direction], eax
+  mov [ball_position_ptr], rsi
+  mov [ball_velocity_ptr], rdx
   ret
 
 ; El bot se mueve continuamente para arriba y abajo
 ; Cambia de dirección cuando toca los límites
+; El bot sigue a la pelota
 moverBot:
-  mov rax, [position_ptr]
-  movss xmm0, dword [rax+4]  ; Posición actual en y
-  movss xmm1, dword [vel]  ; Velocidad
-  movss xmm2, dword [direction]  ; Dirección
+  mov r8, [ball_position_ptr]
+  mov r9, [position_ptr]
+
+  movss xmm0, [r8+4] ; y pelota (para seguir la bola)
+  movss xmm1, [r9+4] ; y bot
+
+  subss xmm0, xmm1 ; diferencia
+  ; Valor absoluto
+  movss xmm3, xmm0
+  movss xmm4, xmm0
+  movss xmm5, [negOne]
+  mulss xmm4, xmm5 ; -diferencia
+  maxss xmm3, xmm4 ; max(diferencia, -diferencia) = |diferencia|
   
-  ; Multiplicar velocidad por dirección
-  mulss xmm1, xmm2
-  addss xmm0, xmm1
+  ; Limitar velocidad
+  movss xmm4, [vel]
+  minss xmm3, xmm4
   
-  ; Verifica si se llegó a límite superior
-  movss xmm3, dword [upperLimit]
-  ucomiss xmm0, xmm3
-  jae .checkLower  ; si y >= upperLimit, chequea limite inferior
+  ; Determinar dirección
+  xorps xmm5, xmm5
+  comiss xmm0, xmm5
+  jb .mover_arriba
   
-  ; Si, tocó el límite superior, invierte la dirección
-  movss xmm0, xmm3  ; y = upperLimit
-  movss xmm4, dword [direction]   
-  movss xmm5, dword [negOne]
-  mulss xmm4, xmm5  ; direction * -1
-  movss dword [direction], xmm4
-  jmp .updatePosition
+  addss xmm1, xmm3
+  jmp .aplicar_limites
   
-.checkLower:
-  ; Verifica límite inferior
-  movss xmm3, dword [lowerLimit]
-  ucomiss xmm0, xmm3
-  jbe .updatePosition  ; si y <= lowerLimit, todo bien
+.mover_arriba:
+  subss xmm1, xmm3
   
-  ; Si tocó el límite inferior, invierte dirección
-  movss xmm0, xmm3  ; y = lowerLimit
-  movss xmm4, dword [direction]
-  movss xmm5, dword [negOne]
-  mulss xmm4, xmm5  ; direction * -1
-  movss dword [direction], xmm4
+; limites de la ventana
+.aplicar_limites:
+  movss xmm2, [upperLimit]
+  maxss xmm1, xmm2
+  movss xmm2, [lowerLimit]
+  minss xmm1, xmm2
   
-.updatePosition:
-  movss dword [rax+4], xmm0
+  movss [r9+4], xmm1
   ret
