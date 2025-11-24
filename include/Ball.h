@@ -18,6 +18,7 @@ extern "C" void anotacion();
  */
 class Ball {
  private:
+  friend class Bot;
   // Ruta a la imagen de la bola
   const char* ball_path = "assets/mainGame/ball.png";
   Texture2D texture;  // Textura de la bola
