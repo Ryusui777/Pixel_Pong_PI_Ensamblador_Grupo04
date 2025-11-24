@@ -6,7 +6,10 @@ extern "C" void initBotMovement(float, float, Vector2*, Vector2*, Vector2*);
 extern "C" void moverBot();
 
 void Bot::initializeBot(Ball* ball) {
+<<<<<<< HEAD
   // Carga la textura del bot
+=======
+>>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
   this->texture = LoadTexture((char*)bot_path);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
 

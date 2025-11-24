@@ -11,8 +11,13 @@ class Bot {
   const char* bot_path = "assets/mainGame/player_yellow.png";
   Texture2D texture;  // Textura del bot
   Vector2 position;  // Posición del bot
+<<<<<<< HEAD
   Vector2* ballPositionPtr = nullptr;
   Vector2* ballVelocityPtr = nullptr;
+=======
+  Vector2* ballPositionPtr;  // Puntero a posición de pelota
+  Vector2* ballVelocityPtr;
+>>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
 
  public:
   /**
