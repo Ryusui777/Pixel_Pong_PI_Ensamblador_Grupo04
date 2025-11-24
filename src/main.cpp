@@ -4,6 +4,8 @@
 #include "Game.h"
 #include "Menu.h"
 #include "Home.h"
+#include "Settings.h"
+#include "SoundManager.h"
 
 int main() {
   // Componentes
@@ -11,42 +13,58 @@ int main() {
   Game mainGame;
   Home homeScreen;
   Menu menu;
+  Settings settings;
+  SoundManager soundManager;
 
   // Inicializacion de componentes
   window.initializeWindow();
+  soundManager.initializeSounds();
   homeScreen.initializeHomeScreen();
   mainGame.initializeGame();
   menu.initializeMenu();
+  settings.initializeSettings();
 
   // Ciclo del juego
   std::uint8_t paused = 0;
   std::uint8_t inHome = 1;
   std::uint8_t inGame = 0;
+  std::uint8_t inSettings = 0;
 
   while (!WindowShouldClose()) {
     window.beginWindowDraw();
-    // Todo el resto de componentes se renderizan en este periodo
     if (inHome) {
       homeScreen.drawHomeScreen();
-      homeScreen.hasGameStarted(inGame);
-      inHome = !(inGame);
-      if (inGame) mainGame.resetMatch();  // resetea el juego
-    } else if (inGame) {
+      homeScreen.hasGameStarted(inGame, &soundManager);
+      homeScreen.gameSettings(inSettings, &soundManager);
+      inHome = !(inGame || inSettings);
+      if (inGame) {
+        // Aplica la velocidad configurada antes de empezar el juego
+        mainGame.applyBallSpeed(settings.getBallSpeed());
+        mainGame.resetMatch();  // resetea el estado de juego
+      }
+    } else if (inSettings) {  // ajustes en pantalla de bienvenida
+      homeScreen.drawHomeScreen();
+      settings.drawSettings(&soundManager);
+      settings.goHome(inHome, &soundManager);
+      inSettings = !(inHome);
+    } else if (inGame) {  // partida
       mainGame.setInteractable();
-      mainGame.drawGameElements();
-      mainGame.isGamePaused(paused);
+      mainGame.drawGameElements(&soundManager);
+      mainGame.isGamePaused(paused, &soundManager);
       inGame = !(paused);
       if (!inGame) mainGame.setNotInteractable();
-    } else if (paused) {
-      mainGame.drawGameElements();
+    } else if (paused) {  // menú de pausa dentro del juego
+      mainGame.drawGameElements(&soundManager);
       menu.drawMenu();
-      menu.gameResumed(inGame);
-      menu.goHome(inHome);
+      menu.gameResumed(inGame, &soundManager);
+      menu.goHome(inHome, &soundManager);
       paused = !(inGame);
       if (paused) paused = !(inHome);
     }
     window.endWindowDraw();
   }
-  window.killWindow();  // Cierra la vantana
+
+  soundManager.unloadSounds();
+  window.killWindow();  // Cierra la ventana
   return 0;
 }

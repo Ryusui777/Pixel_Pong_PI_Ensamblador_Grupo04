@@ -1,9 +1,13 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Game.h"
 
-void Game::updateElements() {
+extern "C" int getPlyScore();
+extern "C" int getBotScore();
+extern "C" void resetScore();
+
+void Game::updateElements(SoundManager* soundManager) {
   this->player.movePlayer();
-  this->ball.moveBall();
+  this->ball.moveBall(soundManager);
   this->bot.moveBot();
 }
 
@@ -14,26 +18,30 @@ void Game::initializeGame() {
   this->ball.initializeBall();
   this->pause_button.initializeButton((char*)pause_button_path
     , pause_button_pos);
+  this->marcadorBot.init({WINDOW_WIDTH/4, 30.0f});
+  this->marcadorPly.init({(WINDOW_WIDTH/2 + WINDOW_WIDTH/4), 30.0f});
 
   // Dice que la escena es interactuable
   this->interactable = 0;
 }
 
-void Game::drawGameElements() {
-  if (interactable) updateElements();
+void Game::drawGameElements(SoundManager* soundManager) {
+  if (interactable) updateElements(soundManager);
   this->ball.drawBall();
   this->player.drawPlayer();
   this->bot.drawBot();
   this->pause_button.drawButton();
 
+  this->marcadorBot.draw(getBotScore());
+  this->marcadorPly.draw(getPlyScore());
   // Chequea colision con jugador
   if (CheckCollisionRecs(player.getRectangle(), ball.getRect())
     && !ball.isOpposing()) {
-    ball.rebotarContraJugador();
+    ball.rebotarContraJugador(soundManager);
   } else {  // Chequea colosion con bot
     if (CheckCollisionRecs(bot.getRectangle(), ball.getRect())
       && ball.isOpposing()) {
-      ball.rebotarContraBot();
+      ball.rebotarContraBot(soundManager);
     }
   }
 
@@ -58,8 +66,11 @@ void Game::drawGameElements() {
   }
 }
 
-void Game::isGamePaused(byte& paused) {
-  paused = (this->pause_button.isButtonBeingClicked()) ? 1 : paused;
+// Pausar juego
+void Game::isGamePaused(byte& paused, SoundManager* soundManager) {
+  // Si se toca botón de pausa, pausamos
+  paused = (this->pause_button.isButtonBeingClicked(soundManager)) ? 1 : paused;
+  // Pero también, si tocamos espacio, pausamos
   if (IsKeyDown(KEY_SPACE)) paused = 1;
 }
 
@@ -67,4 +78,5 @@ void Game::resetMatch() {
   this->player.resetPlayerPosition();
   this->bot.resetBot();
   this->ball.resetBallPosition();
+  resetScore();
 }
