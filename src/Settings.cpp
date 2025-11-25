@@ -37,7 +37,7 @@ void Settings::drawSettings(SoundManager* soundManager) {
   DrawRectangle(0, 0, 1280, 720, c);
 
   // título del selector de velocidadd
-  const char* speedTitle = "VELOCIDAD DE LA BOLA";
+  const char* speedTitle = "BALL SPEED";
   int speedTitleWidth = MeasureText(speedTitle, 30);
   DrawText(speedTitle, WINDOW_WIDTH / 2 - speedTitleWidth / 2, speedSliderPos.y - 60, 30
     , WHITE);
@@ -50,7 +50,7 @@ void Settings::drawSettings(SoundManager* soundManager) {
   // Actualizar la velocidad actual
   ballSpeed = speedSlider.getValue()+10.0f;
 
-  const char* volumeTitle = "VOLUMEN";
+  const char* volumeTitle = "VOLUME";
   int volumeTitleWidth = MeasureText(volumeTitle, 30);
   DrawText(volumeTitle, WINDOW_WIDTH / 2 - volumeTitleWidth / 2, volumeSliderPos.y - 60, 30
     , WHITE);
