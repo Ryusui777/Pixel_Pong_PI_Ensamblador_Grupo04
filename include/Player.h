@@ -5,6 +5,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "arduinoController.h"
 =======
 #include "arduino_controller.h"
@@ -18,6 +19,9 @@
 =======
 #include "arduinoController.h"
 >>>>>>> 2aa1e46 ( Se actualiza velocidad de recorrido del joystick)
+=======
+#include "arduinoController.h"
+>>>>>>> Develop
 #include "shared.h"
 #include <stdio.h>
 

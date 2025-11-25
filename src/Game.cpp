@@ -18,12 +18,16 @@ void Game::initializeGame() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Develop
   
   this->ball.initializeBall();
 
   this->bot.initializeBot(&this->ball);
 
   this->ball.resetBallPosition();
+<<<<<<< HEAD
 =======
 
   this->ball.initializeBall();
@@ -49,6 +53,8 @@ void Game::initializeGame() {
 >>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
 =======
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+>>>>>>> Develop
   this->pause_button.initializeButton((char*)pause_button_path
     , pause_button_pos);
 

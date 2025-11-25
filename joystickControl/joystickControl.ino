@@ -11,6 +11,7 @@ void loop() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
   
@@ -24,6 +25,9 @@ void loop() {
 =======
 
 >>>>>>> 2aa1e46 ( Se actualiza velocidad de recorrido del joystick)
+=======
+
+>>>>>>> Develop
   if (yValue > 700) {
     Serial.println('U');  // Arriba
   } else if (yValue < 300) {
@@ -33,6 +37,7 @@ void loop() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   delay(10);
 =======
@@ -51,4 +56,8 @@ void loop() {
 
   delay(10);
 >>>>>>> 2aa1e46 ( Se actualiza velocidad de recorrido del joystick)
+=======
+
+  delay(10);
+>>>>>>> Develop
 }

@@ -15,6 +15,7 @@ class Bot {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   Vector2* ballPositionPtr = nullptr;
   Vector2* ballVelocityPtr = nullptr;
 =======
@@ -33,6 +34,10 @@ class Bot {
   Vector2* ballPositionPtr = nullptr;
   Vector2* ballVelocityPtr = nullptr;
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+  Vector2* ballPositionPtr = nullptr;
+  Vector2* ballVelocityPtr = nullptr;
+>>>>>>> Develop
 
  public:
   /**

@@ -9,6 +9,7 @@ section .bss
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   direction: resd 1        ; para el movimiento autonomo
 =======
 >>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
@@ -20,6 +21,9 @@ section .bss
 =======
   direction: resd 1        ; para el movimiento autonomo
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+  direction: resd 1        ; para el movimiento autonomo
+>>>>>>> Develop
 
 section .data
   vel: dd 3.5 ; Velocidad de bot
@@ -30,6 +34,7 @@ section .data
 <<<<<<< HEAD
   one: dd 1.0
   zero: dd 0.0
+<<<<<<< HEAD
 =======
 >>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
 =======
@@ -42,6 +47,8 @@ section .data
   one: dd 1.0
   zero: dd 0.0
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+>>>>>>> Develop
 
 section .text
 
@@ -58,10 +65,13 @@ initBotMovement:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
 =======
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+>>>>>>> Develop
   
   ; Dirección inicial del bot (para movimiento automático)
   mov eax, dword[one]
@@ -86,6 +96,7 @@ moverBot:
   movss xmm1, [r10+4]      ; y bot
 
   subss xmm0, xmm1         ; diferencia
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
@@ -138,6 +149,8 @@ moverBot:
 
   subss xmm0, xmm1         ; diferencia
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+>>>>>>> Develop
   ; Valor absoluto
   movss xmm3, xmm0
   movss xmm4, xmm0
@@ -146,6 +159,9 @@ moverBot:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Develop
   mulss xmm4, xmm5         ; -diferencia
   maxss xmm3, xmm4         ; |diferencia|
   
@@ -203,6 +219,7 @@ moverBot:
   movss dword [direction], xmm4
 
 
+<<<<<<< HEAD
 =======
   mulss xmm4, xmm5 ; -diferencia
   maxss xmm3, xmm4 ; max(diferencia, -diferencia) = |diferencia|
@@ -359,4 +376,13 @@ moverBot:
 =======
   movss [r10+4], xmm1
 >>>>>>> c027da1 (Ajustes para que se mueva bien el bot cuando la bola no viene hacia el)
+=======
+.aplicar_limites:
+  movss xmm2, [upperLimit]
+  maxss xmm1, xmm2
+  movss xmm2, [lowerLimit]
+  minss xmm1, xmm2
+  
+  movss [r10+4], xmm1
+>>>>>>> Develop
   ret

@@ -10,6 +10,9 @@ void Bot::initializeBot(Ball* ball) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Develop
   // Carga la textura del bot
 =======
 >>>>>>> d4e465a (Movimiento de bot actualizado con ayuda de Enrique)
