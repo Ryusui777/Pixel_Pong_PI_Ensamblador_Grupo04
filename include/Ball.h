@@ -9,6 +9,7 @@ extern "C" int  isBallOpossingPlayer();
  */
 class Ball {
  private:
+  friend class Bot;
   // Ruta a la imagen de la bola
   const char* ball_path = "assets/mainGame/ball.png";
   Texture2D texture;  // Textura de la bola
@@ -17,6 +18,7 @@ class Ball {
   float speed;
 
  public:
+ friend class Bot;
   /**
    * @brief Se inicializa la bola
    */

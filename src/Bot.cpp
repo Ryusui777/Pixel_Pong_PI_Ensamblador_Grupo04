@@ -1,10 +1,11 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Bot.h"
+#include <iostream>
 
-extern "C" void initBotMovement(float, float, Vector2*);
+extern "C" void initBotMovement(float, float, Vector2*, Vector2*, Vector2*);
 extern "C" void moverBot();
 
-void Bot::initializeBot() {
+void Bot::initializeBot(Ball* ball) {
   // Carga la textura del bot
   this->texture = LoadTexture((char*)bot_path);
   SetTextureFilter(texture, TEXTURE_FILTER_POINT);
@@ -15,9 +16,10 @@ void Bot::initializeBot() {
   const float halfH = (texture.height * SCALE) * 0.5f;
   const float upperLimit = 0.0f + halfH;
   const float lowerLimit = (float)WINDOW_HEIGHT - halfH;
-
+  this->ballPositionPtr = &ball->position;
+  this->ballVelocityPtr = &ball->velocity;
   // Se llama a la función de ensamblador
-  initBotMovement(upperLimit, lowerLimit, &position);
+  initBotMovement(upperLimit, lowerLimit, &position, ballPositionPtr, ballVelocityPtr);
 }
 
 // Dibujar al bot
@@ -31,8 +33,10 @@ void Bot::drawBot() {
 
 // Se llama desde Game
 void Bot::moveBot() {
-  moverBot();
+    moverBot();
+    
 }
+
 
 void Bot::resetBot() {
   // Centra el bot

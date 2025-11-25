@@ -1,7 +1,11 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include "Game.h"
+#include "Bot.h"
+extern "C" int getPlyScore();
+extern "C" int getBotScore();
+extern "C" void resetScore();
 
-void Game::updateElements() {
+void Game::updateElements(SoundManager* soundManager) {
   this->player.movePlayer();
   this->ball.moveBall();
   this->bot.moveBot();
@@ -10,8 +14,12 @@ void Game::updateElements() {
 void Game::initializeGame() {
   // Inicializacion de los elementos
   this->player.initializePlayer();
-  this->bot.initializeBot();
+  
   this->ball.initializeBall();
+
+  this->bot.initializeBot(&this->ball);
+
+  this->ball.resetBallPosition();
   this->pause_button.initializeButton((char*)pause_button_path
     , pause_button_pos);
 
