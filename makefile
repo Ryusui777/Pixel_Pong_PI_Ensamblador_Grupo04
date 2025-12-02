@@ -65,7 +65,7 @@ $(TEST_TARGET): $(ASM_OBJECTS) $(TEST_OBJECTS)
 	$(CXX) $(ASM_OBJECTS) $(TEST_OBJECTS) -o $(TEST_TARGET) $(TESTFLAGS) $(LDFLAGS)
 
 # Arduino (Le pedí ayuda a Claude con esto)
-ARDUINO_INO = joystickControl
+ARDUINO_INO = joystick_control
 ARDUINO_PORT = /dev/ttyACM0
 ARDUINO_BOARD = arduino:avr:uno
 

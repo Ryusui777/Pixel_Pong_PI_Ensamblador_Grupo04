@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "shared.h"
 #include "raylib.h"
-#include "SoundManager.h"
+#include "sound_manager.h"
 
 const Vector2 home_button_pos = {
   .x = WINDOW_WIDTH/2.0f,

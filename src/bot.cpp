@@ -1,5 +1,5 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
-#include "Bot.h"
+#include "bot.h"
 #include <iostream>
 
 extern "C" void initBotMovement(float, float, Vector2*, Vector2*, Vector2*);

@@ -1,8 +1,8 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
 #include "shared.h"
-#include "Button.h"
-#include "Slider.h"
+#include "button.h"
+#include "slider.h"
 
 /**
  * @brief Clase encargada de los ajustes del juego

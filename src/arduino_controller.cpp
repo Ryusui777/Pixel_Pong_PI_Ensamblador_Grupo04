@@ -1,6 +1,6 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 // Adaptado de Sleyter Angulo por Enrique Ramírez con ayuda de IA (Claude)
-#include "arduinoController.h"
+#include "arduino_controller.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <iostream>

@@ -1,5 +1,5 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
-#include "Menu.h"
+#include "menu.h"
 
 void Menu::initializeMenu() {
   this->blurred_background = LoadTexture(bg_path);
