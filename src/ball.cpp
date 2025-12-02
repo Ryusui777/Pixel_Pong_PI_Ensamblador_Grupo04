@@ -1,5 +1,5 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
-#include "Ball.h"
+#include "ball.h"
 #include <cmath>
 
 void Ball::initializeBall() {

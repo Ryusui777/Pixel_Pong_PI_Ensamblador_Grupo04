@@ -1,7 +1,7 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 // Adaptado de Sleyter Angulo por Enrique Ramírez con ayuda de IA (Claude)
-#ifndef ARDUINOCONTROLLER_H
-#define ARDUINOCONTROLLER_H
+#ifndef ARDUINO_CONTROLLER_H
+#define ARDUINO_CONTROLLER_H
 
 #include <string>
 #include <termios.h>

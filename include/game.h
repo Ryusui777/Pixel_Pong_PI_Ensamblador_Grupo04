@@ -1,11 +1,11 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
 #include "shared.h"
-#include "Player.h"
-#include "Button.h"
-#include "Bot.h"
-#include "Ball.h"
-#include "Marcador.h"
+#include "player.h"
+#include "button.h"
+#include "bot.h"
+#include "ball.h"
+#include "marcador.h"
 
 /**
  * @brief Clase responsable de la partida en juego.

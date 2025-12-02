@@ -1,5 +1,5 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
-#include "Settings.h"
+#include "settings.h"
 #include "shared.h"
 
 // Variables para posicionamiento de sliders

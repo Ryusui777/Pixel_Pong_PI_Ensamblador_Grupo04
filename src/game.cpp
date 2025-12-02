@@ -1,6 +1,6 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
-#include "Game.h"
-#include "Bot.h"
+#include "game.h"
+#include "bot.h"
 extern "C" int getPlyScore();
 extern "C" int getBotScore();
 extern "C" void resetScore();

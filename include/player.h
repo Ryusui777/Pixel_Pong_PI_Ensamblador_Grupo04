@@ -2,7 +2,7 @@
 #pragma once
 #include <stdio.h>
 #include "raylib.h"
-#include "arduinoController.h"
+#include "arduino_controller.h"
 #include "shared.h"
 
 #define PLAYER_SPEED 8

@@ -1,6 +1,6 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
-#include "Home.h"
-#include "Button.h"
+#include "home.h"
+#include "button.h"
 void Home::initializeHomeScreen() {
   // Se inicializa el botón que tenemos en la pantalla de bienvenida
   this->blurBG = LoadTexture(bg_paht);

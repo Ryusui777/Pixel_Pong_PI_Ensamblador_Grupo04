@@ -1,7 +1,7 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
 #include "shared.h"
-#include "Button.h"
+#include "button.h"
 
 class EndScreen {
  private:

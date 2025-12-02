@@ -1,7 +1,7 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #pragma once
 #include "shared.h"
-#include "Ball.h"
+#include "ball.h"
 /**
  * @brief Clase encargada del movimiento del bot (jugador enemigo)
  */

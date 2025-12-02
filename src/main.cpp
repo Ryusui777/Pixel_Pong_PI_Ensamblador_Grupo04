@@ -1,11 +1,11 @@
 // Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
 #include <stdio.h>
-#include "Window.h"
-#include "Game.h"
-#include "Menu.h"
-#include "Home.h"
-#include "Settings.h"
-#include "SoundManager.h"
+#include "window.h"
+#include "game.h"
+#include "menu.h"
+#include "home.h"
+#include "settings.h"
+#include "sound_manager.h"
 
 int main() {
   // Componentes
