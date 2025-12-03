@@ -5,6 +5,7 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17 -I./include -no-pie
 LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -no-pie
 TESTFLAGS = -lgtest -lgtest_main -pthread -no-pie
+CPPLINT_FLAGS = --filter=-build/include_subdir,-readability/casting,-runtime/references
 
 # Ensamblador
 AS = nasm
@@ -64,7 +65,7 @@ $(TEST_TARGET): $(ASM_OBJECTS) $(TEST_OBJECTS)
 	$(CXX) $(ASM_OBJECTS) $(TEST_OBJECTS) -o $(TEST_TARGET) $(TESTFLAGS) $(LDFLAGS)
 
 # Arduino (Le pedí ayuda a Claude con esto)
-ARDUINO_INO = joystickControl
+ARDUINO_INO = joystick_control
 ARDUINO_PORT = /dev/ttyACM0
 ARDUINO_BOARD = arduino:avr:uno
 
@@ -88,7 +89,9 @@ clean:
 clean-tests:
 	rm -rf $(BUILD_DIR)/test_*.o $(BIN_DIR)/test_runner
 
-.PHONY: all clean run test clean-tests
+# Pasarle cpplint a los archivos cpp
+lint-src:
+	cpplint $(CPPLINT_FLAGS) $(SRC_DIR)/*.cpp
 
 # Pasarle cpplint a los archivos h
 lint-include:

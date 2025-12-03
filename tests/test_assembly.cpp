@@ -6,6 +6,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <cmath>
 
 // Definir Vector2 para tests
 struct Vector2 {
@@ -27,6 +28,15 @@ extern "C" {
   void pelotaReverseY();
   void initPelotaMovement(Vector2* velocity, Vector2* position
     , float upperLimit, float lowerLimit);
+
+  void pelotaMove();
+  void resetBall();
+  int isBallOpossingPlayer();
+  void pelotaReboto();
+  void setDifficulty(int difficulty);
+  float getCurrentAngle();
+  int getIsOpposingPlayer();
+  void setCurrentAngle(float angle);
 }
 
 /* PRUEBAS PARA EL JUGADOR */
@@ -248,4 +258,145 @@ TEST_F(BallCollisionTest, BallBouncesAtBottomBoundary) {
   // Verificar que ahora va hacia arriba (velocidad negativa)
   EXPECT_LT(ballVelocity.y, 0.0f)
     << "Después del rebote, la pelota debería ir hacia arriba";
+}
+
+class BallResetTest : public ::testing::Test {
+ protected:
+  Vector2 ballVelocity;
+  Vector2 ballPosition;
+
+  void SetUp() override {
+    ballVelocity = {0.0f, 0.0f};
+    ballPosition = {640.0f, 360.0f};
+    initPelotaMovement(&ballVelocity, &ballPosition, 10.0f, 710.0f);
+  }
+};
+
+class BallOppositionTest : public ::testing::Test {
+ protected:
+  Vector2 ballVelocity;
+  Vector2 ballPosition;
+
+  void SetUp() override {
+    ballVelocity = {0.0f, 0.0f};
+    ballPosition = {640.0f, 360.0f};
+    initPelotaMovement(&ballVelocity, &ballPosition, 10.0f, 710.0f);
+  }
+};
+
+// Pruebas para pelotaMove
+TEST_F(BallResetTest, PelotaMoveUpdatesPosition) {
+  ballVelocity = {5.0f, 3.0f};
+  ballPosition = {100.0f, 200.0f};
+
+  pelotaMove();
+
+  EXPECT_FLOAT_EQ(ballPosition.x, 105.0f);
+  EXPECT_FLOAT_EQ(ballPosition.y, 203.0f);
+}
+
+TEST_F(BallResetTest, PelotaMoveWithNegativeVelocity) {
+  ballVelocity = {-2.0f, -1.0f};
+  ballPosition = {50.0f, 60.0f};
+
+  pelotaMove();
+
+  EXPECT_FLOAT_EQ(ballPosition.x, 48.0f);
+  EXPECT_FLOAT_EQ(ballPosition.y, 59.0f);
+}
+
+TEST_F(BallResetTest, PelotaMoveWithZeroVelocity) {
+  ballVelocity = {0.0f, 0.0f};
+  ballPosition = {100.0f, 100.0f};
+
+  pelotaMove();
+
+  EXPECT_FLOAT_EQ(ballPosition.x, 100.0f);
+  EXPECT_FLOAT_EQ(ballPosition.y, 100.0f);
+}
+
+// Pruebas para resetBall
+TEST_F(BallResetTest, ResetBallCreatesValidVelocity) {
+  resetBall();
+
+  float speed = sqrt(ballVelocity.x * ballVelocity.x + ballVelocity.y
+    * ballVelocity.y);
+  EXPECT_NEAR(speed, 10.0f, 0.1f)
+    << "La rapidez deberia ser aproximadamente 10 después del reset";
+}
+
+TEST_F(BallResetTest, ResetBallUpdatesOppositionFlag) {
+  resetBall();
+
+  int isOpposing = getIsOpposingPlayer();
+  float angle = getCurrentAngle();
+
+  // Verificar que la bandera coincide con el angulo
+  bool shouldOppose = (angle >= 90.0f && angle <= 270.0f);
+  EXPECT_EQ(isOpposing, shouldOppose ? 1 : 0)
+    << "La bandera de oposición deberia coincidir con el angulo " << angle;
+}
+
+// Pruebas para isBallOpossingPlayer
+TEST_F(BallOppositionTest, OppositionForRightwardAngles) {
+  // Ángulos que NO deberían oponer
+  float testAngles[] = {0.0f, 45.0f, 89.0f, 271.0f, 315.0f, 359.0f};
+
+  for (float angle : testAngles) {
+    setCurrentAngle(angle);
+    EXPECT_EQ(isBallOpossingPlayer(), 1)
+      << "angulo " << angle << " no deberia oponer al jugador";
+  }
+}
+
+// Pruebas para pelotaReboto
+TEST_F(BallOppositionTest, PelotaRebotoTogglesOpposition) {
+  setCurrentAngle(45.0f);  // No opone - deberia retornar 0
+  int initial = isBallOpossingPlayer();
+
+  pelotaReboto();
+  int afterFirst = isBallOpossingPlayer();
+
+  pelotaReboto();
+  int afterSecond = isBallOpossingPlayer();
+
+  EXPECT_NE(initial, afterFirst)
+    << "Primer rebote deberia cambiar la oposición";
+  EXPECT_EQ(initial, afterSecond)
+    << "Segundo rebote deberia restaurar el estado original";
+}
+
+TEST_F(BallOppositionTest, PelotaRebotoPreservesAngle) {
+  // Verificar que reboto no cambia el angulo
+  float originalAngle = 45.0f;
+  setCurrentAngle(originalAngle);
+
+  pelotaReboto();
+
+  EXPECT_FLOAT_EQ(getCurrentAngle(), originalAngle)
+    << "pelotaReboto no deberia cambiar el angulo";
+}
+
+// Prueba integrada
+TEST_F(BallResetTest, WorkflowTest) {
+  // test de flujo: reset -> move -> reverse -> reboto
+  resetBall();
+
+  Vector2 initialPos = ballPosition;
+  Vector2 initialVel = ballVelocity;
+
+  // Mover la pelota
+  pelotaMove();
+  EXPECT_NE(ballPosition.x, initialPos.x);
+  EXPECT_NE(ballPosition.y, initialPos.y);
+
+  // Reversar en X
+  pelotaReverseX();
+  EXPECT_FLOAT_EQ(ballVelocity.x, -initialVel.x);
+
+  // Hacer rebote
+  int oppositionBefore = isBallOpossingPlayer();
+  pelotaReboto();
+  int oppositionAfter = isBallOpossingPlayer();
+  EXPECT_NE(oppositionBefore, oppositionAfter);
 }

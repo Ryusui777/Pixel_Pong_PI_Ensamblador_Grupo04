@@ -1,0 +1,40 @@
+// Copyright [2025] B. Alfaro, D. Orias, E. Ramírez, J. Rodríguez
+#include "home.h"
+#include "button.h"
+void Home::initializeHomeScreen() {
+  // Se inicializa el botón que tenemos en la pantalla de bienvenida
+  this->blurBG = LoadTexture(bg_paht);
+  this->start_button.initializeButton((char*)start_button_path
+    , start_button_pos);
+  this->settings_button.initializeButton((char*)settings_button_path
+    , settings_button_pos);
+    this->logo.initializeLabel((char*)logoPath, logoPos);
+}
+
+void Home::drawHomeScreen() {
+  // Background
+  float drawW = blurBG.width * SCALE;
+  float drawH = blurBG.height * SCALE;
+  float offsetX = (WINDOW_WIDTH  - drawW) / 2.0f;
+  float offsetY = (WINDOW_HEIGHT - drawH) / 2.0f;
+  DrawTextureEx(blurBG, {offsetX, offsetY}, 0.0f, SCALE, WHITE);
+
+  this->start_button.drawButton();
+  this->settings_button.drawButton();
+  this->logo.drawLabel();
+}
+
+// Ir a ajustes de juego
+void Home::gameSettings(byte& settings, SoundManager* soundManager) {
+  // Si se toca botón de settings, vamos a ventana de ajustes
+  settings = (this->settings_button.isButtonBeingClicked(soundManager)) ? 1
+    : settings;
+}
+
+void Home::hasGameStarted(byte& startVar, SoundManager* soundManager) {
+  // True si se le dio click al botón
+  startVar = (this->start_button.isButtonBeingClicked(soundManager)) ? 1
+    : startVar;
+  // True si se tocó enter
+  if (IsKeyDown(KEY_ENTER)) startVar = 1;
+}
